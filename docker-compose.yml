@@ -1,6 +1,31 @@
 version: '3.3'
 services:
-  web:
-    image: tubes-1:latest
+  php-apache:
+    container_name: wbd-php-apache
+    image: php:8.0-apache
+    build: 
+      context: ./src
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    volumes: 
+      - ./src/app:/var/www/html/
     ports:
-      - 8008:80
+      - 8000:80
+  db:
+    container_name: wbd-db
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'wbd-db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'secret'
+      MYSQL_ROOT_PASSWORD: 'secret'
+    ports:
+      - '9096:3306'
+    expose:
+    - '9096'
+  # web:
+  #   image: tubes-1:latest
+  #   ports:
+  #     - 8008:80
