@@ -1,17 +1,16 @@
 version: '3.3'
 services:
-  php-apache:
-    container_name: wbd-php-apache
-    image: php:8.0-apache
+  web:
     build: 
-      context: ./src
-      dockerfile: Dockerfile
+        context: .
+        dockerfile: Dockerfile
+    image: tubes-1:latest
+    ports:
+      - 8000:80
     depends_on:
       - db
     volumes: 
       - ./src/app:/var/www/html/
-    ports:
-      - 8000:80
   db:
     container_name: wbd-db
     image: mysql
@@ -25,7 +24,3 @@ services:
       - '9096:3306'
     expose:
     - '9096'
-  # web:
-  #   image: tubes-1:latest
-  #   ports:
-  #     - 8008:80
