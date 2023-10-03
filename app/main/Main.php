@@ -14,6 +14,7 @@ class Main {
         $url = $this->parseUrl();
         
         $controllerPart = $url[0] ?? null;
+        $controllerPart = ucfirst($controllerPart);
 
         if (isset($controllerPart) && file_exists(__DIR__ . '/../controllers/' . $controllerPart . 'Controller.php')) {
             require_once __DIR__ . '/../controllers/' . $controllerPart . 'Controller.php';
