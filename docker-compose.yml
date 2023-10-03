@@ -10,7 +10,7 @@ services:
     depends_on:
       - db
     volumes: 
-      - ./src/app:/var/www/html/
+      - ./app:/var/www/html/
   db:
     container_name: wbd-db
     image: mysql
