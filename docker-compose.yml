@@ -1,6 +1,7 @@
 version: '3.3'
 services:
   web:
+    container_name: tubes-1
     build: 
         context: .
         dockerfile: Dockerfile
@@ -13,6 +14,7 @@ services:
       - ./app:/var/www/html/
   db:
     container_name: wbd-db
+    
     image: mysql
     restart: always
     environment:
