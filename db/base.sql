@@ -2,7 +2,8 @@ CREATE TABLE `user` (
   `username` varchar(32) PRIMARY KEY,
   `role` ENUM ('customer', 'admin') NOT NULL,
   `email` varchar(320),
-  `password` varchar(8, 128) NOT NULL
+  `password` varchar(8, 128) NOT NULL,
+  `image_path` text
 );
 
 CREATE TABLE `have` (
@@ -54,18 +55,18 @@ CREATE TABLE `authored_by` (
   PRIMARY KEY (`book_id`, `author_id`)
 );
 
-ALTER TABLE `have` ADD FOREIGN KEY (`username`) REFERENCES `user` (`username`);
+ALTER TABLE `have` ADD FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE;
 
-ALTER TABLE `have` ADD FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`);
+ALTER TABLE `have` ADD FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`) ON DELETE CASCADE;
 
-ALTER TABLE `review` ADD FOREIGN KEY (`username`) REFERENCES `user` (`username`);
+ALTER TABLE `review` ADD FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE;
 
-ALTER TABLE `review` ADD FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`);
+ALTER TABLE `review` ADD FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`) ON DELETE CASCADE;
 
-ALTER TABLE `book_genre` ADD FOREIGN KEY (`genre_name`) REFERENCES `genre` (`name`);
+ALTER TABLE `book_genre` ADD FOREIGN KEY (`genre_name`) REFERENCES `genre` (`name`) ON DELETE CASCADE;
 
-ALTER TABLE `book_genre` ADD FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`);
+ALTER TABLE `book_genre` ADD FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`) ON DELETE CASCADE;
 
-ALTER TABLE `authored_by` ADD FOREIGN KEY (`author_id`) REFERENCES `author` (`author_id`);
+ALTER TABLE `authored_by` ADD FOREIGN KEY (`author_id`) REFERENCES `author` (`author_id`) ON DELETE CASCADE;
 
-ALTER TABLE `authored_by` ADD FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`);
+ALTER TABLE `authored_by` ADD FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`) ON DELETE CASCADE;

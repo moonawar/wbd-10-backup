@@ -2,9 +2,9 @@ version: '3.3'
 services:
   web:
     container_name: tubes-1
-    build: 
-        context: .
-        dockerfile: Dockerfile
+    # build: 
+    #     context: .
+    #     dockerfile: Dockerfile
     image: tubes-1:latest
     ports:
       - 8000:80
@@ -14,7 +14,6 @@ services:
       - ./app:/var/www/html/
   db:
     container_name: wbd-db
-    
     image: mysql
     restart: always
     environment:
@@ -22,6 +21,9 @@ services:
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'secret'
       MYSQL_ROOT_PASSWORD: 'secret'
+    # volumes:
+    #   - ./db:/var/lib/mysql
+    #   - ./db:/docker-entrypoint-initdb.d/:ro
     ports:
       - '9096:3306'
     expose:
