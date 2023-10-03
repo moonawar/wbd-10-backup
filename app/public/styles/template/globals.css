@@ -10,6 +10,7 @@
     --pure-black: #000000;
     --disabled: #c2c2c2;
     --red: #ff7575;
+    --grey: #e5e5e5;
     /* Font */
     --poppins: 'Poppins', sans-serif;
 }
@@ -80,6 +81,11 @@ button {
 .green-button {
     background: var(--teal);
     color: var(--white);
+}
+
+.grey-button {
+    background: var(--grey);
+    color: var(--teal);
 }
 
 .red-button {

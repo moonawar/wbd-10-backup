@@ -1,9 +1,4 @@
 <?
-enum Role {
-    case Customer;
-    case Admin;
-}
-
 class UserModel {
     private $db;
 
@@ -13,10 +8,11 @@ class UserModel {
         $this->db = new Db();
     }
 
-    public function addUser(string $username, string $email, Role $role, string $password, string $imagePath) {
+    public function addUser(string $username, string $email, string $role, string $password, string $imagePath) {
         $hashed = password_hash($password, PASSWORD_DEFAULT);
-        $role_str = $role == Role::Customer ? 'customer' : 'admin';
-
+        // $role_str = $role == Role::Customer ? 'customer' : 'admin';
+        $role_str = $role;
+        
         if ($imagePath == null) {
             $imagePath = PROFILE_IMAGE_BASE;
         }
