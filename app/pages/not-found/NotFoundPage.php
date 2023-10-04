@@ -15,10 +15,12 @@
 </head>
 
 <body>
+    <!-- Navigation bar -->
+    <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
     <div class="wrapper-small">
         <div class="pad-40">
             <div class="centered">
-                <img src="<?= BASE_URL ?>/images/base-logo.svg" alt="Binotify Logo">
+                <img src="<?= BASE_URL ?>/images/base-logo.svg" alt="Audibook Logo">
                 <p class="main-text">Hi, we couldn't find the page that you were looking for!</p>
                 <p>Go back to the <a href="<?= BASE_URL ?>/example">home page</a>.</p>
             </div>

@@ -16,7 +16,7 @@
     <div class="wrapper-small">
         <div class="pad-40">
             <div class="centered">
-                <img src="<?= BASE_URL ?>/images/base-logo.svg" alt="Binotify Logo">
+                <img src="<?= BASE_URL ?>/images/base-logo.svg" alt="Audibook Logo">
                 <form class="form-box center-contents">
                     <div class="form-content flex-column">
                         <label for="username" class="form-label">Username:</label>
