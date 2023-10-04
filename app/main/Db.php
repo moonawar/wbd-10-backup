@@ -36,40 +36,21 @@ class Db {
         return $stmt->execute();
     }
 
-    public function getAllRecords($sql) {
-        $result = $this->query($sql);
+    public function insertId() {
+        return $this->conn->insert_id;
+    }
+
+    public function getSingleRecord(mysqli_stmt $stmt) {
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    public function getAllRecords(mysqli_stmt $stmt) {
+        $result = $stmt->get_result();
         $records = [];
         while ($row = $result->fetch_assoc()) {
             $records[] = $row;
         }
         return $records;
-    }
-
-    public function getSingleRecord($sql) {
-        $result = $this->query($sql);
-        return $result->fetch_assoc();
-    }
-
-    public function insertRecord($sql) : bool{
-        $result = $this->query($sql);
-        return $this->conn->affected_rows > 0;
-    }
-
-    public function updateRecord($sql) : bool{
-        $this->query($sql);
-        return $this->conn->affected_rows > 0;
-    }
-
-    public function deleteRecord($sql) : bool{
-        $this->query($sql);
-        return $this->conn->affected_rows > 0;
-    }
-
-    function escapeString($input) {
-        $escaped = str_replace("'", "\'", $input);
-        $escaped = str_replace("\\", "\\\\", $escaped);
-    
-        return $escaped;
     }
 
     public function closeConnection() {

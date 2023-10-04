@@ -69,9 +69,9 @@ class UserModel {
         $stmt = $this->db->prepare($sql);
         $this->db->bindParams($stmt, "s", $username);
 
-        $result = $this->db->execute($stmt);
+        $this->db->execute($stmt);
 
-        $user = $stmt->get_result()->fetch_assoc();
+        $user = $this->db->getSingleRecord($stmt);
 
         $stmt->close();
 
@@ -81,7 +81,14 @@ class UserModel {
     public function getAllUsers() {
         $sql = "SELECT * FROM user";
 
-        return $this->db->getAllRecords($sql);
+        $stmt = $this->db->prepare($sql);
+        $this->db->execute($stmt);
+
+        $users = $this->db->getAllRecords($stmt);
+
+        $stmt->close();
+
+        return $users;
     }
 
     public function closeConnection() {
