@@ -22,7 +22,7 @@ class Main {
             $controllerClass = $controllerPart . 'Controller';
 
             $this->db = new Db();
-            $this->controller = new $controllerClass($db);
+            $this->controller = new $controllerClass($this->db);
         }else{
             require_once __DIR__ . '/../controllers/NotFoundController.php';
             $this->controller = new NotFoundController();

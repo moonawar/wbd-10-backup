@@ -12,6 +12,8 @@ services:
       - db
     volumes: 
       - ./app:/var/www/html/
+    networks:
+      - wbd-network
   db:
     container_name: wbd-db
     image: mysql
@@ -21,10 +23,14 @@ services:
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'secret'
       MYSQL_ROOT_PASSWORD: 'secret'
-    # volumes:
-    #   - ./db:/var/lib/mysql
-    #   - ./db:/docker-entrypoint-initdb.d/:ro
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d
     ports:
       - '9096:3306'
     expose:
-    - '9096'
+      - '3306'
+    networks:
+      - wbd-network
+networks:
+  wbd-network:
