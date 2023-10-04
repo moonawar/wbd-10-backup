@@ -4,79 +4,6 @@
     z-index: 999;
 }
 
-
-/* .container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    display: inline-flex;
-} */
-
-
-/* .sidebar {
-    width: 244.69px;
-    padding-top: 25.31px;
-    padding-bottom: 33.75px;
-    padding-left: 16.88px;
-    padding-right: 16.88px;
-    background: #118A7E;
-    border-right: 1.05px #E8EAF6 solid;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 25.31px;
-    display: flex;
-}
-
-.section {
-    width: 210.94px;
-    flex: 1 1 0;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 8.44px;
-    display: flex;
-}
-
-.card {
-    width: 210.94px;
-    padding: 12.66px;
-    background: white;
-    border-radius: 8.44px;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 12.66px;
-    display: inline-flex;
-}
-
-.icon {
-    width: 25.31px;
-    height: 25.31px;
-    position: relative;
-}
-
-.inner-icon {
-    width: 25.31px;
-    height: 25.31px;
-    left: 0px;
-    top: 0px;
-    position: absolute;
-}
-
-.title {
-    flex: 1 1 0;
-    color: #353940;
-    font-size: 14.77px;
-    font-family: Poppins;
-    font-weight: 600;
-    text-transform: uppercase;
-    line-height: 25.31px;
-    word-wrap: break-word;
-} */
-
 .section {
     flex-direction: column;
     justify-content: flex-start;
@@ -135,7 +62,7 @@ nav {
     width: 100%;
     line-height: 2rem;
     font-size: 16px;
-    color: black;
+    color: white;
     padding-left: 1vw;
     padding-top: 2vh;
     padding-bottom: 2vh;
@@ -145,10 +72,18 @@ nav {
     transition: all 0.5s ease;
 }
 
+ul li a img {
+    filter: brightness(0) invert(1);
+}
+
 ul li:hover a {
     padding-left: 2rem;
     background: #fff;
     color: rgb(0, 0, 0);
+}
+
+ul li:hover a img {
+    filter: brightness(0) invert(0);
 }
 
 .sidebar ul a i {
@@ -205,7 +140,7 @@ label #btn {
     cursor: pointer;
     position: relative;
     left: 50%;
-    bottom: 0;
+    top: 40%;
     transform: translateX(-50%);
     border-radius: 1rem;
     display: flex;
