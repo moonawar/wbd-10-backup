@@ -24,6 +24,18 @@ class Db {
         return $result;
     }
 
+    public function prepare($sql) {
+        return $this->conn->prepare($sql);
+    }
+
+    public function bindParams(mysqli_stmt $stmt, string $types, ...$vars) {
+        return $stmt->bind_param($types, $vars);
+    }
+
+    public function execute(mysqli_stmt $stmt) {
+        return $stmt->execute();
+    }
+
     public function getAllRecords($sql) {
         $result = $this->query($sql);
         $records = [];
@@ -38,17 +50,26 @@ class Db {
         return $result->fetch_assoc();
     }
 
-    public function insertRecord($sql) {
+    public function insertRecord($sql) : bool{
         $result = $this->query($sql);
-        return $this->conn->insert_id;
+        return $this->conn->affected_rows > 0;
     }
 
-    public function updateRecord($sql) {
+    public function updateRecord($sql) : bool{
         $this->query($sql);
+        return $this->conn->affected_rows > 0;
     }
 
-    public function deleteRecord($sql) {
+    public function deleteRecord($sql) : bool{
         $this->query($sql);
+        return $this->conn->affected_rows > 0;
+    }
+
+    function escapeString($input) {
+        $escaped = str_replace("'", "\'", $input);
+        $escaped = str_replace("\\", "\\\\", $escaped);
+    
+        return $escaped;
     }
 
     public function closeConnection() {
