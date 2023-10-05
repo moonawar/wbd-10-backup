@@ -1,6 +1,6 @@
 <?
-enum UserRole {
-    case Customer;
-    case Admin;
+class UserRole {
+    public const Customer = 'customer';
+    public const Admin = 'admin';
 }
 ?>

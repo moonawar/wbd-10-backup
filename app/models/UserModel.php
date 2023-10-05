@@ -6,20 +6,24 @@ class UserModel {
         $this->db = $db;
     }
 
-    public function addUser(string $username, string $email, UserRole $role, string $password, string $imagePath): bool {
+    public function addUser(string $username, string $email, string $role, string $password, string $imagePath): int {
         $hashed = password_hash($password, PASSWORD_DEFAULT);
-        $role_str = $role == UserRole::Customer ? 'customer' : 'admin';
 
-        $sql = "INSERT INTO user (username, role, email, password) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO user (username, role, email, password, image_path) VALUES (?, ?, ?, ?, ?)";
 
         $stmt = $this->db->prepare($sql);
-        $this->db->bindParams($stmt, "ssss", $username, $role_str, $email, $hashed);
+        if (!$stmt) {
+            $this->db->logError();
+            return false;
+        }
+        $this->db->bindParams($stmt, "sssss", $username, $role, $email, $hashed, $imagePath);
 
         $result = $this->db->execute($stmt);
+        $id = $this->db->insertId();
 
         $stmt->close();
 
-        return $result;
+        return $id;
     }
 
     public function deleteUser($username) : bool{

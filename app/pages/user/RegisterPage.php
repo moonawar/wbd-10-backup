@@ -17,27 +17,33 @@
         <div class="pad-40">
             <div class="centered">
                 <img src="<?= BASE_URL ?>/images/base-logo.svg" alt="Audibook Logo">
-                <form class="form-box center-contents">
+                <form 
+                    class="form-box center-contents"
+                    action="/user/register" method="POST" enctype="multipart/form-data"
+                >
                     <div class="form-content flex-column">
+                        <!-- Username Field -->
                         <label for="username" class="form-label">Username:</label>
                         <input class="form-field" type="text" 
                             id="username" name="username" placeholder="ajason14" required><br>
 
+                        <!-- Email Field -->
                         <label for="email" class="form-label">Email:</label>
                         <input class="form-field" type="text" 
                             id="email" name="email" placeholder="ajason14@gmail.com" required><br>
 
+                        <!-- Password Field -->
                         <label for="password" class="form-label">Password:</label>
                         <input class="form-field" type="text" 
                         id="password" name="password" placeholder="*****" required><br>
-
+                        
+                        <!-- Profile Picture Field -->
                         <label for="profile-pic" class="file-upload form-label">
-                            Profile Picture 
-                            <!-- <p class="button grey-button">Choose File</p> -->
+                            Profile Picture
                         </label>
-                        <input type="file" id="profile-pic" name="profile-pic" accept=".png, .jpeg" onchange=""><br>
+                        <input type="file" id="profile-pic" name="profile-pic" accept=".jpeg, .png" onchange=""><br>
 
-
+                        <!-- Submit Button -->
                         <input type="submit" class="button green-button" value="Sign Up"><br>
 
                         <p>Already have an account? <a href="<?= BASE_URL ?>/../user/login"><b>Sign in</b></a></p>

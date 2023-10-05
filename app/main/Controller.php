@@ -8,9 +8,9 @@ class Controller
         return new $view($data);
     }
 
-    public function model($model)
+    public function model($model, $db)
     {
         require_once __DIR__ . '/../models/' . $model . '.php';
-        return new $model();
+        return new $model($db);
     }
 }

@@ -14,6 +14,7 @@ class Db {
         if ($this->conn->connect_error) {
             die("db connection failed " . $this->conn->connect_error);
         }
+        $this->conn->select_db($this->db);
     }
 
     public function query($sql) {
@@ -29,7 +30,12 @@ class Db {
     }
 
     public function bindParams(mysqli_stmt $stmt, string $types, ...$vars) {
-        return $stmt->bind_param($types, $vars);
+        $bindParams = [$types];
+        foreach ($vars as &$var) {
+            $bindParams[] = &$var;
+        }
+        
+        return call_user_func_array([$stmt, 'bind_param'], $bindParams);
     }
 
     public function execute(mysqli_stmt $stmt) {
@@ -55,6 +61,10 @@ class Db {
 
     public function closeConnection() {
         $this->conn->close();
+    }
+
+    public function logError() {
+        error_log("SQL Error: " . mysqli_error($this->conn));
     }
 }
 ?>
