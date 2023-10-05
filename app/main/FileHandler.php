@@ -1,6 +1,6 @@
 <?
 class FileHandler {
-    public function saveImageTo($img, string $title, string $path) {
+    public function saveImageTo($img, string $id, string $path) {
         $type = mime_content_type($img);
         if (!in_array($type, array_keys(ALLOWED_IMAGES))) {
             throw new RequestException('Unsupported Media Type', 415);
@@ -8,15 +8,17 @@ class FileHandler {
 
         $ext = ALLOWED_IMAGES[$type];
         
-        $file_path = $path . $title . $ext;
+        $file_path = $path . $id . $ext;
         $avail =  !file_exists($file_path);
 
         while (!$avail) {
-            $title = str_shuffle($title);
-            $file_path = $path . $title . $ext;
+            $id = str_shuffle($id);
+            $file_path = $path . $id . $ext;
             $avail = !file_exists($file_path);
         }
 
+        // error_log($img);
+        // error_log($file_path);
         $success = move_uploaded_file($img, $file_path);
         if (!$success) {
             throw new RequestException('Internal Server Error', 500);
@@ -25,7 +27,7 @@ class FileHandler {
         return $file_path;
     }
 
-    public function saveAudioTo($audio, string $title, string $path) {      
+    public function saveAudioTo($audio, string $id, string $path) {      
         $type = mime_content_type($audio);
         if (!in_array($type, array_keys(ALLOWED_AUDIOS))) {
             throw new RequestException('Unsupported Media Type', 415);
@@ -33,12 +35,12 @@ class FileHandler {
 
         $ext = ALLOWED_AUDIOS[$type];
         
-        $file_path = $path . $title . $ext;
+        $file_path = $path . $id . $ext;
         $avail =  !file_exists($file_path);
 
         while (!$avail) {
-            $title = str_shuffle($title);
-            $file_path = $path . $title . $ext;
+            $id = str_shuffle($id);
+            $file_path = $path . $id . $ext;
             $avail = !file_exists($file_path);
         }
 
