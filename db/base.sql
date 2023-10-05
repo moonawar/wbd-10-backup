@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `book` (
   `book_id` integer PRIMARY KEY AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `year` year(4) NOT NULL,
-  `summary` text DEFAULT '-',
+  `summary` text,
   `price` integer NOT NULL,
   `duration` integer NOT NULL COMMENT 'in seconds',
   `lang` varchar(64) DEFAULT 'English',
