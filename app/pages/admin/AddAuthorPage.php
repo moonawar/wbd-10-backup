@@ -22,10 +22,10 @@
         <h2>Add Author Page</h2>
         <form class="form-box center-contents">
             <div class="form-content flex-column"> <label class="form-label" for="author-name">Author Name:</label>
-                <input class="form-field" type="text" id="author-name" name="author-name">
+                <input class="form-field" type="text" id="author-name" name="author-name" required>
 
                 <label class="form-label" for="author-age">Author Age:</label>
-                <input class="form-field" type="text" id="author-age" name="author-age">
+                <input class="form-field" type="text" id="author-age" name="author-age" required>
 
                 <input type="submit" class="button green-button" value="Add">
             </div>

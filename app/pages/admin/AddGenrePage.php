@@ -24,7 +24,7 @@
             <form class="form-box center-contents">
                 <div class="form-content flex-column"> 
                     <label class="form-label" for="genre">Genre:</label>
-                    <input class="form-field" type="text" id="genre" name="genre">
+                    <input class="form-field" type="text" id="genre" name="genre" required>
 
                     <input type="submit" class="button green-button" value="Add">
                 </div>
