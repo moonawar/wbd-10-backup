@@ -32,6 +32,7 @@ class UserController extends Controller implements ControllerInterface
                     $registerView->render();  
                     break;
                 case 'POST':
+
                     $uploadedImage = PROFILE_PIC_BASE;
                     
                     if (isset($_FILES['profile-pic'])) {
@@ -50,7 +51,8 @@ class UserController extends Controller implements ControllerInterface
                         $username, $email, UserRole::Customer, $pass, $uploadedImage
                     );
                 
-                    header("Location: /home", true, 301);
+                    header("Location: /home/", true, 301);
+
                     exit;
 
                 default:

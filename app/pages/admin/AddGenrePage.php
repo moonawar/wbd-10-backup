@@ -29,18 +29,19 @@
 
             <div class="buttons">
                 <button class="cancel-btn">Cancel</button>
-                <button class="confirm-btn">Add</button>
+                <button id="addGenreBtn" class="confirm-btn">Add</button>
             </div>
         </div>
         <div class="container">
             <div class="content">
                 <h2>Add Genre Page</h2>
-                <form class="form-box center-contents">
+                <form 
+                class="form-box center-contents"
+            >
                     <div class="form-content flex-column">
                         <label class="form-label" for="genre">Genre:</label>
                         <input class="form-field" type="text" id="genre" name="genre" required>
                         <input type="button" class="show-modal button green-button" value="Add">
-
                     </div>
                 </form>
             </div>
@@ -50,7 +51,8 @@
     const section = document.querySelector("section"),
         overlay = document.querySelector(".overlay"),
         showBtn = document.querySelector(".show-modal"),
-        closeBtn = document.querySelector(".cancel-btn");
+        closeBtn = document.querySelector(".cancel-btn"),
+        addGenreBtn = document.getElementById("addGenreBtn");
 
     function showModal() {
         const inputFields = document.querySelectorAll('.form-field');
@@ -65,6 +67,13 @@
             showBtn.removeEventListener("click", showModal);
         }
     }
+    addGenreBtn.addEventListener("click", function () {
+            const form = document.querySelector('form');
+            form.action = "/genre/add";
+            form.method = "POST";
+            form.enctype = "multipart/form-data";
+            form.submit();
+        });
 
     showBtn.addEventListener("click", showModal);
 

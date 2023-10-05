@@ -7,11 +7,11 @@ class GenreModel {
         $this->db = $db;
     }
 
-    public function createGenre($name, $description)
+    public function createGenre($name)
     {
-        $sql = "INSERT INTO genre (name, description) VALUES (?, ?)";
+        $sql = "INSERT INTO genre (name) VALUES (?)";
         $stmt = $this->db->prepare($sql);
-        $this->db->bindParams($stmt, "ss", $name, $description);
+        $this->db->bindParams($stmt, "s", $name);
         return $this->db->execute($stmt);
     }
 
@@ -28,24 +28,31 @@ class GenreModel {
     {
         $sql = "SELECT * FROM genre";
         $stmt = $this->db->prepare($sql);
-        $result = $this->db->execute($stmt);
         return $this->db->getAllRecords($stmt);
     }
 
-    public function updateGenre($name, $description)
+    public function deleteGenre($genreId)
     {
-        $sql = "UPDATE genre SET description = ? WHERE name = ?";
+        $sql = "DELETE FROM genre WHERE genre_id = ?";
         $stmt = $this->db->prepare($sql);
-        $this->db->bindParams($stmt, "ss", $description, $name);
+        $this->db->bindParams($stmt, "i", $genreId);
         return $this->db->execute($stmt);
     }
 
-    public function deleteGenreByName($name)
+    public function updateGenre($genreId, $name)
     {
-        $sql = "DELETE FROM genre WHERE name = ?";
+        $sql = "UPDATE genre SET name = ? WHERE genre_id = ?";
         $stmt = $this->db->prepare($sql);
-        $this->db->bindParams($stmt, "s", $name);
+        $this->db->bindParams($stmt, "si", $name, $genreId);
         return $this->db->execute($stmt);
+    }
+
+    public function getGenreById($genreId)
+    {
+        $sql = "SELECT * FROM genre WHERE genre_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $this->db->bindParams($stmt, "i", $genreId);
+        return $this->db->getSingleRecord($stmt);
     }
 }
 ?>

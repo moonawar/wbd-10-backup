@@ -26,14 +26,14 @@ CREATE TABLE IF NOT EXISTS `book` (
 );
 
 CREATE TABLE IF NOT EXISTS `genre` (
-  `name` varchar(32) PRIMARY KEY,
-  `description` text
+  `genre_id` integer PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(32)
 );
 
 CREATE TABLE IF NOT EXISTS `book_genre` (
   `book_id` integer,
-  `genre_name` varchar(32),
-  PRIMARY KEY (`book_id`, `genre_name`)
+  `genre_id` integer,
+  PRIMARY KEY (`book_id`, `genre_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `author` (
@@ -47,3 +47,10 @@ CREATE TABLE IF NOT EXISTS `authored_by` (
   `author_id` integer,
   PRIMARY KEY (`book_id`, `author_id`)
 );
+
+ALTER TABLE `have` ADD FOREIGN KEY (`username`) REFERENCES `user`(`username`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `have` ADD FOREIGN KEY (`book_id`) REFERENCES `book`(`book_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `book_genre` ADD FOREIGN KEY (`book_id`) REFERENCES `book`(`book_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `book_genre` ADD FOREIGN KEY (`genre_id`) REFERENCES `genre`(`genre_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `authored_by` ADD FOREIGN KEY (`book_id`) REFERENCES `book`(`book_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `authored_by` ADD FOREIGN KEY (`author_id`) REFERENCES `author`(`author_id`) ON DELETE CASCADE ON UPDATE CASCADE;
