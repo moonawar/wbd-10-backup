@@ -21,7 +21,10 @@
     <div class="container">
         <div class="content">
             <h2>Add Genre Page</h2>
-            <form class="form-box center-contents">
+            <form 
+                class="form-box center-contents"
+                action="/genre/add" method="POST" enctype="multipart/form-data"
+            >
                 <div class="form-content flex-column"> 
                     <label class="form-label" for="genre">Genre:</label>
                     <input class="form-field" type="text" id="genre" name="genre" required>

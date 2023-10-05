@@ -20,7 +20,10 @@
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
     <div class="content">
         <h2>Add Author Page</h2>
-        <form class="form-box center-contents">
+        <form 
+            class="form-box center-contents"
+            action="/author/add" method="POST" enctype="multipart/form-data"
+        >
             <div class="form-content flex-column"> <label class="form-label" for="author-name">Author Name:</label>
                 <input class="form-field" type="text" id="author-name" name="author-name" required>
 
