@@ -11,6 +11,7 @@
     --disabled: #c2c2c2;
     --red: #ff7575;
     --grey: #e5e5e5;
+    --yellow: #C4A536;
     /* Font */
     --poppins: 'Poppins', sans-serif;
 }
@@ -93,13 +94,32 @@ button {
     color: var(--black);
 }
 
+.green-reverse-button {
+    background: white;
+    border: 2px solid var(--teal) !important;
+    color: var(--teal);
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+}
+
+.yellow-reverse-button {
+    background: white;
+    border: 2px solid var(--yellow) !important;
+    color: var(--yellow);
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+}
+
 .button {
     padding: 1rem 2rem;
     transition: all 0.3s linear;
     cursor: pointer;
     font-size: 1.25rem;
     font-weight: 800;
-
     border: none;
     border-radius: 2rem;
 }
