@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS `book` (
   `price` integer NOT NULL,
   `duration` integer NOT NULL COMMENT 'in seconds',
   `lang` varchar(64) DEFAULT 'English',
-  `audio_path` text NOT NULL
+  `audio_path` text NOT NULL,
+  `cover_path` text NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `genre` (
@@ -38,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `book_genre` (
 CREATE TABLE IF NOT EXISTS `author` (
   `author_id` integer PRIMARY KEY AUTO_INCREMENT,
   `full_name` varchar(32) NOT NULL,
-  `email` varchar(320)
+  `age` int
 );
 
 CREATE TABLE IF NOT EXISTS `authored_by` (

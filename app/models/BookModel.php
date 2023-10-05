@@ -9,11 +9,18 @@ class BookModel {
 
     // CRUD Operations
 
-    public function addBook(string $title, int $year, string $summary, int $price, int $duration, string $lang, array $authors, array $genres): bool {
-        $sql = "INSERT INTO book (title, year, summary, price, duration, lang) VALUES (?, ?, ?, ?, ?, ?)";
+    public function addBook(
+        string $title, int $year, string $summary, int $price, 
+        int $duration, string $lang, string $audio_path, string $img_path,
+        array $authors, array $genres
+    ): bool {
+        $sql = "INSERT INTO book 
+            (title, year, summary, price, duration, lang, audio_path, cover_path) VALUES (?, ?, ?, ?, ?, ?)";
      
         $stmt = $this->db->prepare($sql);
-        $this->db->bindParams($stmt, "sisiis", $title, $year, $summary, $price, $duration, $lang);
+        $this->db->bindParams($stmt, "sisiisss", 
+            $title, $year, $summary, $price, $duration, $lang, $audio_path, $img_path
+        );
 
         $this->db->execute($stmt);
         $bookId = $this->db->insertId();
@@ -32,13 +39,23 @@ class BookModel {
             return true;
         }
 
-        return false;
+        return $bookId;
     }
 
-    public function updateBook(int $bookId, string $title, int $year, string $summary, int $price, int $duration, string $lang, array $authors, array $genres): bool {
-        $sql = "UPDATE book SET title = ?, year = ?, summary = ?, price = ?, duration = ?, lang = ? WHERE book_id = ?";
+    public function updateBook(
+        int $bookId, string $title, int $year, string $summary, int $price, 
+        int $duration, string $lang, string $audio_path, string $img_path,
+        array $authors, array $genres
+    ): bool {
+        $sql = "UPDATE book SET 
+            title = ?, year = ?, summary = ?, price = ?, duration = ?, 
+            lang = ?, audio_path = ?, cover_path = ? 
+            WHERE book_id = ?";
+
         $stmt = $this->db->prepare($sql);
-        $this->db->bindParams($stmt, "sisiisi", $title, $year, $summary, $price, $duration, $lang, $bookId);
+        $this->db->bindParams($stmt, "sisiisssi", 
+            $title, $year, $summary, $price, $duration, $lang, $audio_path, $img_path, $bookId
+        );
 
         $result = $this->db->execute($stmt);
         $bookId = $this->db->insertId();
