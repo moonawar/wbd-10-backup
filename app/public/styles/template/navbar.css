@@ -110,7 +110,7 @@ label #btn {
 }
 
 #check:checked~.sidebar {
-    left: -250px;
+    left: -15vw;
 }
 
 #check:checked~label #btn {
