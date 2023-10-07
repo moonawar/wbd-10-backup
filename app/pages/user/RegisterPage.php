@@ -25,17 +25,19 @@
                         <!-- Username Field -->
                         <label for="username" class="form-label">Username:</label>
                         <input class="form-field" type="text" 
-                            id="username" name="username" placeholder="ajason14" required><br>
+                            id="username" name="username" placeholder="Username*" required><br>
 
                         <!-- Email Field -->
                         <label for="email" class="form-label">Email:</label>
                         <input class="form-field" type="text" 
-                            id="email" name="email" placeholder="ajason14@gmail.com" required><br>
+                            id="email" name="email" placeholder="Email*" required><br>
 
                         <!-- Password Field -->
                         <label for="password" class="form-label">Password:</label>
-                        <input class="form-field" type="text" 
-                        id="password" name="password" placeholder="*****" required><br>
+                        <input 
+                            class="form-field" type="password" 
+                            id="password" name="password" placeholder="*****" required
+                        ><br>
                         
                         <!-- Profile Picture Field -->
                         <label for="profile-pic" class="file-upload form-label">

@@ -51,6 +51,7 @@ class UserController extends Controller implements ControllerInterface
                         $username, $email, UserRole::Customer, $pass, $uploadedImage
                     );
                 
+                    http_response_code(301);
                     header("Location: /home/", true, 301);
 
                     exit;

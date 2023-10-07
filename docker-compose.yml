@@ -2,16 +2,18 @@ version: '3.3'
 services:
   web:
     container_name: tubes-1
-    # build: 
-    #     context: .
-    #     dockerfile: Dockerfile
-    image: tubes-1:latest
+    user: "1000:1000"
+    build: 
+        context: .
+        dockerfile: Dockerfile
+    # image: tubes-1:latest
     ports:
       - 8000:80
     depends_on:
       - db
     volumes: 
       - ./app:/var/www/html/
+      - ./db/data_seeding:/var/www/html/seed
     networks:
       - wbd-network
   db:

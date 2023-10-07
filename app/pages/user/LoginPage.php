@@ -21,7 +21,7 @@
                     <div class="form-content flex-column">
                         <label for="username" class="form-label">Username:</label>
                         <input class="form-field" type="text" 
-                            id="username" name="username" placeholder="johndoe123" required><br>
+                            id="username" name="username" placeholder="e.g. moonawar19" required><br>
 
                         <label for="password" class="form-label">Password:</label>
                         <input class="form-field" type="text" 
