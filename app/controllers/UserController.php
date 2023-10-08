@@ -3,9 +3,9 @@
 class UserController extends Controller implements ControllerInterface
 {
     private UserModel $model;
-    public function __construct(Db $db) {
+    public function __construct() {
         require_once __DIR__ . '/../models/UserRole.php';
-        $this->model  = $this->model('UserModel', $db);
+        $this->model  = $this->model('UserModel');
     }
 
     public function index()
@@ -16,11 +16,36 @@ class UserController extends Controller implements ControllerInterface
 
     public function login() 
     {
-        // $userModel = $this->model('UserModel');
-        // $result = $userModel->getAllUsers();
+        if (isset($_SESSION['username'])) {
+            http_response_code(301);
+            header("Location: /home/", true, 301);
+            exit;
+        }
 
-        $loginView = $this->view('user', 'LoginView');
-        $loginView->render();
+        switch ($_SERVER['REQUEST_METHOD']) {
+            case 'GET':
+                // show the login page
+                $loginView = $this->view('user', 'LoginView');
+                $loginView->render();  
+                break;
+            case 'POST':
+                // login the user
+                $username = $_POST['username'];
+                $pass = $_POST['password'];
+
+                // $user = $this->model->getUser($username, $pass);
+
+                // if ($user) {
+                //     SessionManager::getInstance()->login($user->username, $user->role);
+                //     http_response_code(301);
+                //     header("Location: /home/", true, 301);
+                //     exit;
+                // } else {
+                //     $loginView = $this->view('user', 'LoginView');
+                //     $loginView->render();  
+                // }
+                break;
+        }
     }
 
     public function register() {

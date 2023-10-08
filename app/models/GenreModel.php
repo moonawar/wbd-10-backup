@@ -2,9 +2,9 @@
 class GenreModel {
     private $db;
 
-    public function __construct(Db $db)
+    public function __construct()
     {
-        $this->db = $db;
+        $this->db = Db::getInstance();
     }
 
     public function createGenre($name)

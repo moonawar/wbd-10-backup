@@ -10,9 +10,6 @@ class AdminController extends Controller implements ControllerInterface
 
     public function addBook() 
     {
-        // $userModel = $this->model('UserModel');
-        // $result = $userModel->getAllUsers();
-
         $addBookView = $this->view('admin', 'AddBookView');
         $addBookView->render();
     }

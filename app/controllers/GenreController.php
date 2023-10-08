@@ -3,8 +3,8 @@
 class GenreController extends Controller implements ControllerInterface
 {
     private GenreModel $model;
-    public function __construct(Db $db) {
-        $this->model  = $this->model('GenreModel', $db);
+    public function __construct() {
+        $this->model  = $this->model('GenreModel');
     }
     public function index()
     {

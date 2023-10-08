@@ -2,8 +2,8 @@
 class BookController extends Controller implements ControllerInterface{
     private BookModel $model;
 
-    public function __construct(Db $db) {
-        $this->model  = $this->model('BookModel', $db);
+    public function __construct() {
+        $this->model  = $this->model('BookModel');
     }
 
      public function index() 

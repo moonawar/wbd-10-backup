@@ -7,7 +7,16 @@ class Db {
     private $pass = 'secret';
     private $db = 'wbd-db';
 
-    public function __construct()
+    private static $instance = null;
+
+    public static function getInstance() {
+        if (self::$instance == null) {
+            self::$instance = new Db();
+        }
+        return self::$instance;
+    }
+
+    private function __construct()
     {
 
         $this->conn = new mysqli($this->host, $this->user, $this->pass);

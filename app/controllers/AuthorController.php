@@ -3,8 +3,8 @@
 class AuthorController extends Controller implements ControllerInterface
 {
     private AuthorModel $model;
-    public function __construct(Db $db) {
-        $this->model  = $this->model('AuthorModel', $db);
+    public function __construct() {
+        $this->model  = $this->model('AuthorModel');
     }
     public function index()
     {

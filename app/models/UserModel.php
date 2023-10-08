@@ -2,8 +2,8 @@
 class UserModel {
     private $db;
 
-    public function __construct(Db $db) {
-        $this->db = $db;
+    public function __construct() {
+        $this->db = Db::getInstance();
     }
 
     public function addUser(string $username, string $email, string $role, string $password, string $imagePath): int {

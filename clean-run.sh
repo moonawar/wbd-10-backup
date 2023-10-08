@@ -1,3 +1,3 @@
 sh reset-db.sh
-sh build-images.sh
+sh build-image.sh
 docker-compose up
