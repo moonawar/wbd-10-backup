@@ -49,7 +49,6 @@ class BookController extends Controller implements ControllerInterface{
                     $audioFile = $_FILES['audio']['tmp_name'];
                     $duration = (int) $fileHandler->getAudioDuration($audioFile);
 
-
                     $uploadedAudio = $fileHandler->saveAudioTo($audioFile, $_POST['title'], AUDIOBOOK_PATH);
                     $uploadedImage = $fileHandler->saveImageTo($imageFile, $_POST['title'], BOOK_COVER_PATH);
 
@@ -71,8 +70,6 @@ class BookController extends Controller implements ControllerInterface{
                         $title, $year, $summary, $price, $duration, $lang,
                         $uploadedAudio, $uploadedImage, $authors, $genres
                     );
-
-                    error_log("Book ID: $bookId\n\n");
                 
                     // header("Location: /public/song/detail/$bookId", true, 301);
                     exit;

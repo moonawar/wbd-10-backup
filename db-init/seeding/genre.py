@@ -1,10 +1,10 @@
 import requests
 
 print ("""
-    Seeding Genres
-    ====================================
-       
-    ...
+Seeding Genres
+====================================
+    
+...
 """)
 
 BOOK_GENRES = [
@@ -25,7 +25,7 @@ BOOK_GENRES = [
     "Classics"
 ]
 
-api_url = 'http://localhost:8000/genre/add'
+api_url = 'http://web/genre/add'
 
 for genre in BOOK_GENRES:
     data = {

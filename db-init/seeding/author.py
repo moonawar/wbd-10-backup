@@ -1,13 +1,13 @@
 import requests
 import random
 
-api_url = 'http://localhost:8000/author/add'
+api_url = 'http://web/author/add'
 
 print ("""
-    Seeding Authors
-    ====================================
-       
-    ...
+Seeding Authors
+====================================
+    
+...
 """)
 
 # Authors Generator

@@ -3,10 +3,7 @@ services:
   web:
     container_name: tubes-1
     user: "1000:1000"
-    build: 
-        context: .
-        dockerfile: Dockerfile
-    # image: tubes-1:latest
+    image: tubes-1:latest
     ports:
       - 8000:80
     depends_on:
@@ -15,6 +12,8 @@ services:
       - ./app:/var/www/html/
     networks:
       - wbd-network
+    expose:
+      - '80'
   db:
     container_name: wbd-db
     image: mysql
@@ -31,6 +30,18 @@ services:
       - '9096:3306'
     expose:
       - '3306'
+    networks:
+      - wbd-network
+  data-seeding:
+    container_name: python-seeding
+    image: python:3.7
+    volumes:
+      - ./db-init/seeding/:/app
+    working_dir: /app
+    command: ["sh", "all.sh"]
+    depends_on:
+      - web
+      - db
     networks:
       - wbd-network
 networks:

@@ -3,17 +3,17 @@ import random
 import os
 
 print ("""
-    Seeding Books
-    ====================================
-       
-    ...
+Seeding Books
+====================================
+    
+...
 """)
 
 
 NUM_OF_AUTHORS = 15
 NUM_OF_GENRES = 15
 
-post_api = 'http://localhost:8000/book/add'
+post_api = 'http://web/book/add'
 
 
 books = []
@@ -76,8 +76,8 @@ for b in books:
         'title': title,
         'year': year,
         'summary': b['description'],
-        'author': authors,
-        'genre': genres,
+        'authors[]': authors,
+        'genres[]': genres,
         'price': price,
         'lang': 'English',
     }

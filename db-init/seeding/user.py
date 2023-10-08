@@ -5,13 +5,13 @@ import os
 
 fake = Faker()
 
-api_url = 'http://localhost:8000/user/register'
+api_url = 'http://web/user/register'
 
 print ("""
-    Seeding Users
-    ====================================
-       
-    ...
+Seeding Users
+====================================
+    
+...
 """)
 
 users = []
