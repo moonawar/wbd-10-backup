@@ -15,7 +15,7 @@ class BookModel {
         array $authors, array $genres
     ): bool {
         $sql = "INSERT INTO book 
-            (title, year, summary, price, duration, lang, audio_path, cover_path) VALUES (?, ?, ?, ?, ?, ?)";
+            (title, year, summary, price, duration, lang, audio_path, cover_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
      
         $stmt = $this->db->prepare($sql);
         $this->db->bindParams($stmt, "sisiisss", 
@@ -25,6 +25,8 @@ class BookModel {
         $this->db->execute($stmt);
         $bookId = $this->db->insertId();
 
+        echo $bookId;
+
         $stmt->close();
 
         if ($bookId) {
@@ -32,8 +34,8 @@ class BookModel {
                 $this->addAuthorToBook($bookId, $authorId);
             }
 
-            foreach ($genres as $genreName) {
-                $this->addGenreToBook($bookId, $genreName);
+            foreach ($genres as $genreId) {
+                $this->addGenreToBook($bookId, $genreId);
             }
 
             return true;
@@ -70,8 +72,8 @@ class BookModel {
                 $this->addAuthorToBook($bookId, $authorId);
             }
 
-            foreach ($genres as $genreName) {
-                $this->addGenreToBook($bookId, $genreName);
+            foreach ($genres as $genreId) {
+                $this->addGenreToBook($bookId, $genreId);
             }
 
             return true;
@@ -101,7 +103,7 @@ class BookModel {
                 JOIN authored_by ab ON b.book_id = ab.book_id
                 JOIN author a ON ab.author_id = a.author_id
                 JOIN book_genre bg ON b.book_id = bg.book_id
-                JOIN genre g ON bg.genre_name = g.name
+                JOIN genre g ON bg.genre_id = g.name
                 WHERE b.book_id = ?
                 GROUP BY b.book_id";
         
@@ -124,7 +126,7 @@ class BookModel {
                 JOIN authored_by ab ON b.book_id = ab.book_id
                 JOIN author a ON ab.author_id = a.author_id
                 JOIN book_genre bg ON b.book_id = bg.book_id
-                JOIN genre g ON bg.genre_name = g.name
+                JOIN genre g ON bg.genre_id = g.name
                 GROUP BY b.book_id
                 LIMIT ?, ?";
         
@@ -151,10 +153,11 @@ class BookModel {
         return $result;
     }
 
-    private function addGenreToBook(int $bookId, string $genreName): bool {
-        $sql = "INSERT INTO book_genre (book_id, genre_name) VALUES (?, ?)";
+    private function addGenreToBook(int $bookId, int $genreId): bool {
+        $sql = "INSERT INTO book_genre (book_id, genre_id) VALUES (?, ?)";
         $stmt = $this->db->prepare($sql);
-        $this->db->bindParams($stmt, "is", $bookId, $genreName);
+        
+        $this->db->bindParams($stmt, "ii", $bookId, $genreId);
 
         $result = $this->db->execute($stmt);
 

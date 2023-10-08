@@ -43,7 +43,7 @@
     border-radius: 3rem;
     padding: 1rem 2rem;
     font-family: var(--poppins);
-    font-size: small;
+    font-size: medium;
     color: var(--teal);
 }
 
@@ -73,4 +73,23 @@ h2 {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+
+.text-area {
+    border: 2px solid var(--teal);
+    border-radius: 3rem;
+    padding: 1rem 2rem;
+    
+    font-family: var(--poppins);
+    font-size: medium;
+
+    color: var(--teal);
+}
+
+.text-area:focus {
+    border-color: var(--teal);
+}
+
+.text-area:active {
+    border-color: var(--teal);
 }

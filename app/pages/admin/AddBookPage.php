@@ -17,26 +17,39 @@
     <!-- Navigation bar -->
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
   <div class="content">
+    <br><br><br>
     <h2>Add Book Page</h2>
-    <form class="form-box center-contents">
+    <form 
+      class="form-box center-contents"
+      action="/book/add" method="POST" enctype="multipart/form-data"
+    >
       <div class="form-content flex-column">
-        <label class="form-label" for="title">Judul:</label>
+        <label class="form-label" for="title">Title:</label>
         <input class="form-field" type="text" id="title" name="title" required>
 
-        <label class="form-label" for="year">Tahun Terbit:</label>
+        <label class="form-label" for="year">Year Published:</label>
         <input class="form-field" type="number" id="year" name="year" required>
 
-        <label class="form-label" for="author">Penulis:</label>
-        <input class="form-field" type="text" id="author" name="author" required>
+        <label class="form-label" for="summary">Summary:</label>
+        <textarea 
+          class="text-area" type="text" id="summary" name="summary" 
+          rows="5" cols="50" required
+        > </textarea>
 
-        <label class="form-label" for="genre">Genre:</label>
-        <input class="form-field" type="text" id="genre" name="genre" required>
+        <label class="form-label" for="authors[]">Authors:</label>
+        <input class="form-field" type="number" id="author" name="authors[]" required>
 
-        <label class="file-upload form-label" for="image">Gambar:</label>
-        <input type="file" id="image" name="image" accept="image/*" required>
+        <label class="form-label" for="genres[]">Genres:</label>
+        <input class="form-field" type="number" id="genre" name="genres[]" required>
+
+        <label class="form-label" for="price">Price:</label>
+        <input class="form-field" type="number" id="price" name="price" required>
+
+        <label class="file-upload form-label" for="cover">Book Cover:</label>
+        <input type="file" id="image" name="cover" accept="image/png, image/jpeg" required>
 
         <label class="file-upload form-label" for="audio">Audio:</label>
-        <input type="file" id="audio" name="audio" accept="audio/*" required>
+        <input type="file" id="audio" name="audio" accept="audio/mpeg" required>
         <button type="submit" class="button green-button">Add</button>
       </div>
     </form>

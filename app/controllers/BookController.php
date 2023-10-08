@@ -3,7 +3,7 @@ class BookController extends Controller implements ControllerInterface{
     private BookModel $model;
 
     public function __construct(Db $db) {
-        $model  = $this->model('BookModel', $db);
+        $this->model  = $this->model('BookModel', $db);
     }
 
      public function index() 
@@ -38,24 +38,31 @@ class BookController extends Controller implements ControllerInterface{
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
                     // show the add book page
-                    echo "Add Book Page <br> <br>";
+                    $addBookView = $this->view('admin', 'AddBookView');
+                    $addBookView->render(); 
                     break;
                 case 'POST':
                     $fileHandler = new FileHandler();
                     
+                    $imageFile = $_FILES['cover']['tmp_name'];
+                    
                     $audioFile = $_FILES['audio']['tmp_name'];
                     $duration = (int) $fileHandler->getAudioDuration($audioFile);
 
-                    $imageFile = $_FILES['cover']['tmp_name'];
 
                     $uploadedAudio = $fileHandler->saveAudioTo($audioFile, $_POST['title'], AUDIOBOOK_PATH);
                     $uploadedImage = $fileHandler->saveImageTo($imageFile, $_POST['title'], BOOK_COVER_PATH);
-                    
+
                     $title = $_POST['title'];
                     $year = (int)$_POST['year'];
                     $summary = $_POST['summary'];
                     $price = (int)$_POST['price'];
-                    $lang = $_POST['lang'];
+
+                    $lang = 'English';
+                    if (isset($_POST['lang'])) {
+                        $lang = $_POST['lang'];
+                    }
+                    
                     $authors = $_POST['authors'];
                     $genres = $_POST['genres'];
 
@@ -64,14 +71,17 @@ class BookController extends Controller implements ControllerInterface{
                         $title, $year, $summary, $price, $duration, $lang,
                         $uploadedAudio, $uploadedImage, $authors, $genres
                     );
+
+                    error_log("Book ID: $bookId\n\n");
                 
-                    header("Location: /public/song/detail/$bookId", true, 301);
+                    // header("Location: /public/song/detail/$bookId", true, 301);
                     exit;
 
                     default:
                         throw new RequestException('Method Not Allowed', 405);
             }
         } catch (Exception $e) {
+            echo $e->getMessage();
             http_response_code($e->getCode());
             exit;
         }          

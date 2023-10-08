@@ -29,6 +29,10 @@ class Db {
         return $this->conn->prepare($sql);
     }
 
+    public function error_info() {
+        return $this->conn->error;
+    }
+
     public function bindParams(mysqli_stmt $stmt, string $types, ...$vars) {
         $bindParams = [$types];
         foreach ($vars as &$var) {

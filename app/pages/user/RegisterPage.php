@@ -43,7 +43,7 @@
                         <label for="profile-pic" class="file-upload form-label">
                             Profile Picture
                         </label>
-                        <input type="file" id="profile-pic" name="profile-pic" accept=".jpeg, .png" onchange=""><br>
+                        <input type="file" id="profile-pic" name="profile-pic" accept="image/png, image/jpeg" onchange=""><br>
 
                         <!-- Submit Button -->
                         <input type="submit" class="button green-button" value="Sign Up"><br>

@@ -13,11 +13,11 @@ define('AUDIOBOOK_PATH', __DIR__ . '/../storage/audio/');
 
 // File config
 define('ALLOWED_AUDIOS', [
-    'audio/mpeg' => '.mp3'
+    'audio/mpeg' => '.mp3',
 ]);
 
 define('ALLOWED_IMAGES', [
-    'image/jpeg' => '.jpeg',
+    'image/jpeg' => '.jpg',
     'image/png' => '.png'
 ]);
 ?>

@@ -1,9 +1,13 @@
 <?
 class FileHandler {
     public function saveImageTo($img, string $id, string $path) {
+        if (empty($img)) {
+            throw new RequestException('Bad Request -> Image file is not present', 400);
+        }
+
         $type = mime_content_type($img);
         if (!in_array($type, array_keys(ALLOWED_IMAGES))) {
-            throw new RequestException('Unsupported Media Type', 415);
+            throw new RequestException('Unsupported Image Media Type', 415);
         }
 
         $ext = ALLOWED_IMAGES[$type];
@@ -21,16 +25,21 @@ class FileHandler {
         // error_log($file_path);
         $success = move_uploaded_file($img, $file_path);
         if (!$success) {
-            throw new RequestException('Internal Server Error', 500);
+            throw new RequestException('Internal Server Error : Failed to Upload Image', 500);
         }
 
         return $file_path;
     }
 
-    public function saveAudioTo($audio, string $id, string $path) {      
+    public function saveAudioTo($audio, string $id, string $path) {  
+        if (empty($audio)) {
+            throw new RequestException('Bad Request -> Audio file is not present', 400);
+        }
+        
         $type = mime_content_type($audio);
+        
         if (!in_array($type, array_keys(ALLOWED_AUDIOS))) {
-            throw new RequestException('Unsupported Media Type', 415);
+            throw new RequestException('Unsupported Audio Media Type for: ' . $type, 415);
         }
 
         $ext = ALLOWED_AUDIOS[$type];
@@ -46,7 +55,7 @@ class FileHandler {
 
         $success = move_uploaded_file($audio, $file_path);
         if (!$success) {
-            throw new RequestException('Internal Server Error', 500);
+            throw new RequestException('Internal Server Error : Failed to Upload Image', 500);
         }
 
         return $file_path;
@@ -56,7 +65,7 @@ class FileHandler {
         if (!file_exists($file_path)) return;
         $success = unlink($file_path);
         if (!$success) {
-            throw new RequestException('Internal Server Error', 500);
+            throw new RequestException('Internal Server Error : Failed to Delete ' . $file_path, 500);
         }
     }
 
