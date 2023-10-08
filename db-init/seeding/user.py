@@ -30,11 +30,11 @@ for _ in range(20):
         image_content = requests.get(image_url).content
         image_file.write(image_content)
 
-    role = random.choice(['customer', 'admin'])
+    role = random.randint(0,1)
 
     user_data = {
         'username': username,
-        'role': role,
+        'role': ['customer', 'admin'][role],
         'email': email,
         'password': password
     }

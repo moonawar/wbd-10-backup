@@ -10,5 +10,21 @@ class SessionManager {
         }
         return self::$instance;
     }
+
+    public function login($username, $role) {
+        if (isset($_SESSION)) {
+            session_destroy();
+        }
+
+        session_start();
+
+        $_SESSION['username'] = $username;
+        $_SESSION['role'] = $role;
+    }
+
+    public function logout() {
+        session_destroy();
+        header('Location: /user/login');
+    }
 }
 ?>
