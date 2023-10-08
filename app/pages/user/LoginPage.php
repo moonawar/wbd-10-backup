@@ -19,14 +19,17 @@
                 <img src="<?= BASE_URL ?>/images/base-logo.svg" alt="Audibook Logo">
                 <form class="form-box center-contents">
                     <div class="form-content flex-column">
+                        <!-- Username -->
                         <label for="username" class="form-label">Username:</label>
                         <input class="form-field" type="text" 
                             id="username" name="username" placeholder="e.g. moonawar19" required><br>
 
+                        <!-- Password -->
                         <label for="password" class="form-label">Password:</label>
                         <input class="form-field" type="text" 
                         id="password" name="password" placeholder="*****" required><br><br>
 
+                        <!-- Submit Button -->
                         <input type="submit" class="button green-button" value="Sign In"><br>
 
                         <p>Don't have an account? <a href="<?= BASE_URL ?>/../user/register"><b>Sign Up Here</b></a>.</p>

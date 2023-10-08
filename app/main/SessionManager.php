@@ -15,9 +15,7 @@ class SessionManager {
     }
 
     public function login($username, $role) {
-        if (isset($_SESSION)) {
-            session_destroy();
-        }
+        if (isset($_SESSION)) return;
         
         session_start();
 

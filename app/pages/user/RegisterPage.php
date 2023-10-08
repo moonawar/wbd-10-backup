@@ -29,7 +29,7 @@
 
                         <!-- Email Field -->
                         <label for="email" class="form-label">Email:</label>
-                        <input class="form-field" type="text" 
+                        <input class="form-field" type="email" 
                             id="email" name="email" placeholder="Email*" required><br>
 
                         <!-- Password Field -->
