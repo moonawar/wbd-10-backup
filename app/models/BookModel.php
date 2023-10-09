@@ -67,7 +67,7 @@ class BookModel {
     public function updateBook(
         int $bookId, string $title, int $year, string $summary, int $price, 
         int $duration, string $lang, string $audio_path, string $img_path,
-        array $authors, array $genres
+        // array $authors, array $genres
     ): bool {
         $sql = "UPDATE book SET 
             title = ?, year = ?, summary = ?, price = ?, duration = ?, 
@@ -85,18 +85,18 @@ class BookModel {
         $stmt->close();
 
         if ($result) {
-            $this->removeAuthorsFromBook($bookId);
-            $this->removeGenresFromBook($bookId);
+            // $this->removeAuthorsFromBook($bookId);
+            // $this->removeGenresFromBook($bookId);
 
-            foreach ($authors as $authorId) {
-                $this->addAuthorToBook($bookId, $authorId);
-            }
+            // foreach ($authors as $authorId) {
+            //     $this->addAuthorToBook($bookId, $authorId);
+            // }
 
-            foreach ($genres as $genreId) {
-                $this->addGenreToBook($bookId, $genreId);
-            }
+            // foreach ($genres as $genreId) {
+            //     $this->addGenreToBook($bookId, $genreId);
+            // }
 
-            return true;
+            // return true;
         }
 
         return false;

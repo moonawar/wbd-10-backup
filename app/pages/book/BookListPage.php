@@ -96,8 +96,18 @@
                         <input type="submit" class="button green-reverse-button" value="Buy"></input>
                     </form>
                     <?php elseif (isset($this->data['username']) && $this->data['role']=='admin'):?>
-                    <a type="button" class="button green-reverse-button" >Edit</a>
-                    <a type="button" class="button red-reverse-button" >Delete</a>
+
+                    <a type="button" class="button green-reverse-button" 
+                        href="/book/update/<?=$book['book_id']?>"
+                    >
+                        Edit
+                    </a>
+                    <a type="button" class="button red-reverse-button" 
+                        href="/book/delete/<?=$book['book_id']?>"
+                    >
+                        Delete
+                    </a>
+
                     <?php endif;?>
                     <a type="button" class="button yellow-reverse-button" href="/book/details/<?=$book['book_id']?>">Details</a>
                 </div>

@@ -3,6 +3,7 @@ class BookController extends Controller implements ControllerInterface{
     private BookModel $model;
 
     public function __construct() {
+        require_once __DIR__ . '/../models/UserRole.php';
         $this->model  = $this->model('BookModel');
     }
 
@@ -132,50 +133,61 @@ class BookController extends Controller implements ControllerInterface{
                         $id = (int)$params;
                         $book = $this->model->getBookById($id);
                         if (!isset($book)) {
+                            header("Location: /book/", true, 301);
                             exit;
                         }
+
+                        
+                        $editBookView = $this->view('admin', 'UpdateBookView', $book);
+                        $editBookView->render();
 
                         exit;
                     }
 
                     break;
                 case 'POST':
-                    $uploadedImage = PROFILE_PIC_BASE;
+                    // $fileHandler = new FileHandler();
                     
-                    if (isset($_FILES['profile-pic'])) {
-                        $fileHandler = new FileHandler();
-                        
-                        $imageFile = $_FILES['profile-pic']['tmp_name'];
-                        
-                        $uploadedImage = $fileHandler->saveImageTo($imageFile, $_POST['username'], PROFILE_PIC_PATH);
-                    }
+                    // if (isset($_FILES['cover'])) {
+                    //     $imageFile = $_FILES['cover']['tmp_name'];
+                    //     $uploadedImage = $fileHandler->saveImageTo($imageFile, $_POST['title'], BOOK_COVER_PATH);
+                    // } else {
+                    //     $uploadedImage = $_POST['old']['image_path'];
+                    // }
 
-                    $username = $_POST['username'];
-                    $email = $_POST['email'];
-                    $pass = $_POST['password'];
+                    // if (isset($_FILES['audio'])) {
+                    //     $audioFile = $_FILES['audio']['tmp_name'];
+                    //     $duration = (int) $fileHandler->getAudioDuration($audioFile);
+                    //     $uploadedAudio = $fileHandler->saveAudioTo($audioFile, $_POST['title'], AUDIOBOOK_PATH);
+                    // } else {
+                    //     $uploadedAudio = $_POST['old']['audio_path'];
+                    //     $duration = $_POST['old']['duration'];
+                    // }
                     
-                    $this->model->addUser(
-                        $username, $email, UserRole::Customer, $pass, $uploadedImage
+                    $id = $params;
+                    $old = $this->model->getBookById($id);
+
+                    $uploadedImage = $old['cover_path'];
+                    $uploadedAudio = $old['audio_path'];
+                    $duration = $old['duration'];
+
+                    $title = !empty($_POST['title']) ? $_POST['title'] : $old['title'];
+                    $year = !empty($_POST['year']) ? (int)$_POST['year'] : $old['year'];
+                    $summary = !empty($_POST['summary']) ? $_POST['summary'] : $old['summary'];
+                    $price = !empty($_POST['price']) ? (int)$_POST['price'] : $old['price'];
+
+                    $lang = 'English';
+                    if (isset($_POST['lang'])) {
+                        $lang = $_POST['lang'];
+                    }
+                    
+                    $bookId = $this->model->updateBook(
+                        $old['book_id'], $title, $year, $summary, $price, $duration, $lang,
+                        $uploadedAudio, $uploadedImage,
+                        //  $authors, $genres
                     );
-                
-                    http_response_code(301);
-                    header("Location: /book/", true, 301);
 
-                    exit;
-                case 'PATCH':
-                    if ($_SESSION['role'] != UserRole::Admin) {
-                        $unauthorizedView = $this->view('.', 'UnauthorizedView');
-                        $unauthorizedView->render();
-                        exit;   
-                    }
-
-                    $username = $params;
-                    $role = $_POST['role'];
-
-                    $this->model->updateRole($username, $role);
-
-                    http_response_code(301);
-                    header("Location: /user/update", true, 301);
+                    header("Location: /book/details/$id", true, 301);
 
                     exit;
 
@@ -269,6 +281,66 @@ class BookController extends Controller implements ControllerInterface{
             http_response_code($e->getCode());
             exit;
         }
+    }
+
+    public function delete($params = null) {
+        if (!isset($_SESSION['username'])) {
+            http_response_code(301);
+            header("Location: /user/login", true, 301);
+            exit;
+        }
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    if ($_SESSION['role'] != UserRole::Admin) {
+                        $unauthorizedView = $this->view('.', 'UnauthorizedView');
+                        $unauthorizedView->render();
+                        exit;   
+                    }
+                    
+                    if (isset($params)) {
+                        $book_id = $params;
+
+                        $book = $this->model->getBookById($book_id);
+                        if (!$book) {
+                            header("Location: /book/", true, 301);
+                            exit;
+                        }
+
+
+                        $deleteBookView = $this->view('admin', 'DeleteBookView', $book);
+                        $deleteBookView->render();
+
+                        exit;
+                    }
+
+                    break;
+                case 'POST':
+                    if (isset($params)) { // editing specific book
+                        $id = $params;
+                        
+                        $succ = $this->model->deleteBook($id);
+                        
+                        if ($succ) {
+                            header("Location: /book/", true, 301);
+                        }
+                        
+                        echo "Failed to delete book";
+                        break;
+                    }
+
+                    $notFoundView = $this->view('not-found', 'NotFoundView');
+                    $notFoundView->render();
+
+                exit;
+
+                default:
+                    throw new RequestException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }          
     }
 }
 ?>

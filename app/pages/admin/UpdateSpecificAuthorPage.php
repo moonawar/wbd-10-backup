@@ -13,7 +13,7 @@
     <!-- Page-specific CSS -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/list.css">
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/crud-page.css">
-    <title>Update User : <? echo $this->data['author_id'];?></title>
+    <title>Update Author : <? echo $this->data['author_id'];?></title>
 </head>
 
 <body>
