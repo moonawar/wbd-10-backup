@@ -20,9 +20,10 @@
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
     <div class="home-container">
         <div class="topbar-container">
-            <form action="#" class="selection">
-                <select title="filter" id="author-genre">
-                    <option value="All">All Authors and Genres</option>
+            <!-- TO do, angka page di /search -->
+            <form action="/book/search/1" method='GET' class="selection">
+                <select name="filter" id="filter">
+                    <option value="all">All Authors and Genres</option>
                     <optgroup label="Author">
                     <?php foreach ($this->data['authors'] as $index => $author) : ?>
                                 <option value="<?= $author['full_name'] ?>" <?php if (isset($_GET['filter']) && $_GET['filter'] == $author['full_name']) : ?> selected="selected" <?php endif; ?>>
@@ -38,20 +39,19 @@
                             <?php endforeach; ?>
                     </optgroup>
                 </select>
-                <select title="sort" id="year-book">
-                    <option value="select">Sort</option>
+                <select name="sort" id="sort">
+                    <option value="title">Sort</option>
                     <optgroup label="Year">
-                        <option value="year-asc"<?php if (isset($_GET['sort']) && $_GET['sort'] == 'year asc') : ?> selected="selected"<?php endif; ?>>Year ASC</option>
-                        <option value="year-dsc" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'year desc') : ?>selected="selected"<?php endif; ?>>Year DSC</option>
+                        <option value="year asc"<?php if (isset($_GET['sort']) && $_GET['sort'] == 'year asc') : ?> selected="selected"<?php endif; ?>>Year ASC</option>
+                        <option value="year desc" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'year desc') : ?>selected="selected"<?php endif; ?>>Year DSC</option>
                     </optgroup>
                     <optgroup label="Book Name">
-                        <option value="book-asc" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'book asc') : ?> selected="selected"<?php endif; ?>>Book ASC</option>
-                        <option value="book-dsc" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'book dsc') : ?>selected="selected"<?php endif; ?>>Book DSC</option>
+                        <option value="title-asc" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'title asc') : ?> selected="selected"<?php endif; ?>>Title ASC</option>
+                        <option value="title-dsc" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'title dsc') : ?>selected="selected"<?php endif; ?>>Title DSC</option>
                     </optgroup>
                 </select>
                 <input type="text" name="q" class="search" placeholder="Search"/>
                 <button type="submit" class="button green-button top-button">
-
                     <img src="<?= BASE_URL ?>/icon/search.svg" alt="Search Icon">
                 </button>
             </form>
@@ -79,8 +79,22 @@
                         <?php endif; ?>
                     </div>
                     <div class="button-container">
-                    <?php if (isset($this->data['username']) && $this->data['role']=='customer'):?>
-                    <a type="button" class="button green-reverse-button" >Buy</a>
+                    <?php
+                        $bookIdToCheck = $book['book_id'];
+                        $found = false;
+
+                        foreach ($this->data['own'] as $ownedBook) {
+                            if (isset($ownedBook['book_id']) && $ownedBook['book_id'] == $bookIdToCheck) {
+                                $found = true;
+                                break;
+                            }
+                        }
+
+                        if (isset($this->data['username']) && $this->data['role'] == 'customer' && !$found):
+                        ?>
+                    <form action= "/book/buy/<?=$book['book_id']?>" method="POST">
+                        <input type="submit" class="button green-reverse-button" value="Buy"></input>
+                    </form>
                     <?php elseif (isset($this->data['username']) && $this->data['role']=='admin'):?>
                     <a type="button" class="button green-reverse-button" >Edit</a>
                     <a type="button" class="button red-reverse-button" >Delete</a>
@@ -107,5 +121,26 @@
         </div>
     </div>
 </body>
+<script>
+  $(document).ready(function() {
+    // Event handler for filter select
+    $('#filter').on('change', function() {
+      var selectedFilter = $(this).val();
+      updateUrlParameter('filter', selectedFilter);
+    });
 
+    // Event handler for sort select
+    $('#sort').on('change', function() {
+      var selectedSort = $(this).val();
+      updateUrlParameter('sort', selectedSort);
+    });
+
+    // Function to update URL parameter
+    function updateUrlParameter(key, value) {
+      var urlParams = new URLSearchParams(window.location.search);
+      urlParams.set(key, value);
+      window.location.search = urlParams.toString();
+    }
+  });
+</script>
 </html>

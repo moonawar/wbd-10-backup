@@ -20,14 +20,19 @@ class BookController extends Controller implements ControllerInterface{
                         $username = $user['username'];
                         $role = $user['role'];
                         $imagePath = $user['image_path'];
+
+                        $own = $userData->getMyBook($_SESSION['username']);
+
+                        $have = ['own'=>$own];
                         $nav = ['username'=>$username, 'role'=> $role, 'profpic'=> $imagePath];
                     }else{
                         $nav = ['username'=>null];
+                        $have = ['own'=>null];
                     }
                     $genre = ['genres'=>$this->model('GenreModel')->getAllGenres()];
                     $author = ['authors'=>$this->model('AuthorModel')->getAllAuthors()];
                     $dataset=['book'=>$bookData];
-                    $bookListView =$this->view('book','BookView', array_merge($dataset, $nav, $genre, $author));
+                    $bookListView =$this->view('book','BookView', array_merge($dataset, $nav, $genre, $author, $have));
                     $bookListView->render();
                     break;
             }
@@ -51,14 +56,15 @@ class BookController extends Controller implements ControllerInterface{
                         $userData = $this->model('UserModel');
                         $user = $userData->getUserByUsername($_SESSION['username']);
                         $username = $user['username'];
-                        $role = $user['role'];
-                        $imagePath = $user['image_path'];
-                        $nav = ['username'=>$username, 'role'=> $role, 'profpic'=> $imagePath];
+                        $own = $userData->getMyBook($_SESSION['username']);
+
+                        $have = ['own'=>$own];
+                        $nav = ['username'=>$username];
                     }else{
                         $nav = ['username'=>null];
+                        $have=['own'=>NULL];
                     }
-
-                    $bookListView =$this->view('book','BookDetailView', array_merge($book, $nav));
+                    $bookListView =$this->view('book','BookDetailView', array_merge($book, $nav, $have));
                     $bookListView->render();
                     break;
                 default:
@@ -69,10 +75,6 @@ class BookController extends Controller implements ControllerInterface{
              exit;
         }          
     }
-
-     // public function search(string $params) {
-
-     // }
 
     public function add() 
     {
@@ -113,7 +115,6 @@ class BookController extends Controller implements ControllerInterface{
                         $uploadedAudio, $uploadedImage, $authors, $genres
                     );
                 
-                    // header("Location: /public/song/detail/$bookId", true, 301);
                     exit;
 
                     default:
@@ -211,6 +212,74 @@ class BookController extends Controller implements ControllerInterface{
             http_response_code($e->getCode());
             exit;
         }          
+    }
+
+    public function buy($params){
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    $username = $_SESSION['username'];
+                    $bookId = (int) $params;
+                    $book = $this->model->addBookOwner(
+                        $username, $bookId
+                    );
+                
+                    header("Location: /book", true, 301);
+                    exit;
+
+                    default:
+                        throw new RequestException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            http_response_code($e->getCode());
+            exit;
+        }          
+    }
+
+
+    public function search($page){
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $q = '';
+                    if (isset($_GET['q'])) {
+                        $q = $_GET['q'];
+                    }
+                    $sort = isset($_GET['sort']) ? $_GET['sort'] : 'title';
+                    $filter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
+                    $bookData = $this->model->getByQuery($q, $_GET['sort'], $_GET['filter'], $page);
+
+                    // User
+                    if(isset($_SESSION['username'])){
+                        $userData = $this->model('UserModel');
+                        $user = $userData->getUserByUsername($_SESSION['username']);
+                        $username = $user['username'];
+                        $role = $user['role'];
+                        $imagePath = $user['image_path'];
+
+                        $own = $userData->getMyBook($_SESSION['username']);
+
+                        $have = ['own'=>$own];
+                        $nav = ['username'=>$username, 'role'=> $role, 'profpic'=> $imagePath];
+                    }else{
+                        $nav = ['username'=>null];
+                        $have = ['own'=>null];
+                    }
+                    $genre = ['genres'=>$this->model('GenreModel')->getAllGenres()];
+                    $author = ['authors'=>$this->model('AuthorModel')->getAllAuthors()];
+                    $dataset=['book'=>$bookData];
+                    $bookListView =$this->view('book','BookView', array_merge($dataset, $nav, $genre, $author, $have));
+                    $bookListView->render();
+                    exit;
+                default:
+                    throw new RequestException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            http_response_code($e->getCode());
+            exit;
+        }
     }
 }
 ?>
