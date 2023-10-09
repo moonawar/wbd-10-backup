@@ -28,7 +28,10 @@ class GenreModel {
     {
         $sql = "SELECT * FROM genre";
         $stmt = $this->db->prepare($sql);
-        return $this->db->getAllRecords($stmt);
+        $this->db->execute($stmt);
+        $res = $this->db->getAllRecords($stmt);
+        $stmt->close();
+        return $res;
     }
 
     public function deleteGenre($genreId)
@@ -53,6 +56,18 @@ class GenreModel {
         $stmt = $this->db->prepare($sql);
         $this->db->bindParams($stmt, "i", $genreId);
         return $this->db->getSingleRecord($stmt);
+    }
+    public function getTotalPages($perPage) {
+        $sql = "SELECT COUNT(*) FROM genre";
+
+        $stmt = $this->db->prepare($sql);
+        $this->db->execute($stmt);
+
+        $result = $this->db->getSingleRecord($stmt);
+
+        $stmt->close();
+
+        return ceil($result['COUNT(*)'] / $perPage);
     }
 }
 ?>

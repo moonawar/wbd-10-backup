@@ -14,33 +14,31 @@
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/crud-page.css">
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/list.css">
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/home/home.css">
-    <title>Update User</title>
+    <title>Update Genre</title>
 </head>
 
 <body>
     <!-- Navigation bar -->
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
     <div class="content">
-        <h1>User List</h1>
+        <h1>Genre List</h1>
 
         <table border="1" class = "styled-table">
         <thead>
 
             <tr>
-                <th>Username</th>
-                <th>Role</th>
+                <th>Genre</th>
                 <th>Action</th>
             </tr>
 </thead>
             <?php
             
-            $users = $this->data['users'];
+            $genres = $this->data['genres'];
 
-            foreach ($users as $user) {
+            foreach ($genres as $genre) {
                 echo "<tr>";
-                echo "<td>" . $user['username'] . "</td>";
-                echo "<td>" . $user['role'] . "</td>";
-                echo '<td><a href="/user/update/' . $user['username'] . '">Edit</a> <a>Delete</a></td>';
+                echo "<td>" . $genre['name'] . "</td>";
+                echo '<td><a href="/genre/update/' . $genre['name'] . '">Edit</a> <a>Delete</a></td>';
                 echo "</tr>";
             }
             ?>
@@ -59,9 +57,9 @@
             
             for ($i = 1; $i <= $maxPage; $i++) {
                 if ($i == $page) {
-                    echo '<a href="/user/update?page=' . $i . '" class="page-btn"><b>' . $i . '</b></a>';
+                    echo '<a href="/genre/update?page=' . $i . '" class="page-btn"><b>' . $i . '</b></a>';
                 } else {
-                    echo '<a href="/user/update?page=' . $i . '" class="page-btn"><div class="">' . $i . '</div></a>';
+                    echo '<a href="/genre/update?page=' . $i . '" class="page-btn"><div class="">' . $i . '</div></a>';
                 }
             }
 
@@ -72,7 +70,7 @@
             //     if ($i == $page) {
             //         echo '<div class="green-reverse-button inner-box">' . $i . '</div>';
             //     } else {
-            //         echo '<a href="/user/list/' . $i . '"><div class="green-reverse-button inner-box">' . $i . '</div></a>';
+            //         echo '<a href="/genre/list/' . $i . '"><div class="green-reverse-button inner-box">' . $i . '</div></a>';
             //     }
             // }
 
