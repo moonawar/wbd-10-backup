@@ -38,7 +38,16 @@ http://localhost:8000/
 ```
 ## **Screenshot of Application**
 
-<img src="screenshots/LandingPage.jpg">
+<img src="screenshots/AddAuthor.png">
+<img src="screenshots/AddBook.png">
+<img src="screenshots/Addgenre.png">
+<img src="screenshots/AuthorList.png">
+<img src="screenshots/BookList.png">
+<img src="screenshots/GenreList.png">
+<img src="screenshots/Login.png">
+<img src="screenshots/Register.png">
+<img src="screenshots/UpdateUser.png">
+<img src="screenshots/UserList.png">
 
 ## **Bonus yang dikerjakan**
 
