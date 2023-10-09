@@ -38,6 +38,9 @@
 
         <!-- check ownership -->
         <?php
+            if(isset($this->data['username'])):
+            if(isset($this->data['own'])):
+                
             $bookIdToCheck = $this->data['book_id'];
             $found = false;
 
@@ -53,6 +56,8 @@
             <source src="<?= BASE_URL ?>/<?= str_replace('/var/www/html/config/', '', $this->data['audio_path']) ?>" alt ="book-audio" type="audio/mp3">
             Your browser does not support the audio element.
         </audio>
+        <?php endif; ?>
+        <?php endif; ?>
         <?php endif; ?>
         </div>
         <?php else : ?>

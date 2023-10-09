@@ -5,7 +5,7 @@
         <img src="<?= BASE_URL ?>/icon/close.svg" alt="Close menu" width="3%" id="btn">
             <img src="<?= BASE_URL ?>/icon/menu.svg" alt="menu icon" width="3%" id="open">
         </label>
-        <div class="sidebar">
+        <div class="sidebar closed">
             <div class="top">
             <img src="<?= BASE_URL ?>/images/white-logo.svg" alt="White Logo" width="80%">
             </div>  

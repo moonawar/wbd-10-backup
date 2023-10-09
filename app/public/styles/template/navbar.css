@@ -80,6 +80,10 @@ ul li:hover a img {
     margin-right: 4rem;
 }
 
+.sidebar.closed {
+    left: -15vw;
+}
+
 #check {
     display: none;
 }
@@ -103,18 +107,18 @@ label #open {
 
 label #btn {
     z-index: 1111;
-    left: 15vw;
+    left: -15vw;
     color: #000000;
     padding: 4px;
     transition: all 0.5s ease;
 }
 
 #check:checked~.sidebar {
-    left: -15vw;
+    left: 0vw;
 }
 
 #check:checked~label #btn {
-    left: -195px;
+    left: 15vw;
 }
 
 .section {

@@ -80,6 +80,8 @@
                     </div>
                     <div class="button-container">
                     <?php
+                        if(isset($this->data['username'])):
+                        if(isset($this->data['own'])):
                         $bookIdToCheck = $book['book_id'];
                         $found = false;
 
@@ -90,7 +92,7 @@
                             }
                         }
 
-                        if (isset($this->data['username']) && $this->data['role'] == 'customer' && !$found):
+                        if ($this->data['role'] == 'customer' && !$found):
                         ?>
                     <form action= "/book/buy/<?=$book['book_id']?>" method="POST">
                         <input type="submit" class="button green-reverse-button" value="Buy"></input>
@@ -107,7 +109,8 @@
                     >
                         Delete
                     </a>
-
+                    <?php endif;?>
+                    <?php endif;?>
                     <?php endif;?>
                     <a type="button" class="button yellow-reverse-button" href="/book/details/<?=$book['book_id']?>">Details</a>
                 </div>
