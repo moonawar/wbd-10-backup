@@ -11,40 +11,8 @@ class BookController extends Controller implements ControllerInterface{
         try{
             switch($_SERVER['REQUEST_METHOD']){
                 case 'GET':
-                    $bookData = $this->model->getBooks(1);
-
-                    // User
-                    if(isset($_SESSION['username'])){
-                        $userData = $this->model('UserModel');
-                        $user = $userData->getUserByUsername($_SESSION['username']);
-                        $username = $user['username'];
-                        $role = $user['role'];
-                        $imagePath = $user['image_path'];
-
-                        $own = $userData->getMyBook($_SESSION['username']);
-
-                        $have = ['own'=>$own];
-                        $nav = ['username'=>$username, 'role'=> $role, 'profpic'=> $imagePath];
-                    } else {
-                        $nav = ['username'=>null];
-                        $have = ['own'=>null];
-                    }
-
-                    if(!isset($_GET['page'])) {
-                        $page = 1;
-                    } else {
-                        $page = $_GET['page'];
-                    }
-
-                    $_SESSION['page'] = $page;
-
-                    $genre = ['genres'=>$this->model('GenreModel')->getAllGenres()];
-                    $author = ['authors'=>$this->model('AuthorModel')->getAllAuthors()];
-                    $dataset=['book'=>$bookData];
-                    $paginationData = ['totalPages' => $this->model->getTotalPages(8), 'page' => 1];
-                    $bookListView =$this->view('book','BookView', array_merge($dataset, $nav, $genre, $author, $have, $paginationData));
-                    $bookListView->render();
-                    break;
+                    header("Location: /book/search/1", true, 301);
+                    exit;
             }
         }catch (Exception $e) {
             http_response_code($e->getCode());
@@ -167,10 +135,6 @@ class BookController extends Controller implements ControllerInterface{
                             exit;
                         }
 
-                        // $editBookView = $this->view('admin', 'UpdateBookView', 
-                        // ['username' => $username,'role' => $this->model->getUserRole($username)]);
-                        // $editBookView->render();
-
                         exit;
                     }
 
@@ -253,12 +217,23 @@ class BookController extends Controller implements ControllerInterface{
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
                     $q = '';
+                    
                     if (isset($_GET['q'])) {
                         $q = $_GET['q'];
                     }
+
+                    if(!isset($page)) {
+                        $page = 1;
+                    } 
+
+                    $_SESSION['page'] = $page;
+
                     $sort = isset($_GET['sort']) ? $_GET['sort'] : 'title';
                     $filter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
-                    $bookData = $this->model->getByQuery($q, $_GET['sort'], $_GET['filter'], $page);
+
+                    $bookData = $this->model->getByQuery($q, $sort, $filter, $page);
+                    $count = $this->model->bookCount($q, $sort, $filter);
+                    $totalPages = ceil($count / BOOK_PER_PAGES);
 
                     // User
                     if(isset($_SESSION['username'])){
@@ -276,10 +251,14 @@ class BookController extends Controller implements ControllerInterface{
                         $nav = ['username'=>null];
                         $have = ['own'=>null];
                     }
+                    
+                    $q_params = "?filter=$filter&sort=$sort&q=$q";
+
                     $genre = ['genres'=>$this->model('GenreModel')->getAllGenres()];
                     $author = ['authors'=>$this->model('AuthorModel')->getAllAuthors()];
                     $dataset=['book'=>$bookData];
-                    $bookListView =$this->view('book','BookView', array_merge($dataset, $nav, $genre, $author, $have));
+                    $paginationData = ['totalPages' => $totalPages, 'page' => $page, 'q_params' => $q_params];
+                    $bookListView =$this->view('book','BookView', array_merge($dataset, $nav, $genre, $author, $have, $paginationData));
                     $bookListView->render();
                     exit;
                 default:

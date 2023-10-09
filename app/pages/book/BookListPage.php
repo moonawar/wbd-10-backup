@@ -46,8 +46,8 @@
                         <option value="year desc" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'year desc') : ?>selected="selected"<?php endif; ?>>Year DSC</option>
                     </optgroup>
                     <optgroup label="Book Name">
-                        <option value="title-asc" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'title asc') : ?> selected="selected"<?php endif; ?>>Title ASC</option>
-                        <option value="title-dsc" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'title dsc') : ?>selected="selected"<?php endif; ?>>Title DSC</option>
+                        <option value="title asc" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'title asc') : ?> selected="selected"<?php endif; ?>>Title ASC</option>
+                        <option value="title desc" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'title dsc') : ?>selected="selected"<?php endif; ?>>Title DSC</option>
                     </optgroup>
                 </select>
                 <input type="text" name="q" class="search" placeholder="Search"/>
@@ -112,16 +112,18 @@
             $maxPage = $this->data['totalPages'];
             $prevPage = $page - 1;
 
+            $params = $this->data['q_params'];
+
             $topPage = $page + 10;
             if ($topPage > $maxPage) {
                 $topPage = $maxPage;
             }
-            
+
             for ($i = 1; $i <= $topPage; $i++) {
                 if ($i == $page) {
-                    echo '<a href="/author/update?page=' . $i . '" class="page-btn"><b>' . $i . '</b></a>';
+                    echo '<a href="/book/search/' . $i . $params . '" class="page-btn"><b>' . $i . '</b></a>';
                 } else {
-                    echo '<a href="/author/update?page=' . $i . '" class="page-btn"><div class="">' . $i . '</div></a>';
+                    echo '<a href="/book/search/' . $i . $params . '" class="page-btn"><div class="">' . $i . '</div></a>';
                 }
             }
             ?>

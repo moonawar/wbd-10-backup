@@ -252,6 +252,7 @@ class BookModel {
         }
     
         $stmt = $this->db->prepare($query);
+        echo $this->db->error_info();
 
         $q = "%$q%";
     
@@ -266,6 +267,51 @@ class BookModel {
     
         $stmt->close();
         return $books;
+    }
+
+    public function bookCount($q, $sort = 'title', $filter = 'all') {
+        $perPage = BOOK_PER_PAGES;
+    
+        if ($filter === 'all') {
+            $query =
+                "SELECT b.*, GROUP_CONCAT(DISTINCT a.full_name) AS authors, GROUP_CONCAT(DISTINCT g.name) AS genres
+                FROM book b
+                JOIN authored_by ab ON b.book_id = ab.book_id
+                JOIN author a ON ab.author_id = a.author_id
+                JOIN book_genre bg ON b.book_id = bg.book_id
+                JOIN genre g ON bg.genre_id = g.genre_id
+                WHERE (a.full_name LIKE ? OR b.title LIKE ?)
+                GROUP BY b.book_id
+                ORDER BY $sort";
+        } else {
+            $query =
+                "SELECT b.*, GROUP_CONCAT(DISTINCT a.full_name) AS authors, GROUP_CONCAT(DISTINCT g.name) AS genres
+                FROM book b
+                JOIN authored_by ab ON b.book_id = ab.book_id
+                JOIN author a ON ab.author_id = a.author_id
+                JOIN book_genre bg ON b.book_id = bg.book_id
+                JOIN genre g ON bg.genre_id = g.genre_id
+                WHERE (a.full_name LIKE ? OR b.title LIKE ?) AND (g.name = ? OR a.full_name = ?)
+                GROUP BY b.book_id
+                ORDER BY $sort";
+        }
+    
+        $stmt = $this->db->prepare($query);
+        echo $this->db->error_info();
+
+        $q = "%$q%";
+    
+        if ($filter !== 'all') {
+            $this->db->bindParams($stmt, "ssss", $q, $q, $filter, $filter);
+        } else {
+            $this->db->bindParams($stmt, "ss", $q, $q);
+        }
+    
+        $this->db->execute($stmt);
+        $books = $this->db->getAllRecords($stmt);
+    
+        $stmt->close();
+        return count($books);
     }
     
 
