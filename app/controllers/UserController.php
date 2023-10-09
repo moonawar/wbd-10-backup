@@ -4,7 +4,9 @@ class UserController extends Controller implements ControllerInterface
 {
     private UserModel $model;
     public function __construct() {
+        session_start();
         require_once __DIR__ . '/../models/UserRole.php';
+
         $this->model  = $this->model('UserModel');
     }
 
@@ -34,24 +36,35 @@ class UserController extends Controller implements ControllerInterface
                 $pass = $_POST['password'];
 
                 $valid = $this->model->verifyUser($username, $pass);
-                echo $valid;
+                
+                if ($valid) {
+                    // $res = SessionManager::getInstance()->login($username, $valid);
+                    $_SESSION['username'] = $username;
+                    $_SESSION['role'] = 'customer';
+                    
+                    header("Location: /home/", true, 301);
 
-                // $user = $this->model->getUser($username, $pass);
+                    exit;
+                } else {
+                    $data = [
+                        'error' => 'Invalid username or password'
+                    ];
 
-                // if ($user) {
-                //     SessionManager::getInstance()->login($user->username, $user->role);
-                //     http_response_code(301);
-                //     header("Location: /home/", true, 301);
-                //     exit;
-                // } else {
-                //     $loginView = $this->view('user', 'LoginView');
-                //     $loginView->render();  
-                // }
+                    $loginView = $this->view('user', 'LoginView', $data);
+                    $loginView->render();
+                }
+
                 break;
         }
     }
 
     public function register() {
+        if (isset($_SESSION['username'])) {
+            http_response_code(301);
+            header("Location: /home/", true, 301);
+            exit;
+        }
+
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
@@ -93,7 +106,24 @@ class UserController extends Controller implements ControllerInterface
         }          
     }
 
-    public function edit() {
+    public function logout() {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    // show the register page
+                    SessionManager::getInstance()->logout();
+                    
+                    break;
+                default:
+                    throw new RequestException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function update() {
         if (!isset($_SESSION['username'])) {
             http_response_code(301);
             header("Location: /user/login", true, 301);
@@ -102,14 +132,15 @@ class UserController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
+                    
                     if ($_SESSION['role'] != UserRole::Admin) {
-                        $unauthorizedView = $this->view('', 'UnauthorizedView');
+                        $unauthorizedView = $this->view('.', 'UnauthorizedView');
                         $unauthorizedView->render();
                         exit;   
                     }
                     
                     $editView = $this->view('user', 'EditView');
-                    $editView->render();  
+                    $editView->render(); 
                     break;
                 case 'POST':
                     $uploadedImage = PROFILE_PIC_BASE;
