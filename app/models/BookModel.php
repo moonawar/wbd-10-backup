@@ -44,6 +44,26 @@ class BookModel {
         return $bookId;
     }
 
+    public function addBookOwner(
+        string $username, int $id
+    ): bool {
+        $sql = "INSERT INTO have 
+            (username, book_id) VALUES (?, ?)";
+     
+        $stmt = $this->db->prepare($sql);
+        $this->db->bindParams($stmt, "si", 
+            $username, $id
+        );
+
+        $stmt = $this->db->prepare($sql);
+        $this->db->bindParams($stmt, "si", $username, $id);
+
+        $result = $this->db->execute($stmt);
+
+        $stmt->close();
+        return $result;
+    }
+
     public function updateBook(
         int $bookId, string $title, int $year, string $summary, int $price, 
         int $duration, string $lang, string $audio_path, string $img_path,
@@ -114,6 +134,7 @@ class BookModel {
         $book = $this->db->getSingleRecord($stmt);
 
         $stmt->close();
+       
         return $book;
     }
 
@@ -185,6 +206,102 @@ class BookModel {
 
         $stmt->close();
         return $result;
+    }
+
+    // Search Query
+    public function getByQuery($q, $sort = 'title', $filter = 'all', $page = 1)
+    {
+        $perPage = BOOK_PER_PAGES;
+        $offset = ($page - 1) * $perPage;
+    
+        if ($filter === 'all') {
+            $query =
+                "SELECT b.*, GROUP_CONCAT(DISTINCT a.full_name) AS authors, GROUP_CONCAT(DISTINCT g.name) AS genres
+                FROM book b
+                JOIN authored_by ab ON b.book_id = ab.book_id
+                JOIN author a ON ab.author_id = a.author_id
+                JOIN book_genre bg ON b.book_id = bg.book_id
+                JOIN genre g ON bg.genre_id = g.genre_id
+                WHERE (a.full_name LIKE ? OR b.title LIKE ?)
+                GROUP BY b.book_id
+                ORDER BY $sort
+                LIMIT ? OFFSET ?";
+        } else {
+            $query =
+                "SELECT b.*, GROUP_CONCAT(DISTINCT a.full_name) AS authors, GROUP_CONCAT(DISTINCT g.name) AS genres
+                FROM book b
+                JOIN authored_by ab ON b.book_id = ab.book_id
+                JOIN author a ON ab.author_id = a.author_id
+                JOIN book_genre bg ON b.book_id = bg.book_id
+                JOIN genre g ON bg.genre_id = g.genre_id
+                WHERE (a.full_name LIKE ? OR b.title LIKE ?) AND (g.name = ? OR a.full_name = ?)
+                GROUP BY b.book_id
+                ORDER BY $sort
+                LIMIT ? OFFSET ?";
+        }
+    
+        $stmt = $this->db->prepare($query);
+
+        $q = "%$q%";
+    
+        if ($filter !== 'all') {
+            $this->db->bindParams($stmt, "ssssii", $q, $q, $filter, $filter, $perPage, $offset);
+        } else {
+            $this->db->bindParams($stmt, "ssii", $q, $q, $perPage, $offset);
+        }
+    
+        $this->db->execute($stmt);
+        $books = $this->db->getAllRecords($stmt);
+    
+        $stmt->close();
+        return $books;
+    }
+    
+
+    public function getBookByUserId($userId)
+    {
+        $sql = "SELECT b.*
+                FROM book b JOIN have h
+                ON b.book_id = h.book_id
+                JOIN user u
+                ON h.user_id = u.user_id
+                GROUP BY b.book_id";
+        
+        $stmt = $this->db->prepare($sql);
+        $this->db->bindParams($stmt, "i", $userId);
+
+        $this->db->execute($stmt);
+        $book = $this->db->getSingleRecord($stmt);
+
+        $stmt->close();
+        return $book;
+    }
+
+    public function haveBook($username) {
+        $sql = "SELECT * FROM user WHERE username = ?";
+
+        $stmt = $this->db->prepare($sql);
+        $this->db->bindParams($stmt, "s", $username);
+
+        $this->db->execute($stmt);
+
+        $user = $this->db->getSingleRecord($stmt);
+
+        $stmt->close();
+
+        return $user;
+    }
+    public function getMyBook($username){
+        $sql ="SELECT b.book_id 
+                FROM book b JOIN have h ON b.book_id = h.book_id
+                JOIN user u ON h.username = u.username
+                WHERE u.username = ?";
+        $stmt = $this->db->prepare($sql);
+        $this->db->bindParams($stmt, "s", $username);
+        $this->db->execute($stmt);
+        $books = $this->db->getAllRecords($stmt);
+        $stmt->close();
+        return $books;
     }
 }
 ?>
