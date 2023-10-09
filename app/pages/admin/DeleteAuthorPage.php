@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/template/globals.css">
     <!-- Navbar CSS -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/template/navbar.css">
+    <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/template/popup.css">
     <!-- Page-specific CSS -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/list.css">
     <title>Delete Author : <? echo $this->data['author_id'];?></title>
@@ -18,13 +19,25 @@
 <body>
     <!-- Navigation bar -->
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
+    <section>
+        <!-- Pop Up -->
+        <span class="overlay"></span>
+
+        <div class="modal-box">
+            <h2>Delete Author</h2>
+            <h3>Are you sure want to delete this Author?</h3>
+
+            <div class="buttons">
+                <button class="cancel-btn">Cancel</button>
+                <button id="deleteAuthor" class="confirm-btn-delete">Delete</button>
+            </div>
+        </div>
     <div class="wrapper-small">
         <div class="pad-40">
             <h1>Delete Author Page</h1>
             <div class="centered">
                 <form  
                     class="center-contents"
-                    action="/author/delete/<? echo $this->data['author_id']?>" method="POST" enctype="multipart/form-data"
                 >
                     <p class="form-label">Author ID : <?
                         echo $this->data['author_id'];
@@ -39,12 +52,38 @@
                     ?></p>
 
 
-                    <input type="submit" class="button green-button" value="Delete">
+                    <input type="button" class="show-modal button green-button" value="Delete">
 
                 </form>
             </div>
         </div>
     </div>
-</body>
+</section>
+<script>
+    const section = document.querySelector("section"),
+        overlay = document.querySelector(".overlay"),
+        showBtn = document.querySelector(".show-modal"),
+        closeBtn = document.querySelector(".cancel-btn"),
+        deleteAuthor = document.getElementById("deleteAuthor");
 
+        deleteAuthor.addEventListener("click", function (event) {
+            event.preventDefault();
+            const form = document.querySelector('form');
+            form.action="/author/delete/<? echo $this->data['author_id']?>";
+            form.method = "POST";
+            form.enctype = "multipart/form-data";
+            form.submit();
+        });
+
+    showBtn.addEventListener("click", ()=>section.classList.add("active"));
+
+    overlay.addEventListener("click", () =>
+        section.classList.remove("active")
+    );
+
+    closeBtn.addEventListener("click", () =>
+        section.classList.remove("active")
+    );
+</script>
+</body>
 </html>

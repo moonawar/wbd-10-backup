@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/template/globals.css">
     <!-- Navbar CSS -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/template/navbar.css">
+    <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/template/popup.css">
     <!-- Page-specific CSS -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/list.css">
     <title>Delete Book : <? echo $this->data['title'];?></title>
@@ -18,6 +19,19 @@
 <body>
     <!-- Navigation bar -->
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
+    <section>
+        <!-- Pop Up -->
+        <span class="overlay"></span>
+
+        <div class="modal-box">
+            <h2>Delete Book</h2>
+            <h3>Are you sure want to delete this Book?</h3>
+
+            <div class="buttons">
+                <button class="cancel-btn">Cancel</button>
+                <button id="deleteBook" class="confirm-btn-delete">Delete</button>
+            </div>
+        </div>
     <div class="wrapper-small">
         <div class="pad-40">
             <h1>Delete Book Page</h1>
@@ -50,12 +64,39 @@
                     ?></p>
 
 
-                    <input type="submit" class="button green-button" value="Delete">
+                    <input type="button" class="show-modal button green-button" value="Delete">
 
                 </form>
             </div>
         </div>
     </div>
+    </section>
+<script>
+    const section = document.querySelector("section"),
+        overlay = document.querySelector(".overlay"),
+        showBtn = document.querySelector(".show-modal"),
+        closeBtn = document.querySelector(".cancel-btn"),
+        deleteBook = document.getElementById("deleteBook");
+
+        deleteBook.addEventListener("click", function (event) {
+            event.preventDefault();
+            const form = document.querySelector('form');
+            form.action="/book/delete/<? echo $this->data['book_id']?>"
+            form.method = "POST";
+            form.enctype = "multipart/form-data";
+            form.submit();
+        });
+
+    showBtn.addEventListener("click", ()=>section.classList.add("active"));
+
+    overlay.addEventListener("click", () =>
+        section.classList.remove("active")
+    );
+
+    closeBtn.addEventListener("click", () =>
+        section.classList.remove("active")
+    );
+</script>
 </body>
 
 </html>
