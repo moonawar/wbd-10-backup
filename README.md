@@ -38,31 +38,7 @@ http://localhost:8000/
 ```
 ## **Screenshot of Application**
 
-<img src="asset/LandingPage.jpg">
-<img src="asset/UserRegistration.jpg">
-<img src="asset/Login.jpg">
-<img src="asset/UserDashboard.jpg">
-<img src="asset/UserDashboard-SearchWithoutFilter.jpg">
-<img src="asset/UserDashboard-SearchWithoutFilter2.jpg">
-<img src="asset/UserDashboard-SearchWithFilter.jpg">
-<img src="asset/UserMyLIst.png">
-<img src="asset/UserWatch.png">
-<img src="asset/EditProfile.jpg">
-<img src="asset/EditProfile2.jpg">
-<img src="asset/AdminUsersPage.jpg">
-<img src="asset/AdminUsersPage-AddUserModal.jpg">
-<img src="asset/AdminUsersPage-EditUserModal.jpg">
-<img src="asset/AdminUsersPage-FilterUserData.jpg">
-<img src="asset/AdminUsersPage-FilterUserData1.jpg">
-<img src="asset/AdminUsersPage-FilterUserData2.jpg">
-<img src="asset/AdminUsersPage-SortDataAwal.jpg">
-<img src="asset/AdminUsersPage.jpg">
-<img src="asset/AdminContentPage-AddContent.jpg">
-<img src="asset/AdminContentPage-DeleteContent.jpg">
-<img src="asset/AdminContentPage-EditContent.jpg">
-<img src="asset/AdminContentPage-Sort.jpg">
-<img src="asset/AdminManageMedia-Page.jpg">
-<img src="asset/AdminManageMedia-Page2.jpg">
+<img src="screenshots/LandingPage.jpg">
 
 ## **Bonus yang dikerjakan**
 
