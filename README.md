@@ -41,7 +41,7 @@ http://localhost:8000/
 <img src="screenshots/AddAuthor.png">
 <img src="screenshots/AddBook.png">
 <img src="screenshots/Addgenre.png">
-<img src="screenshots/AuthorList.png">
+<img src="screenshots/AuthorList.jpg">
 <img src="screenshots/BookList.png">
 <img src="screenshots/GenreList.png">
 <img src="screenshots/Login.png">
@@ -49,9 +49,24 @@ http://localhost:8000/
 <img src="screenshots/UpdateUser.png">
 <img src="screenshots/UserList.png">
 
+## **Screenshot of Lighthouse**
+
+<img src="screenshots/lighthouse/lighthouse (1).jpg">
+<img src="screenshots/lighthouse/lighthouse (2).jpg">
+<img src="screenshots/lighthouse/lighthouse (3).jpg">
+<img src="screenshots/lighthouse/lighthouse (4).jpg">
+<img src="screenshots/lighthouse/lighthouse (5).jpg">
+<img src="screenshots/lighthouse/lighthouse (6).jpg">
+<img src="screenshots/lighthouse/lighthouse (7).jpg">
+<img src="screenshots/lighthouse/lighthouse (8).jpg">
+<img src="screenshots/lighthouse/lighthouse (9).jpg">
+
+
 ## **Bonus yang dikerjakan**
 
 1. Dockerize
+2. Lighthouse
+3. Responsive
 
 ## **Pembagian Kerja - Workload Breakdown**
 
