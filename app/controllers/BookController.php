@@ -24,10 +24,11 @@ class BookController extends Controller implements ControllerInterface{
                     }else{
                         $nav = ['username'=>null];
                     }
+                    $genre = ['genres'=>$this->model('GenreModel')->getAllGenres()];
+                    $author = ['authors'=>$this->model('AuthorModel')->getAllAuthors()];
                     $dataset=['book'=>$bookData];
-                    $bookListView =$this->view('book','BookView', array_merge($dataset, $nav));
+                    $bookListView =$this->view('book','BookView', array_merge($dataset, $nav, $genre, $author));
                     $bookListView->render();
-
                     break;
             }
         }catch (Exception $e) {
@@ -120,6 +121,93 @@ class BookController extends Controller implements ControllerInterface{
             }
         } catch (Exception $e) {
             echo $e->getMessage();
+            http_response_code($e->getCode());
+            exit;
+        }          
+    }
+
+    public function update($params = null) {
+        if (!isset($_SESSION['username'])) {
+            http_response_code(301);
+            header("Location: /user/login", true, 301);
+            exit;
+        }
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    if ($_SESSION['role'] != UserRole::Admin) {
+                        $unauthorizedView = $this->view('.', 'UnauthorizedView');
+                        $unauthorizedView->render();
+                        exit;   
+                    }
+
+                    if(!isset($_GET['page'])) {
+                        $page = 1;
+                    } else {
+                        $page = $_GET['page'];
+                    }
+
+                    $_SESSION['page'] = $page;
+                    
+                    if (isset($params)) {
+                        $id = (int)$params;
+                        $book = $this->model->getBookById($id);
+                        if (!isset($book)) {
+                            exit;
+                        }
+
+                        $editBookView = $this->view('admin', 'UpdateBookView', 
+                        ['username' => $username,'role' => $this->model->getUserRole($username)]);
+                        $editBookView->render();
+
+                        exit;
+                    }
+
+                    break;
+                case 'POST':
+                    $uploadedImage = PROFILE_PIC_BASE;
+                    
+                    if (isset($_FILES['profile-pic'])) {
+                        $fileHandler = new FileHandler();
+                        
+                        $imageFile = $_FILES['profile-pic']['tmp_name'];
+                        
+                        $uploadedImage = $fileHandler->saveImageTo($imageFile, $_POST['username'], PROFILE_PIC_PATH);
+                    }
+
+                    $username = $_POST['username'];
+                    $email = $_POST['email'];
+                    $pass = $_POST['password'];
+                    
+                    $this->model->addUser(
+                        $username, $email, UserRole::Customer, $pass, $uploadedImage
+                    );
+                
+                    http_response_code(301);
+                    header("Location: /book/", true, 301);
+
+                    exit;
+                case 'PATCH':
+                    if ($_SESSION['role'] != UserRole::Admin) {
+                        $unauthorizedView = $this->view('.', 'UnauthorizedView');
+                        $unauthorizedView->render();
+                        exit;   
+                    }
+
+                    $username = $params;
+                    $role = $_POST['role'];
+
+                    $this->model->updateRole($username, $role);
+
+                    http_response_code(301);
+                    header("Location: /user/update", true, 301);
+
+                    exit;
+
+                default:
+                    throw new RequestException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
             http_response_code($e->getCode());
             exit;
         }          

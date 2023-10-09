@@ -22,29 +22,36 @@
         <div class="topbar-container">
             <form action="#" class="selection">
                 <select title="filter" id="author-genre">
-                    <option value="select">All Authors and Genres</option>
+                    <option value="All">All Authors and Genres</option>
                     <optgroup label="Author">
-                        <option value="rick riordan">Rick Riordan</option>
-                        <option value="J.K Rowling">J.K Rowling</option>
+                    <?php foreach ($this->data['authors'] as $index => $author) : ?>
+                                <option value="<?= $author['full_name'] ?>" <?php if (isset($_GET['filter']) && $_GET['filter'] == $author['full_name']) : ?> selected="selected" <?php endif; ?>>
+                                    <?= $author['full_name'] ?>
+                                </option>
+                            <?php endforeach; ?>
                     </optgroup>
                     <optgroup label="Genres">
-                        <option value="fantasy">Fantasy</option>
-                        <option value="comedy">Comedy</option>
+                    <?php foreach ($this->data['genres'] as $index => $genre) : ?>
+                                <option value="<?= $genre['name'] ?>" <?php if (isset($_GET['filter']) && $_GET['filter'] == $genre['name']) : ?> selected="selected" <?php endif; ?>>
+                                    <?= $genre['name'] ?>
+                                </option>
+                            <?php endforeach; ?>
                     </optgroup>
                 </select>
                 <select title="sort" id="year-book">
                     <option value="select">Sort</option>
                     <optgroup label="Year">
-                        <option value="year-asc">Year ASC</option>
-                        <option value="year-dsc">Year DSC</option>
+                        <option value="year-asc"<?php if (isset($_GET['sort']) && $_GET['sort'] == 'year asc') : ?> selected="selected"<?php endif; ?>>Year ASC</option>
+                        <option value="year-dsc" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'year desc') : ?>selected="selected"<?php endif; ?>>Year DSC</option>
                     </optgroup>
                     <optgroup label="Book Name">
-                        <option value="book-asc">Book ASC</option>
-                        <option value="book-dsc">Book DSC</option>
+                        <option value="book-asc" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'book asc') : ?> selected="selected"<?php endif; ?>>Book ASC</option>
+                        <option value="book-dsc" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'book dsc') : ?>selected="selected"<?php endif; ?>>Book DSC</option>
                     </optgroup>
                 </select>
-                <input type="text" class="search" placeholder="Search" />
+                <input type="text" name="q" class="search" placeholder="Search"/>
                 <button type="submit" class="button green-button top-button">
+
                     <img src="<?= BASE_URL ?>/icon/search.svg" alt="Search Icon">
                 </button>
             </form>
