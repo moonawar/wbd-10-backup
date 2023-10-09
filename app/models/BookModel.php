@@ -141,6 +141,17 @@ class BookModel {
         return $books;
     }
 
+    public function getTotalPages($perPage) {
+        $sql = "SELECT COUNT(*) AS total FROM book";
+        
+        $stmt = $this->db->prepare($sql);
+        $this->db->execute($stmt);
+        $total = $this->db->getSingleRecord($stmt);
+
+        $stmt->close();
+        return ceil($total['total'] / $perPage);
+    }
+
     private function addAuthorToBook(int $bookId, int $authorId): bool {
         $sql = "INSERT INTO authored_by (book_id, author_id) VALUES (?, ?)";
         

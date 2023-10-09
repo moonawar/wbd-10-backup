@@ -3,7 +3,7 @@
 define('BASE_URL', 'http://localhost:8000/public');
 
 // Pagination
-define('BOOK_PER_PAGES', 10);
+define('BOOK_PER_PAGES', 8);
 
 // File path
 define('PROFILE_PIC_BASE', __DIR__ . '/../storage/profile-base.jpg');

@@ -25,14 +25,24 @@ class BookController extends Controller implements ControllerInterface{
 
                         $have = ['own'=>$own];
                         $nav = ['username'=>$username, 'role'=> $role, 'profpic'=> $imagePath];
-                    }else{
+                    } else {
                         $nav = ['username'=>null];
                         $have = ['own'=>null];
                     }
+
+                    if(!isset($_GET['page'])) {
+                        $page = 1;
+                    } else {
+                        $page = $_GET['page'];
+                    }
+
+                    $_SESSION['page'] = $page;
+
                     $genre = ['genres'=>$this->model('GenreModel')->getAllGenres()];
                     $author = ['authors'=>$this->model('AuthorModel')->getAllAuthors()];
                     $dataset=['book'=>$bookData];
-                    $bookListView =$this->view('book','BookView', array_merge($dataset, $nav, $genre, $author, $have));
+                    $paginationData = ['totalPages' => $this->model->getTotalPages(8), 'page' => 1];
+                    $bookListView =$this->view('book','BookView', array_merge($dataset, $nav, $genre, $author, $have, $paginationData));
                     $bookListView->render();
                     break;
             }
@@ -157,9 +167,9 @@ class BookController extends Controller implements ControllerInterface{
                             exit;
                         }
 
-                        $editBookView = $this->view('admin', 'UpdateBookView', 
-                        ['username' => $username,'role' => $this->model->getUserRole($username)]);
-                        $editBookView->render();
+                        // $editBookView = $this->view('admin', 'UpdateBookView', 
+                        // ['username' => $username,'role' => $this->model->getUserRole($username)]);
+                        // $editBookView->render();
 
                         exit;
                     }

@@ -105,19 +105,26 @@
             <?php endforeach; ?>
             <?php endif; ?>
 
-        <div class="pagination">
-            <button class="arrow-wrapper" type="button">
-                <img class="page-arrow" src="<?= BASE_URL ?>/icon/left-arrow.svg" alt="left-arrow" />
-            </button>
-            <div class="green-reverse-button inner-box">
-                1
-            </div>
-            <div class="green-reverse-button inner-box">
-                2
-            </div>
-            <button class="arrow-wrapper" type="button">
-                <img class="page-arrow" src="<?= BASE_URL ?>/icon/right-arrow.svg" alt="left-arrow" />
-            </button>
+        <div class="pagination vert-m-50">
+
+            <?
+            $page = $this->data['page'];
+            $maxPage = $this->data['totalPages'];
+            $prevPage = $page - 1;
+
+            $topPage = $page + 10;
+            if ($topPage > $maxPage) {
+                $topPage = $maxPage;
+            }
+            
+            for ($i = 1; $i <= $topPage; $i++) {
+                if ($i == $page) {
+                    echo '<a href="/author/update?page=' . $i . '" class="page-btn"><b>' . $i . '</b></a>';
+                } else {
+                    echo '<a href="/author/update?page=' . $i . '" class="page-btn"><div class="">' . $i . '</div></a>';
+                }
+            }
+            ?>
         </div>
     </div>
 </body>
