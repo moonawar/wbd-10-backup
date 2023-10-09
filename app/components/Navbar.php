@@ -17,18 +17,11 @@
                     </a>
                 </li>
                 <?php if(isset($_SESSION['username'])):?>
-                <?php if($_SESSION["role"]=='customer'):?>
-                <li>
-                    <a class="book-list" href="#">
-                        <img src="<?= BASE_URL ?>/icon/dashboard.svg" alt="Dashboard Icon">
-                        Dashboard
-                    </a>
-                </li>
-                <?php elseif($_SESSION["role"]=='admin') :?>
+                <?php if($_SESSION["role"]=='admin') :?>
                 <li>
                     <a class="customer" href="/user/update">
                         <img src="<?= BASE_URL ?>/icon/dashboard.svg" alt="Customer Icon">
-                        Customers
+                        Users
                     </a>
                 </li>
                 <li>
