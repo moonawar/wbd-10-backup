@@ -70,8 +70,13 @@ class AuthorController extends Controller implements ControllerInterface
                             exit;
                         }
 
+                        $author = $this->model->getAuthorById($author_id);
+
                         $editAuthorView = $this->view('admin', 'UpdateAuthorView', 
-                        ['author_id' => $author_id, 'full_name' => $this->model->getAuthorById($author_id)['full_name']]);
+                        [
+                            'author_id' => $author_id, 'full_name' => $author['full_name'],
+                            'age' => $author['age']
+                        ]);
                         $editAuthorView->render();
 
                         exit;
@@ -83,21 +88,22 @@ class AuthorController extends Controller implements ControllerInterface
                     $editView->render(); 
 
                     break;
-                case 'PUT':
-                    if ($_SESSION['role'] != UserRole::Admin) {
-                        $unauthorizedView = $this->view('.', 'UnauthorizedView');
-                        $unauthorizedView->render();
-                        exit;   
+                case 'POST':
+                    if (isset($params)) { // editing specific user
+                        $author_id = $params;
+                        $newName = $_POST['full_name'];
+                        $newAge = $_POST['age'];
+
+                        $succ = $this->model->updateAuthor($author_id, $newName, $newAge);
+                        if ($succ) {
+                            header("Location: /author/update", true, 301);
+                        }
+                        
+                        break;
                     }
 
-                    $id = $params;
-                    $full_name = $_POST['full_name'];
-                    $age = (int) $_POST['age'];
-
-                    $this->model->updateAuthor($id, $full_name, $age);
-
-                    http_response_code(301);
-                    header("Location: /author/update", true, 301);
+                    $notFoundView = $this->view('not-found', 'NotFoundView');
+                    $notFoundView->render();
 
                     exit;
                 default:
@@ -132,29 +138,37 @@ class AuthorController extends Controller implements ControllerInterface
                             exit;
                         }
 
+                        $author = $this->model->getAuthorById($author_id);
+
                         $deleteAuthorView = $this->view('admin', 'DeleteAuthorView', 
-                        ['author_id' => $author_id, 'full_name' => $this->model->getAuthorById($author_id)['full_name']]);
+                        [
+                            'author_id' => $author_id, 'full_name' => $author['full_name'],
+                            'age' => $author['age']
+                        ]);
                         $deleteAuthorView->render();
 
                         exit;
                     }
 
                     break;
-                case 'DELETE':
-                    if ($_SESSION['role'] != UserRole::Admin) {
-                        $unauthorizedView = $this->view('.', 'UnauthorizedView');
-                        $unauthorizedView->render();
-                        exit;   
+                case 'POST':
+                    if (isset($params)) { // editing specific author
+                        $id = $params;
+                        
+                        $succ = $this->model->deleteAuthor($id);
+                        
+                        if ($succ) {
+                            header("Location: /author/update", true, 301);
+                        }
+                        
+                        echo "Failed to delete author";
+                        break;
                     }
 
-                    $id = $params;
+                    $notFoundView = $this->view('not-found', 'NotFoundView');
+                    $notFoundView->render();
 
-                    $this->model->deleteAuthor($id);
-
-                    http_response_code(301);
-                    header("Location: /author/delete", true, 301);
-
-                    exit;
+                exit;
 
                 default:
                     throw new RequestException('Method Not Allowed', 405);
