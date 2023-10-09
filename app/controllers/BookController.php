@@ -93,7 +93,8 @@ class BookController extends Controller implements ControllerInterface{
                         $title, $year, $summary, $price, $duration, $lang,
                         $uploadedAudio, $uploadedImage, $authors, $genres
                     );
-                
+                    
+                    header("Location: /book/", true, 301);
                     exit;
 
                     default:

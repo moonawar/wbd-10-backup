@@ -25,8 +25,6 @@ class BookModel {
         $this->db->execute($stmt);
         $bookId = $this->db->insertId();
 
-        echo $bookId;
-
         $stmt->close();
 
         if ($bookId) {

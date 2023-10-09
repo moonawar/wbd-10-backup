@@ -36,6 +36,7 @@
             <div class="content">
                 <h2>Add Genre Page</h2>
                 <form 
+                id="addGenreForm"
                 class="form-box center-contents"
             >
                     <div class="form-content flex-column">
@@ -68,7 +69,7 @@
         }
     }
     addGenreBtn.addEventListener("click", function () {
-            const form = document.querySelector('form');
+            const form = document.getElementById("addGenreForm");
             form.action = "/genre/add";
             form.method = "POST";
             form.enctype = "multipart/form-data";
