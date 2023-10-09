@@ -72,6 +72,7 @@ class UserController extends Controller implements ControllerInterface
                     $registerView->render();  
                     break;
                 case 'POST':
+                    $username = $_POST['username'];
 
                     $uploadedImage = PROFILE_PIC_BASE;
                     
@@ -83,7 +84,6 @@ class UserController extends Controller implements ControllerInterface
                         $uploadedImage = $fileHandler->saveImageTo($imageFile, $_POST['username'], PROFILE_PIC_PATH);
                     }
 
-                    $username = $_POST['username'];
                     $email = $_POST['email'];
                     $pass = $_POST['password'];
                     
@@ -220,6 +220,34 @@ class UserController extends Controller implements ControllerInterface
 
                     exit;
 
+                default:
+                    throw new RequestException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }          
+    }
+
+    public function exists() {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $username = $_GET['username'];
+
+                    $exists = $this->model->userExists($username);
+                    
+                    header('Content-Type: application/json');
+
+                    if ($exists) {
+                        $resp = ['exists' => true];
+                    } else {
+                        $resp = ['exists' => false];
+                    }
+
+                    echo json_encode($resp);
+
+                    break;
                 default:
                     throw new RequestException('Method Not Allowed', 405);
             }

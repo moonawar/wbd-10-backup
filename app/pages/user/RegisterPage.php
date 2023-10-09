@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/template/globals.css">
     <!-- Page-specific CSS -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/auth.css">
+    
+    <script src="<?= BASE_URL ?>/js/user.js" defer></script>
     <title>Audibook : Register</title>
 </head>
 <body>
@@ -26,6 +28,7 @@
                         <label for="username" class="form-label">Username:</label>
                         <input class="form-field" type="text" 
                             id="username" name="username" placeholder="Username*" required><br>
+                        <p id="username-msg" class="error-msg"></p>
 
                         <!-- Email Field -->
                         <label for="email" class="form-label">Email:</label>
