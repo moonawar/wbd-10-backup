@@ -89,7 +89,8 @@ p b{
     text-align: center;
 }
 
-/* 
-#profile-pic {
-    display: none;
-} */
+@media screen and (max-width: 768px) {
+    img {
+        max-width: 250px;
+    }
+}

@@ -39,7 +39,7 @@
                 <?php endif;?>
                 <?php endif;?>
             </ul>
-            <form  method="POST"
+            <form method="POST"
                     action="/../user/logout"  >
                     <input class="section" type="submit" value="Log Out"> </input>
             </form>

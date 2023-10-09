@@ -30,35 +30,6 @@
     gap: 0.25rem;
 }
 
-
-/* 
-select {
-    outline: 0;
-    background: #fff;
-    color: var(--teal);
-    border: 2px solid var(--teal);
-    padding: 4px;
-    border-radius: 4px;
-}
-
-.search {
-    color: black;
-    font-family: var(--poppins);
-    font-weight: 500;
-    background: transparent;
-    border-radius: 2px solid var(--teal) !important;
-}
-
-.button {
-    border-radius: 100px;
-    background: var(--teal);
-    padding: 1rem;
-    display: flex;
-}
-
-
-*/
-
 select,
 .search {
     outline: 0;
@@ -180,4 +151,29 @@ select,
     background: #919EAB;
     border-radius: 5.25px;
     opacity: 0.50;
+}
+
+@media screen and (max-width: 768px) {
+    .book-container {
+        width: 40%;
+    }
+    .topbar-container{
+        flex-direction: column;
+        width: 40%;
+    }
+    .selection{
+        flex-direction: column;
+        align-items: center;
+        gap:0.5rem;
+    }
+    .profile-button{
+        display: none;
+    }
+    .booklist-container{
+        flex-direction: row;
+    }
+    .button-container{
+        flex-direction: column;
+        gap:0.25rem;
+    }
 }
