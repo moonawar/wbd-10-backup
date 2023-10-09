@@ -20,6 +20,7 @@ class AuthorModel {
         $sql = "SELECT * FROM author WHERE author_id = ?";
         $stmt = $this->db->prepare($sql);
         $this->db->bindParams($stmt, "i", $authorId);
+        $this->db->execute($stmt);
         return $this->db->getSingleRecord($stmt);
     }
 
@@ -42,5 +43,51 @@ class AuthorModel {
         $stmt = $this->db->prepare($sql);
         return $this->db->getAllRecords($stmt);
     }
+
+    public function authorExist(int $id) {
+        $sql = "SELECT * FROM author WHERE author_id = ?";
+
+        $stmt = $this->db->prepare($sql);
+        $this->db->bindParams($stmt, "i", $id);
+
+        $this->db->execute($stmt);
+
+        $author = $this->db->getSingleRecord($stmt);
+
+        $stmt->close();
+
+        return $author;
+    }
+
+    public function getAuthors($page, $perPage) {
+        $sql = "SELECT * FROM author LIMIT ? OFFSET ?";
+
+        $stmt = $this->db->prepare($sql);
+        $offset = ($page - 1) * $perPage;
+        
+        $this->db->bindParams($stmt, "ii", $perPage, $offset);
+
+        $this->db->execute($stmt);
+
+        $authors = $this->db->getAllRecords($stmt);
+
+        $stmt->close();
+
+        return $authors;
+    }
+
+    public function getTotalPages($perPage) {
+        $sql = "SELECT COUNT(*) FROM author";
+
+        $stmt = $this->db->prepare($sql);
+        $this->db->execute($stmt);
+
+        $result = $this->db->getSingleRecord($stmt);
+
+        $stmt->close();
+
+        return ceil($result['COUNT(*)'] / $perPage);
+    }
+
 }
 ?>
