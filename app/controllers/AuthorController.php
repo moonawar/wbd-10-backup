@@ -28,7 +28,7 @@ class AuthorController extends Controller implements ControllerInterface
                     
                     $this->model->addAuthor($authorName, $authorAge);
 
-                    header("Location: /home", true, 301);
+                    header("Location: /author/update", true, 301);
                     exit;
                 default:
                     throw new RequestException('Method Not Allowed', 405);

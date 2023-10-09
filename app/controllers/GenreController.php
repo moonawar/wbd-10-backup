@@ -27,7 +27,7 @@ class GenreController extends Controller implements ControllerInterface
 
                     $this->model->createGenre($name);
 
-                    header("Location: /home", true, 301);
+                    header("Location: /genre/update", true, 301);
                     exit;
                 default:
                     throw new RequestException('Method Not Allowed', 405);
