@@ -8,8 +8,18 @@ class BookController extends Controller implements ControllerInterface{
 
      public function index() 
      {
-          $notFoundView = $this->view('not-found', 'NotFoundView');
-          $notFoundView->render();
+        try{
+            switch($_SERVER['REQUEST_METHOD']){
+                case 'GET':
+                    $bookData = $this->model->getBooks(1);
+                    $bookListView =$this->view('book','BookView', $bookData);
+                    $bookListView->render();
+                    break;
+            }
+        }catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+       }   
      }
 
     public function details(string $id) {
