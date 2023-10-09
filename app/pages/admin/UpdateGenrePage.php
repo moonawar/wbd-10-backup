@@ -27,6 +27,7 @@
         <thead>
 
             <tr>
+                <th>ID</th>
                 <th>Genre</th>
                 <th>Edit?</th>
                 <th>Delete?</th>
@@ -38,6 +39,7 @@
 
             foreach ($genres as $genre) {
                 echo "<tr>";
+                echo "<td>" . $genre['genre_id'] . "</td>";
                 echo "<td>" . $genre['name'] . "</td>";
                 echo '<td><a href="/genre/update/' . $genre['genre_id'] .'">Edit</a></td>';
                 echo '<td><a href="/genre/delete/' . $genre['genre_id'] . '">Delete</a></td>';

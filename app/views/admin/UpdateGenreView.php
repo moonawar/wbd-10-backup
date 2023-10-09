@@ -1,6 +1,6 @@
 <?php
 
-class UpdategenreView implements ViewInterface
+class UpdateGenreView implements ViewInterface
 {
     public function __construct($data = [])
     {
@@ -9,7 +9,7 @@ class UpdategenreView implements ViewInterface
 
     public function render()
     {
-        if (isset($this->data['username'])) {
+        if (isset($this->data['genre_id'])) {
             require_once __DIR__ . '/../../pages/admin/UpdateSpecificGenrePage.php';
         } else {
             require_once __DIR__ . '/../../pages/admin/UpdateGenrePage.php';

@@ -4,6 +4,7 @@ class GenreController extends Controller implements ControllerInterface
 {
     private GenreModel $model;
     public function __construct() {
+        require_once __DIR__ . '/../models/UserRole.php';
         $this->model  = $this->model('GenreModel');
     }
     public function index()
@@ -62,52 +63,38 @@ class GenreController extends Controller implements ControllerInterface
                     
                     if (isset($params)) {
                         $id = (int)$params;
-                        $name = $this->model->getGenreById($id);
+                        $genre = $this->model->getGenreById($id);
 
-                        if (!$this->model->getGenreById($id)) {
+                        if (!$genre) {
                             header("Location: /genre/update", true, 301);
                             exit;
                         }
 
                         $editGenreView = $this->view('admin', 'UpdateGenreView', 
-                        ['name' => $name]);
+                        ['name' => $genre['name'], 'genre_id' => $genre['genre_id']]);
                         $editGenreView->render();
 
                         exit;
                     }
 
                     $editView = $this->view('admin', 'UpdateGenreView', 
-                    ['genres' => $this->model-> getAllGenres($page, 10),
+                    ['genres' => $this->model->getGenres($page, 10),
                     'page' => $page, 'totalPages' => $this->model->getTotalPages(10)]);
                     $editView->render(); 
 
                     break;
                 case 'POST':
-                    $name = $_POST['genre'];         
-                    $this->model->createGenre(
-                        $name
-                    );
-                
-                    http_response_code(301);
-                    header("Location: /genre/", true, 301);
+                    if (isset($params)) { // editing specific user
+                        $genre_id = $params;
+                        $newName = $_POST['name'];
 
-                    exit;
-                case 'PATCH':
-                    if ($_SESSION['role'] != UserRole::Admin) {
-                        $unauthorizedView = $this->view('.', 'UnauthorizedView');
-                        $unauthorizedView->render();
-                        exit;   
+                        $succ = $this->model->updateGenre($genre_id, $newName);
+                        if ($succ) {
+                            header("Location: /genre/update", true, 301);
+                        }
+                        
+                        break;
                     }
-
-                    $username = $params;
-                    $role = $_POST['role'];
-
-                    $this->model->updateRole($username, $role);
-
-                    http_response_code(301);
-                    header("Location: /user/update", true, 301);
-
-                    exit;
 
                 default:
                     throw new RequestException('Method Not Allowed', 405);
@@ -117,13 +104,67 @@ class GenreController extends Controller implements ControllerInterface
             exit;
         }          
     }
-    // public function addAuthor() {
-    //     $addAuthorView = $this->view('admin', 'AddAuthorView');
-    //     $addAuthorView->render();   
-    // }
+    public function delete($params = null) {
+        if (!isset($_SESSION['username'])) {
+            http_response_code(301);
+            header("Location: /user/login", true, 301);
+            exit;
+        }
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    if ($_SESSION['role'] != UserRole::Admin) {
+                        $unauthorizedView = $this->view('.', 'UnauthorizedView');
+                        $unauthorizedView->render();
+                        exit;   
+                    }
+                    
+                    if (isset($params)) {
+                        $genre_id = $params;
 
-    // public function addGenre() {
-    //     $addGenreView = $this->view('admin', 'AddGenreView');
-    //     $addGenreView->render();   
-    // }
+                        $genre = $this->model->getGenreById($genre_id);
+
+                        if (!$genre) {
+                            header("Location: /genre/update", true, 301);
+                            exit;
+                        }
+
+
+                        $deleteGenreView = $this->view('admin', 'DeleteGenreView', 
+                        [
+                            'genre_id' => $genre_id, 'name' => $genre['name']
+                        ]);
+                        $deleteGenreView->render();
+
+                        exit;
+                    }
+
+                    break;
+                case 'POST':
+                    if (isset($params)) { // editing specific genre
+                        $id = $params;
+                        
+                        $succ = $this->model->deleteGenre($id);
+                        
+                        if ($succ) {
+                            header("Location: /genre/update", true, 301);
+                        }
+                        
+                        echo "Failed to delete genre";
+                        break;
+                    }
+
+                    $notFoundView = $this->view('not-found', 'NotFoundView');
+                    $notFoundView->render();
+
+                exit;
+
+                default:
+                    throw new RequestException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }          
+    }
 }

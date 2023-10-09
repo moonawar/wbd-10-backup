@@ -34,6 +34,22 @@ class GenreModel {
         return $res;
     }
 
+    public function getGenres($page, $perPage) {
+        $sql = "SELECT * FROM genre LIMIT ? OFFSET ?";
+
+        $stmt = $this->db->prepare($sql);
+        $offset = ($page - 1) * $perPage;
+        
+        $this->db->bindParams($stmt, "ii", $perPage, $offset);
+
+        $this->db->execute($stmt);
+
+        $genres = $this->db->getAllRecords($stmt);
+
+        $stmt->close();
+
+        return $genres;
+    }
     public function deleteGenre($genreId)
     {
         $sql = "DELETE FROM genre WHERE genre_id = ?";
@@ -55,6 +71,7 @@ class GenreModel {
         $sql = "SELECT * FROM genre WHERE genre_id = ?";
         $stmt = $this->db->prepare($sql);
         $this->db->bindParams($stmt, "i", $genreId);
+        $this->db->execute($stmt);
         return $this->db->getSingleRecord($stmt);
     }
     public function getTotalPages($perPage) {
