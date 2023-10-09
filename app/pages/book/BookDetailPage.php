@@ -35,6 +35,25 @@
 
         <!-- Decription -->
         <p>  <?=$this->data['summary']?></p>
+
+        <!-- check ownership -->
+        <?php
+            $bookIdToCheck = $this->data['book_id'];
+            $found = false;
+
+            foreach ($this->data['own'] as $ownedBook) {
+                if (isset($ownedBook['book_id']) && $ownedBook['book_id'] == $bookIdToCheck) {
+                    $found = true;
+                    break;
+                }
+            }
+            if($found):
+        ?>
+        <audio controls>
+            <source src="<?= BASE_URL ?>/<?= str_replace('/var/www/html/config/', '', $this->data['audio_path']) ?>" alt ="book-audio" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+        <?php endif; ?>
         </div>
         <?php else : ?>
         <h2 class="info">Can't find the book you're looking for!</h2>

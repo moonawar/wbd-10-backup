@@ -148,6 +148,19 @@ class UserModel {
         return $user;
     }
 
+    public function getMyBook($username){
+        $sql ="SELECT b.book_id 
+                FROM book b JOIN have h ON b.book_id = h.book_id
+                JOIN user u ON h.username = u.username
+                WHERE u.username = ?";
+        $stmt = $this->db->prepare($sql);
+        $this->db->bindParams($stmt, "s", $username);
+        $this->db->execute($stmt);
+        $books = $this->db->getAllRecords($stmt);
+        $stmt->close();
+        return $books;
+    }
+
     public function getTotalPages($perPage) {
         $sql = "SELECT COUNT(*) FROM user";
 
