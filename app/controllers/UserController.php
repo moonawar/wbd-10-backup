@@ -4,7 +4,6 @@ class UserController extends Controller implements ControllerInterface
 {
     private UserModel $model;
     public function __construct() {
-        session_start();
         require_once __DIR__ . '/../models/UserRole.php';
 
         $this->model  = $this->model('UserModel');
@@ -20,7 +19,7 @@ class UserController extends Controller implements ControllerInterface
     {
         if (isset($_SESSION['username'])) {
             http_response_code(301);
-            header("Location: /home/", true, 301);
+            header("Location: /user/logout", true, 301);
             exit;
         }
 
@@ -40,9 +39,9 @@ class UserController extends Controller implements ControllerInterface
                 if ($valid) {
                     // $res = SessionManager::getInstance()->login($username, $valid);
                     $_SESSION['username'] = $username;
-                    $_SESSION['role'] = 'customer';
+                    $_SESSION['role'] = $this->model->getUserRole($username);
                     
-                    header("Location: /home/", true, 301);
+                    header("Location: /book/", true, 301);
 
                     exit;
                 } else {
@@ -61,7 +60,7 @@ class UserController extends Controller implements ControllerInterface
     public function register() {
         if (isset($_SESSION['username'])) {
             http_response_code(301);
-            header("Location: /home/", true, 301);
+            header("Location: /book/", true, 301);
             exit;
         }
 
@@ -93,7 +92,7 @@ class UserController extends Controller implements ControllerInterface
                     );
                 
                     http_response_code(301);
-                    header("Location: /home/", true, 301);
+                    header("Location: /book/", true, 301);
 
                     exit;
 
@@ -107,11 +106,25 @@ class UserController extends Controller implements ControllerInterface
     }
 
     public function logout() {
+        if (!isset($_SESSION['username'])) {
+            http_response_code(301);
+            header("Location: /user/login", true, 301);
+            exit;
+        }
+
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $logoutView = $this->view('user', 'LogoutView');
+                    $logoutView->render();
+
+                    break;
                 case 'POST':
                     // show the register page
                     SessionManager::getInstance()->logout();
+                    
+                    http_response_code(301);
+                    header("Location: /user/login", true, 301);
                     
                     break;
                 default:
@@ -123,7 +136,7 @@ class UserController extends Controller implements ControllerInterface
         }
     }
 
-    public function update() {
+    public function update($params = null) {
         if (!isset($_SESSION['username'])) {
             http_response_code(301);
             header("Location: /user/login", true, 301);
@@ -132,15 +145,40 @@ class UserController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
-                    
                     if ($_SESSION['role'] != UserRole::Admin) {
                         $unauthorizedView = $this->view('.', 'UnauthorizedView');
                         $unauthorizedView->render();
                         exit;   
                     }
+
+                    if(!isset($_GET['page'])) {
+                        $page = 1;
+                    } else {
+                        $page = $_GET['page'];
+                    }
+
+                    $_SESSION['page'] = $page;
                     
-                    $editView = $this->view('user', 'EditView');
+                    if (isset($params)) {
+                        $username = $params;
+
+                        if (!$this->model->userExists($username)) {
+                            header("Location: /user/update", true, 301);
+                            exit;
+                        }
+
+                        $editUserView = $this->view('admin', 'UpdateUserView', 
+                        ['username' => $username,'role' => $this->model->getUserRole($username)]);
+                        $editUserView->render();
+
+                        exit;
+                    }
+
+                    $editView = $this->view('admin', 'UpdateUserView', 
+                    ['users' => $this->model-> getUsers($page, 10),
+                    'page' => $page, 'totalPages' => $this->model->getTotalPages(10)]);
                     $editView->render(); 
+
                     break;
                 case 'POST':
                     $uploadedImage = PROFILE_PIC_BASE;
@@ -162,7 +200,23 @@ class UserController extends Controller implements ControllerInterface
                     );
                 
                     http_response_code(301);
-                    header("Location: /home/", true, 301);
+                    header("Location: /book/", true, 301);
+
+                    exit;
+                case 'PATCH':
+                    if ($_SESSION['role'] != UserRole::Admin) {
+                        $unauthorizedView = $this->view('.', 'UnauthorizedView');
+                        $unauthorizedView->render();
+                        exit;   
+                    }
+
+                    $username = $params;
+                    $role = $_POST['role'];
+
+                    $this->model->updateRole($username, $role);
+
+                    http_response_code(301);
+                    header("Location: /user/update", true, 301);
 
                     exit;
 

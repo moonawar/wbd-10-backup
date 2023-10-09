@@ -1,0 +1,68 @@
+h1 {
+    margin: 80px 0 40px 40px;
+}
+
+.vert-m-50 {
+    margin: 50px 0;
+}
+
+.center-contents {
+    display: flex; 
+    flex-direction: column;
+    gap: 20px;
+}
+
+table {
+    width: 60%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+
+th {
+    background-color: #f2f2f2;
+    text-align: left;
+    padding: 10px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+td {
+    padding: 8px;
+}
+
+.edit-link {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.edit-link:hover {
+    text-decoration: underline;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    padding: 8px; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 14px;
+    width: 100%;
+}
+
+select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+select option {
+    background-color: #fff;
+    color: #333;
+}

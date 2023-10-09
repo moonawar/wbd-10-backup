@@ -181,18 +181,3 @@ select,
     border-radius: 5.25px;
     opacity: 0.50;
 }
-
-.inner-box {
-    width: 3%;
-    height: 3%;
-    background: white;
-    border-radius: 5.25px;
-    overflow: hidden;
-    border: 1px #118A7E solid;
-    padding: 4px !important;
-    color: #118A7E;
-    font-size: 18px;
-    font-family: var(--poppins);
-    font-weight: 700;
-    word-wrap: break-word;
-}

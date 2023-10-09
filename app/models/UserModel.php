@@ -25,6 +25,25 @@ class UserModel {
         return false;
     }
 
+    public function getUserRole($username) {
+        $sql = "SELECT role FROM user WHERE username = ?";
+
+        $stmt = $this->db->prepare($sql);
+        $this->db->bindParams($stmt, "s", $username);
+
+        $this->db->execute($stmt);
+
+        $user = $this->db->getSingleRecord($stmt);
+
+        $stmt->close();
+
+        if ($user) {
+            return $user['role'];
+        }
+
+        return false;
+    }
+
     public function addUser(string $username, string $email, string $role, string $password, string $imagePath): int {
         $hashed = password_hash($password, PASSWORD_DEFAULT);
 
@@ -71,6 +90,19 @@ class UserModel {
         return $result;
     }
 
+    public function updateRole($username, $newRole) : bool {
+        $sql = "UPDATE user SET role = ? WHERE username = ?";
+
+        $stmt = $this->db->prepare($sql);
+        $this->db->bindParams($stmt, "ss", $newRole, $username);
+
+        $result = $this->db->execute($stmt);
+
+        $stmt->close();
+
+        return $result;
+    }
+
     public function updatePassword($username, $newPass) : bool{
         $hashed = password_hash($newPass, PASSWORD_DEFAULT);
 
@@ -99,6 +131,51 @@ class UserModel {
         $stmt->close();
 
         return $user;
+    }
+
+    public function userExists($username) {
+        $sql = "SELECT * FROM user WHERE username = ?";
+
+        $stmt = $this->db->prepare($sql);
+        $this->db->bindParams($stmt, "s", $username);
+
+        $this->db->execute($stmt);
+
+        $user = $this->db->getSingleRecord($stmt);
+
+        $stmt->close();
+
+        return $user;
+    }
+
+    public function getTotalPages($perPage) {
+        $sql = "SELECT COUNT(*) FROM user";
+
+        $stmt = $this->db->prepare($sql);
+        $this->db->execute($stmt);
+
+        $result = $this->db->getSingleRecord($stmt);
+
+        $stmt->close();
+
+        return ceil($result['COUNT(*)'] / $perPage);
+    }
+
+    public function getUsers($page, $perPage) {
+        $sql = "SELECT * FROM user LIMIT ? OFFSET ?";
+
+        $stmt = $this->db->prepare($sql);
+        $offset = ($page - 1) * $perPage;
+        
+        $this->db->bindParams($stmt, "ii", $perPage, $offset);
+
+        $this->db->execute($stmt);
+
+        $users = $this->db->getAllRecords($stmt);
+
+        $stmt->close();
+
+        return $users;
     }
 
     public function getAllUsers() {
