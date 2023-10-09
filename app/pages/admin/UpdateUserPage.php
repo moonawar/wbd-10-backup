@@ -22,16 +22,15 @@
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
     <div class="content">
         <h1>User List</h1>
-
         <table border="1" class = "styled-table">
         <thead>
-
             <tr>
                 <th>Username</th>
                 <th>Role</th>
-                <th>Action</th>
+                <th>Edit?</th>
+                <th>Delete?</th>
             </tr>
-</thead>
+        </thead>
             <?php
             
             $users = $this->data['users'];
@@ -40,7 +39,8 @@
                 echo "<tr>";
                 echo "<td>" . $user['username'] . "</td>";
                 echo "<td>" . $user['role'] . "</td>";
-                echo '<td><a href="/user/update/' . $user['username'] . '">Edit</a> <a>Delete</a></td>';
+                echo '<td><a href="/user/update/' . $user['username'] .'">Edit</a></td>';
+                echo '<td><a href="/user/delete/' . $user['username'] .'">Delete</a></td>';
                 echo "</tr>";
             }
             ?>
@@ -57,7 +57,7 @@
                 $topPage = $maxPage;
             }
             
-            for ($i = 1; $i <= $maxPage; $i++) {
+            for ($i = 1; $i <= $topPage; $i++) {
                 if ($i == $page) {
                     echo '<a href="/user/update?page=' . $i . '" class="page-btn"><b>' . $i . '</b></a>';
                 } else {
@@ -66,32 +66,8 @@
             }
 
             $nextPage = $page + 1;
-   
-
-            // for ($i = 1; $i <= $maxPage; $i++) {
-            //     if ($i == $page) {
-            //         echo '<div class="green-reverse-button inner-box">' . $i . '</div>';
-            //     } else {
-            //         echo '<a href="/user/list/' . $i . '"><div class="green-reverse-button inner-box">' . $i . '</div></a>';
-            //     }
-            // }
-
-            $nextPage = $page + 1;
             
             ?>
-
-            <!-- <button class="arrow-wrapper" type="button">
-                <img class="page-arrow" src="<?= BASE_URL ?>/icon/left-arrow.svg" alt="left-arrow" />
-            </button>
-            <div class="green-reverse-button inner-box">
-                1
-            </div>
-            <div class="green-reverse-button inner-box">
-                2
-            </div>
-            <button class="arrow-wrapper" type="button">
-                <img class="page-arrow" src="<?= BASE_URL ?>/icon/right-arrow.svg" alt="left-arrow" />
-            </button> -->
         </div>
     </div>
 </body>

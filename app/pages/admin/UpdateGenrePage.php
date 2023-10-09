@@ -22,15 +22,16 @@
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
     <div class="content">
         <h1>Genre List</h1>
-
+        <a href="/genre/add">+ Add Genre</a>  
         <table border="1" class = "styled-table">
         <thead>
 
             <tr>
                 <th>Genre</th>
-                <th>Action</th>
+                <th>Edit?</th>
+                <th>Delete?</th>
             </tr>
-</thead>
+        </thead>
             <?php
             
             $genres = $this->data['genres'];
@@ -38,7 +39,8 @@
             foreach ($genres as $genre) {
                 echo "<tr>";
                 echo "<td>" . $genre['name'] . "</td>";
-                echo '<td><a href="/genre/update/' . $genre['name'] . '">Edit</a> <a>Delete</a></td>';
+                echo '<td><a href="/genre/update/' . $genre['genre_id'] .'">Edit</a></td>';
+                echo '<td><a href="/genre/delete/' . $genre['genre_id'] . '">Delete</a></td>';
                 echo "</tr>";
             }
             ?>
@@ -62,34 +64,8 @@
                     echo '<a href="/genre/update?page=' . $i . '" class="page-btn"><div class="">' . $i . '</div></a>';
                 }
             }
-
-            $nextPage = $page + 1;
-   
-
-            // for ($i = 1; $i <= $maxPage; $i++) {
-            //     if ($i == $page) {
-            //         echo '<div class="green-reverse-button inner-box">' . $i . '</div>';
-            //     } else {
-            //         echo '<a href="/genre/list/' . $i . '"><div class="green-reverse-button inner-box">' . $i . '</div></a>';
-            //     }
-            // }
-
-            $nextPage = $page + 1;
             
             ?>
-
-            <!-- <button class="arrow-wrapper" type="button">
-                <img class="page-arrow" src="<?= BASE_URL ?>/icon/left-arrow.svg" alt="left-arrow" />
-            </button>
-            <div class="green-reverse-button inner-box">
-                1
-            </div>
-            <div class="green-reverse-button inner-box">
-                2
-            </div>
-            <button class="arrow-wrapper" type="button">
-                <img class="page-arrow" src="<?= BASE_URL ?>/icon/right-arrow.svg" alt="left-arrow" />
-            </button> -->
         </div>
     </div>
 </body>

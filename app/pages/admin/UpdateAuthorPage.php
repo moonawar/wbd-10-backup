@@ -22,15 +22,17 @@
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
     <div class="content">
         <h1>Author List</h1>
-
-        <table border="1">
-            <tr>
-                <th>Id</th>
-                <th>Full Name</th>
-                <th>Age</th>
-                <th>Edit?</th>
-                <th>Delete?</th>
-            </tr>
+        <a href="/author/add">+ Add Author</a>  
+        <table border="1" class="styled-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Full Name</th>
+                    <th>Age</th>
+                    <th>Edit?</th>
+                    <th>Delete?</th>
+                </tr>
+            </thead>
             <?php
             
             $authors = $this->data['authors'];
@@ -52,55 +54,20 @@
             $page = $this->data['page'];
             $maxPage = $this->data['totalPages'];
             $prevPage = $page - 1;
-            
-            echo '<a class="arrow-wrapper href=/author/update?page=' . $prevPage . '">
-            <img class="page-arrow" src="http://localhost:8000/public/icon/left-arrow.svg" alt="left-arrow" />
-            </a>';
-            
 
             $topPage = $page + 10;
             if ($topPage > $maxPage) {
                 $topPage = $maxPage;
             }
             
-            for ($i = 1; $i <= $maxPage; $i++) {
+            for ($i = 1; $i <= $topPage; $i++) {
                 if ($i == $page) {
                     echo '<a href="/author/update?page=' . $i . '" class="page-btn"><b>' . $i . '</b></a>';
                 } else {
                     echo '<a href="/author/update?page=' . $i . '" class="page-btn"><div class="">' . $i . '</div></a>';
                 }
             }
-
-            $nextPage = $page + 1;
-            echo '<a class="arrow-wrapper href=/author/update?page=' . $nextPage . '">
-            <img class="page-arrow" src="http://localhost:8000/public/icon/right-arrow.svg" alt="right-arrow" />
-            </a>';
-
-
-            // for ($i = 1; $i <= $maxPage; $i++) {
-            //     if ($i == $page) {
-            //         echo '<div class="green-reverse-button inner-box">' . $i . '</div>';
-            //     } else {
-            //         echo '<a href="/author/list/' . $i . '"><div class="green-reverse-button inner-box">' . $i . '</div></a>';
-            //     }
-            // }
-
-            $nextPage = $page + 1;
-            
             ?>
-
-            <!-- <button class="arrow-wrapper" type="button">
-                <img class="page-arrow" src="<?= BASE_URL ?>/icon/left-arrow.svg" alt="left-arrow" />
-            </button>
-            <div class="green-reverse-button inner-box">
-                1
-            </div>
-            <div class="green-reverse-button inner-box">
-                2
-            </div>
-            <button class="arrow-wrapper" type="button">
-                <img class="page-arrow" src="<?= BASE_URL ?>/icon/right-arrow.svg" alt="left-arrow" />
-            </button> -->
         </div>
     </div>
 </body>

@@ -19,12 +19,12 @@
     <!-- Navigation bar -->
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
     <div class="wrapper-small">
-        <h1>Update User Page</h1>
         <div class="pad-40">
+            <h1>Update User Page</h1>
             <div class="centered">
                 <form  
                     class="center-contents"
-                    action="/user/update/<? $this->data['username'] ?>" method="PATCH" enctype="multipart/form-data"
+                    action="/user/update/<? echo $this->data['username']?>" method="POST" enctype="multipart/form-data"
                 >
                     <p class="form-label">Username : <?
                         echo $this->data['username'];
@@ -42,10 +42,6 @@
             </div>
         </div>
     </div>
-
-
-    </div>
-
 </body>
 
 </html>

@@ -32,13 +32,13 @@
                     </a>
                 </li>
                 <li>
-                    <a class="genre" href="/genre/add">
+                    <a class="genre" href="/genre/update">
                         <img src="<?= BASE_URL ?>/icon/genre.svg" alt="Genre Icon"> 
                         Genres
                     </a>
                 </li>
                 <li>
-                    <a class="#" href="#">
+                    <a class="author" href="/author/update">
                         <img src="<?= BASE_URL ?>/icon/author.svg" alt="Author Icon">
                         Author
                     </a>

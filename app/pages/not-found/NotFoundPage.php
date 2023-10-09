@@ -24,7 +24,7 @@
             <div class="centered">
                 <img src="<?= BASE_URL ?>/images/base-logo.svg" alt="Audibook Logo">
                 <p class="main-text">Hi, we couldn't find the page that you were looking for!</p>
-                <p>Go back to the <a href="<?= BASE_URL ?>/example">home page</a>.</p>
+                <p>Go back to the <a href="<?= BASE_URL ?>/../book">home page</a>.</p>
             </div>
         </div>
     </div>

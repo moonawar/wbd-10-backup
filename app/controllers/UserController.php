@@ -151,15 +151,7 @@ class UserController extends Controller implements ControllerInterface
                         exit;   
                     }
 
-                    if(!isset($_GET['page'])) {
-                        $page = 1;
-                    } else {
-                        $page = $_GET['page'];
-                    }
-
-                    $_SESSION['page'] = $page;
-                    
-                    if (isset($params)) {
+                    if (isset($params)) { // editing specific user
                         $username = $params;
 
                         if (!$this->model->userExists($username)) {
@@ -174,6 +166,15 @@ class UserController extends Controller implements ControllerInterface
                         exit;
                     }
 
+                    if(!isset($_GET['page'])) {
+                        $page = 1;
+                    } else {
+                        $page = $_GET['page'];
+                    }
+
+                    $_SESSION['page'] = $page;
+                    
+
                     $editView = $this->view('admin', 'UpdateUserView', 
                     ['users' => $this->model-> getUsers($page, 10),
                     'page' => $page, 'totalPages' => $this->model->getTotalPages(10)]);
@@ -181,45 +182,81 @@ class UserController extends Controller implements ControllerInterface
 
                     break;
                 case 'POST':
-                    $uploadedImage = PROFILE_PIC_BASE;
-                    
-                    if (isset($_FILES['profile-pic'])) {
-                        $fileHandler = new FileHandler();
+                    if (isset($params)) { // editing specific user
+                        $username = $params;
+                        $newRole = $_POST['role'];
+
+                        $succ = $this->model->updateRole($username, $newRole);
+                        if ($succ) {
+                            header("Location: /user/update", true, 301);
+                        }
                         
-                        $imageFile = $_FILES['profile-pic']['tmp_name'];
-                        
-                        $uploadedImage = $fileHandler->saveImageTo($imageFile, $_POST['username'], PROFILE_PIC_PATH);
+                        break;
                     }
 
-                    $username = $_POST['username'];
-                    $email = $_POST['email'];
-                    $pass = $_POST['password'];
-                    
-                    $this->model->addUser(
-                        $username, $email, UserRole::Customer, $pass, $uploadedImage
-                    );
-                
-                    http_response_code(301);
-                    header("Location: /book/", true, 301);
+                    $notFoundView = $this->view('not-found', 'NotFoundView');
+                    $notFoundView->render();
 
                     exit;
-                case 'PATCH':
+                default:
+                    throw new RequestException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }          
+    }
+
+    public function delete($params = null) {
+        if (!isset($_SESSION['username'])) {
+            http_response_code(301);
+            header("Location: /user/login", true, 301);
+            exit;
+        }
+
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
                     if ($_SESSION['role'] != UserRole::Admin) {
                         $unauthorizedView = $this->view('.', 'UnauthorizedView');
                         $unauthorizedView->render();
                         exit;   
                     }
 
-                    $username = $params;
-                    $role = $_POST['role'];
+                    if (isset($params)) { // editing specific user
+                        $username = $params;
 
-                    $this->model->updateRole($username, $role);
+                        if (!$this->model->userExists($username)) {
+                            header("Location: /user/update", true, 301);
+                            exit;
+                        }
 
-                    http_response_code(301);
-                    header("Location: /user/update", true, 301);
+                        $deleteUserView = $this->view('admin', 'DeleteUserView', 
+                        ['username' => $username,'role' => $this->model->getUserRole($username)]);
+                        $deleteUserView->render();
+
+                        exit;
+                    }
+
+                    break;
+                case 'POST':
+                    if (isset($params)) { // editing specific user
+                        $username = $params;
+                        
+                        $succ = $this->model->deleteUser($username);
+                        
+                        if ($succ) {
+                            header("Location: /user/update", true, 301);
+                        }
+                        
+                        echo "Failed to delete user";
+                        break;
+                    }
+
+                    $notFoundView = $this->view('not-found', 'NotFoundView');
+                    $notFoundView->render();
 
                     exit;
-
                 default:
                     throw new RequestException('Method Not Allowed', 405);
             }

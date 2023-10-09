@@ -12,44 +12,35 @@
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/template/navbar.css">
     <!-- Page-specific CSS -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/list.css">
-    <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/crud-page.css">
-    <title>Update Author : <? echo $this->data['author_id'];?></title>
+    <title>Delete User : <? echo $this->data['username'];?></title>
 </head>
 
 <body>
     <!-- Navigation bar -->
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
     <div class="wrapper-small">
-        <h1>Update author Page</h1>
         <div class="pad-40">
+            <h1>Delete User Page</h1>
             <div class="centered">
                 <form  
                     class="center-contents"
-                    action="/author/update/<? $this->data['author_id'] ?>" method="POST" enctype="multipart/form-data"
+                    action="/user/delete/<? echo $this->data['username']?>" method="POST" enctype="multipart/form-data"
                 >
-                    <p class="form-label">author_id : <?
-                        echo $this->data['author_id'];
-                    ?></p>
-                    <p class="form-label">previous name : <?
-                        echo $this->data['full_name'];
+                    <p class="form-label">Username : <?
+                        echo $this->data['username'];
                     ?></p>
 
-                    <div class="form-content flex-column"> <label class="form-label" for="author-name">Author Name:</label>
-                        <input class="form-field" type="text" id="author-name" name="author-name" required>
+                    <p class="form-label">Role : <?
+                        echo $this->data['role'];
+                    ?></p>
 
-                        <label class="form-label" for="author-age">Author Age:</label>
-                        <input class="form-field" type="number" id="author-age" name="author-age" required>
 
-                        <input type="submit" class="button green-button" value="Update">
-                    </div>
+                    <input type="submit" class="button green-button" value="Delete">
+
                 </form>
             </div>
         </div>
     </div>
-
-
-    </div>
-
 </body>
 
 </html>
