@@ -1,0 +1,96 @@
+.form-box {
+    margin: 0 auto;
+    width: 80vw; max-width: 720px;
+
+    border: 2px solid var(--teal);
+    border-radius: 82px;
+    padding: 3rem 0;
+}
+
+.centered img {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.center-contents {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
+.form-content {
+    width: 75%;
+}
+
+.form-label {
+    font-family: var(--poppins);
+    font-weight: 600;
+    color: var(--black-lighter);
+    font-size: x-large;
+    padding: 1rem 0;
+}
+
+.form-field {
+    border: 2px solid var(--teal);
+    border-radius: 3rem;
+    padding: 1rem 2rem;
+    
+    font-family: var(--poppins);
+    font-size: large;
+
+    color: var(--teal);
+}
+
+.form-field:focus {
+    border-color: var(--teal);
+}
+
+.form-field:active {
+    border-color: var(--teal);
+}
+
+::placeholder {
+    color: var(--teal);
+    opacity: 0.5; /* Firefox */
+  }
+  
+::-ms-input-placeholder { /* Edge 12 -18 */
+    color: var(--teal);
+    opacity: 0.5; /* Firefox */
+}
+
+p {
+    color: var(--teal);
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+p b{
+    color: var(--teal);
+}
+
+.file-upload {
+    display: flex; flex-direction: row;
+    justify-content: space-between; align-items: center;
+}
+
+.error-msg {
+    color: red;
+    font-size: large;
+    font-weight: 600;
+    text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+    img {
+        max-width: 250px;
+    }
+}
