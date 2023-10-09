@@ -26,7 +26,7 @@
 
                         <!-- Password -->
                         <label for="password" class="form-label">Password:</label>
-                        <input class="form-field" type="text" 
+                        <input class="form-field" type="password" 
                         id="password" name="password" placeholder="*****" required><br><br>
 
                         <!-- Submit Button -->

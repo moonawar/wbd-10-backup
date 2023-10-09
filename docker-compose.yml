@@ -35,7 +35,6 @@ services:
       - wbd-network
   data-seeding:
     container_name: python-seeding
-    user: "1000:1000"
     image: python:3.7
     volumes:
       - ./db-init/seeding/:/app

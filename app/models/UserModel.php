@@ -6,6 +6,25 @@ class UserModel {
         $this->db = Db::getInstance();
     }
 
+    public function verifyUser($username, $hash) : bool {
+        $sql = "SELECT * FROM user WHERE username = ?";
+
+        $stmt = $this->db->prepare($sql);
+        $this->db->bindParams($stmt, "s", $username);
+
+        $this->db->execute($stmt);
+
+        $user = $this->db->getSingleRecord($stmt);
+
+        $stmt->close();
+
+        if ($user) {
+            return password_verify($hash, $user['password']);
+        }
+
+        return false;
+    }
+
     public function addUser(string $username, string $email, string $role, string $password, string $imagePath): int {
         $hashed = password_hash($password, PASSWORD_DEFAULT);
 
