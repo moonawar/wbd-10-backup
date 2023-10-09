@@ -11,27 +11,34 @@
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/template/navbar.css">
     <!-- Page-specific CSS -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/book/book-detail.css">
-    <title>Home</title>
+    <title><?=$this->data['title']?></title>
 </head>
 <body>
     <!-- Navigation bar -->
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
     <div class="container">
+        <?php if(isset($this->data['book_id']) ):?>
         <h2>DETAILS</h2>
         <!-- Book Cover -->
-        <img src="<?= BASE_URL ?>/../storage/image/book_cover/Astor.jpg"/>
+        <img src="<?= BASE_URL ?>/<?= str_replace('/var/www/html/config/', '', $this->data['cover_path']) ?>" alt ="book-cover"/>
         <div class="details-container">
         <!-- Book Title -->
-        <h3> Title </h3>
+        <h3> <?=$this->data['title']?> </h3>
 
         <!-- Author Genre Year-->
-        <h4>Author</h4>
-        <h4>Genre</h4>
-        <h4>Year</h4>
+        <h4> <?=$this->data['authors']?></h4>
+        <h4> <?=$this->data['genres']?></h4>
+        <h4> <?=$this->data['year']?></h4>
+        <h4> <?=$this->data['lang']?></h4>
+        <h5> Duration: <?=$this->data['duration']?> sec</h5>
+        <h5> Price: Rp<?=$this->data['price']?></h5>
 
         <!-- Decription -->
-        <p> description</p>
+        <p>  <?=$this->data['summary']?></p>
         </div>
+        <?php else : ?>
+        <h2 class="info">Can't find the book you're looking for!</h2>
+        <?php endif; ?>
     </div>
 </body>
 </html>.

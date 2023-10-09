@@ -98,12 +98,12 @@ class BookModel {
     }
 
     public function getBookById(int $bookId) {
-        $sql = "SELECT b.*, GROUP_CONCAT(a.full_name) AS authors, GROUP_CONCAT(g.name) AS genres
+        $sql = "SELECT b.*, GROUP_CONCAT(DISTINCT a.full_name) AS authors, GROUP_CONCAT(DISTINCT g.name) AS genres
                 FROM book b
                 JOIN authored_by ab ON b.book_id = ab.book_id
                 JOIN author a ON ab.author_id = a.author_id
                 JOIN book_genre bg ON b.book_id = bg.book_id
-                JOIN genre g ON bg.genre_id = g.name
+                JOIN genre g ON bg.genre_id = bg.genre_id = g.genre_id
                 WHERE b.book_id = ?
                 GROUP BY b.book_id";
         
@@ -121,7 +121,7 @@ class BookModel {
         $perPage = BOOK_PER_PAGES;
         $offset = ($page - 1) * $perPage;
 
-        $sql = "SELECT b.*, GROUP_CONCAT(DISTINCT a.full_name) AS authors, GROUP_CONCAT(g.name) AS genres
+        $sql = "SELECT b.*, GROUP_CONCAT(DISTINCT a.full_name) AS authors, GROUP_CONCAT(DISTINCT g.name) AS genres
                 FROM book b
                 JOIN authored_by ab ON b.book_id = ab.book_id
                 JOIN author a ON ab.author_id = a.author_id

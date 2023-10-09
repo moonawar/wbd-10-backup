@@ -12,8 +12,22 @@ class BookController extends Controller implements ControllerInterface{
             switch($_SERVER['REQUEST_METHOD']){
                 case 'GET':
                     $bookData = $this->model->getBooks(1);
-                    $bookListView =$this->view('book','BookView', $bookData);
+
+                    // User
+                    if(isset($_SESSION['username'])){
+                        $userData = $this->model('UserModel');
+                        $user = $userData->getUserByUsername($_SESSION['username']);
+                        $username = $user['username'];
+                        $role = $user['role'];
+                        $imagePath = $user['image_path'];
+                        $nav = ['username'=>$username, 'role'=> $role, 'profpic'=> $imagePath];
+                    }else{
+                        $nav = ['username'=>null];
+                    }
+                    $dataset=['book'=>$bookData];
+                    $bookListView =$this->view('book','BookView', array_merge($dataset, $nav));
                     $bookListView->render();
+
                     break;
             }
         }catch (Exception $e) {
@@ -22,12 +36,29 @@ class BookController extends Controller implements ControllerInterface{
        }   
      }
 
-    public function details(string $id) {
+    public function details($id) {
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
-                    // show the add book page
-                    echo "Book Details with id: $id";
+                    $bookId = (int)$id;
+                    $book=$this->model->getBookById($id);
+                    if(!$book){
+                        $book=['book_id'=> null];
+                    }
+                    // User
+                    if(isset($_SESSION['username'])){
+                        $userData = $this->model('UserModel');
+                        $user = $userData->getUserByUsername($_SESSION['username']);
+                        $username = $user['username'];
+                        $role = $user['role'];
+                        $imagePath = $user['image_path'];
+                        $nav = ['username'=>$username, 'role'=> $role, 'profpic'=> $imagePath];
+                    }else{
+                        $nav = ['username'=>null];
+                    }
+
+                    $bookListView =$this->view('book','BookDetailView', array_merge($book, $nav));
+                    $bookListView->render();
                     break;
                 default:
                     throw new RequestException('Method Not Allowed', 405);
