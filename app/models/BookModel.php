@@ -121,23 +121,23 @@ class BookModel {
         $perPage = BOOK_PER_PAGES;
         $offset = ($page - 1) * $perPage;
 
-        $sql = "SELECT SQL_CALC_FOUND_ROWS b.*, GROUP_CONCAT(a.full_name) AS authors, GROUP_CONCAT(g.name) AS genres
+        $sql = "SELECT b.*, GROUP_CONCAT(DISTINCT a.full_name) AS authors, GROUP_CONCAT(g.name) AS genres
                 FROM book b
                 JOIN authored_by ab ON b.book_id = ab.book_id
                 JOIN author a ON ab.author_id = a.author_id
                 JOIN book_genre bg ON b.book_id = bg.book_id
-                JOIN genre g ON bg.genre_id = g.name
+                JOIN genre g ON bg.genre_id = g.genre_id
                 GROUP BY b.book_id
-                LIMIT ?, ?";
+                ORDER BY b.title
+                LIMIT ? OFFSET ?";
         
         $stmt = $this->db->prepare($sql);
-        $this->db->bindParams($stmt, "ii", $offset, $perPage);
+        $this->db->bindParams($stmt, "ii",  $perPage,$offset);
 
         $this->db->execute($stmt);
         $books = $this->db->getAllRecords($stmt);
 
         $stmt->close();
-
         return $books;
     }
 
