@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -66,7 +65,7 @@
 
                     <br><br>
 
-                    <label class="form-label" for="genre">New Book Summary:</label><br>
+                    <label class="form-label" for="summary">New Book Summary:</label><br>
                     <textarea 
                         class="text-area" type="text" id="summary" name="summary" 
                         rows="5" cols="50"
