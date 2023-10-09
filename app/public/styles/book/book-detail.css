@@ -17,6 +17,7 @@
     justify-content: center;
     text-align: center;
     gap:0.5rem;
+    width: 40%;
 }
 h2{
     font-size: xx-large;
@@ -31,3 +32,9 @@ h4{
     color:#353940;
     opacity: 0.9;
 }
+h5{
+    font-size:medium;
+    color:#353940;
+    opacity: 0.8;
+}
+

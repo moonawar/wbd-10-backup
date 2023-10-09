@@ -48,17 +48,20 @@
                     <img src="<?= BASE_URL ?>/icon/search.svg" alt="Search Icon">
                 </button>
             </form>
+            <?php if (isset($this->data['username'])) : ?>
             <button type="submit" class="button green-button profile-button top-button">
-                <img src="<?= BASE_URL ?>/../storage/profile-base.jpg" style="width:2vw;height:2vw;border-radius:20px;"
+                <img src="<?= BASE_URL ?>/<?= str_replace('/var/www/html/config/', '', $this->data['profpic']) ?>" style="width:2vw;height:2vw;border-radius:20px;"
                     alt="profile">
-                Username
+                    <?= $this->data['username'] ?>
             </button>
+            <?php endif; ?>
         </div>
         <div class="booklist-container">
             <!-- Book List -->
-            <!-- todo for each -->
-            
-            <?php foreach ($this->data as $book): ?>
+            <?php if (!$this->data['book']) : ?>
+                    <p class="info">There are no Books yet available on Audibook!</p>
+            <?php else: ?>
+            <?php foreach ($this->data['book'] as $book): ?>
                 <div class="book-container">
                     <img class="book-image" src="<?= BASE_URL ?>/<?= str_replace('/var/www/html/config/', '', $book['cover_path']) ?>" alt="book-cover" />
                     <div class="info-text title-text"><?= $book['title'] ?></div>
@@ -69,11 +72,13 @@
                         <?php endif; ?>
                     </div>
                     <div class="button-container">
-                    <button type="button" class="button green-reverse-button">Buy</button>
-                    <button type="button" class="button yellow-reverse-button">Details</button>
+                    <a type="button" class="button green-reverse-button" >Buy</a>
+                    <a type="button" class="button yellow-reverse-button" href="/book/details/<?=$book['book_id']?>">Details</a>
                 </div>
                 </div>
             <?php endforeach; ?>
+            <?php endif; ?>
+
         <div class="pagination">
             <button class="arrow-wrapper" type="button">
                 <img class="page-arrow" src="<?= BASE_URL ?>/icon/left-arrow.svg" alt="left-arrow" />
@@ -86,7 +91,7 @@
             </div>
             <button class="arrow-wrapper" type="button">
                 <img class="page-arrow" src="<?= BASE_URL ?>/icon/right-arrow.svg" alt="left-arrow" />
-</button>
+            </button>
         </div>
     </div>
 </body>
