@@ -16,16 +16,17 @@
                         Book List
                     </a>
                 </li>
-                <?php if(isset($_SESSION['username']) && $this->data["role"]=='customer'):?>
+                <?php if(isset($_SESSION['username'])):?>
+                <?php if($_SESSION["role"]=='customer'):?>
                 <li>
                     <a class="book-list" href="#">
                         <img src="<?= BASE_URL ?>/icon/dashboard.svg" alt="Dashboard Icon">
                         Dashboard
                     </a>
                 </li>
-                <?php elseif(isset($_SESSION['username']) && $this->data["role"]=='admin') :?>
+                <?php elseif($_SESSION["role"]=='admin') :?>
                 <li>
-                    <a class="customer" href="/genre">
+                    <a class="customer" href="/user/update">
                         <img src="<?= BASE_URL ?>/icon/dashboard.svg" alt="Customer Icon">
                         Customers
                     </a>
@@ -43,9 +44,11 @@
                     </a>
                 </li>
                 <?php endif;?>
+                <?php endif;?>
             </ul>
-            <button class="section">
-                    <div class="title">Log Out</div>
-            </button>
+            <form  method="POST"
+                    action="/../user/logout"  >
+                    <input class="section" type="submit" value="Log Out"> </input>
+            </form>
         </div>
     </nav>
