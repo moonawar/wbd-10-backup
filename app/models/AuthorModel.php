@@ -41,7 +41,10 @@ class AuthorModel {
     public function getAllAuthors() {
         $sql = "SELECT * FROM author";
         $stmt = $this->db->prepare($sql);
-        return $this->db->getAllRecords($stmt);
+        $this->db->execute($stmt);
+        $res = $this->db->getAllRecords($stmt);
+        $stmt->close();
+        return $res;
     }
 
     public function authorExist(int $id) {
