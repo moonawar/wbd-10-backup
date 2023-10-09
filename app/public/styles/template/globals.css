@@ -113,6 +113,15 @@ button {
     padding-top: 1px !important;
     padding-bottom: 1px !important;
 }
+.red-reverse-button {
+    background: white;
+    border: 2px solid var(--red) !important;
+    color: var(--red);
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+}
 
 .button {
     padding: 1rem 2rem;

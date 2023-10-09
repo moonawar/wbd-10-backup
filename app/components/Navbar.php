@@ -11,19 +11,27 @@
             </div>  
             <ul>
                 <li>
-                    <a class="#" href="#">
-                        <img src="<?= BASE_URL ?>/icon/dashboard.svg" alt="Dashboard Icon">
-                        Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a class="#" href="#">
+                    <a class="book-list" href="/book">
                         <img src="<?= BASE_URL ?>/icon/home.svg" alt="Home Icon"> 
                         Book List
                     </a>
                 </li>
+                <?php if(isset($_SESSION['username']) && $this->data["role"]=='customer'):?>
                 <li>
-                    <a class="#" href="#">
+                    <a class="book-list" href="#">
+                        <img src="<?= BASE_URL ?>/icon/dashboard.svg" alt="Dashboard Icon">
+                        Dashboard
+                    </a>
+                </li>
+                <?php elseif(isset($_SESSION['username']) && $this->data["role"]=='admin') :?>
+                <li>
+                    <a class="customer" href="/genre">
+                        <img src="<?= BASE_URL ?>/icon/dashboard.svg" alt="Customer Icon">
+                        Customers
+                    </a>
+                </li>
+                <li>
+                    <a class="genre" href="/genre/add">
                         <img src="<?= BASE_URL ?>/icon/genre.svg" alt="Genre Icon"> 
                         Genres
                     </a>
@@ -34,6 +42,7 @@
                         Author
                     </a>
                 </li>
+                <?php endif;?>
             </ul>
             <button class="section">
                     <div class="title">Log Out</div>

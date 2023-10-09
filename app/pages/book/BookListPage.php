@@ -72,7 +72,12 @@
                         <?php endif; ?>
                     </div>
                     <div class="button-container">
+                    <?php if (isset($this->data['username']) && $this->data['role']=='customer'):?>
                     <a type="button" class="button green-reverse-button" >Buy</a>
+                    <?php elseif (isset($this->data['username']) && $this->data['role']=='admin'):?>
+                    <a type="button" class="button green-reverse-button" >Edit</a>
+                    <a type="button" class="button red-reverse-button" >Delete</a>
+                    <?php endif;?>
                     <a type="button" class="button yellow-reverse-button" href="/book/details/<?=$book['book_id']?>">Details</a>
                 </div>
                 </div>
