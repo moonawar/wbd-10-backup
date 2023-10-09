@@ -82,6 +82,13 @@ p b{
     justify-content: space-between; align-items: center;
 }
 
+.error-msg {
+    color: red;
+    font-size: large;
+    font-weight: 600;
+    text-align: center;
+}
+
 /* 
 #profile-pic {
     display: none;

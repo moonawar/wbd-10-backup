@@ -18,7 +18,6 @@
 
 <body>
     <!-- Navigation bar -->
-    <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
     <div class="wrapper-small">
         <div class="pad-40">
             <div class="centered">

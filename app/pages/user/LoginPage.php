@@ -17,7 +17,10 @@
         <div class="pad-40">
             <div class="centered">
                 <img src="<?= BASE_URL ?>/images/base-logo.svg" alt="Audibook Logo">
-                <form class="form-box center-contents">
+                <form 
+                    class="form-box center-contents" method="POST"
+                    action="/../user/login" 
+                >
                     <div class="form-content flex-column">
                         <!-- Username -->
                         <label for="username" class="form-label">Username:</label>
@@ -27,7 +30,15 @@
                         <!-- Password -->
                         <label for="password" class="form-label">Password:</label>
                         <input class="form-field" type="password" 
-                        id="password" name="password" placeholder="*****" required><br><br>
+                        id="password" name="password" placeholder="*****" required><br>
+
+                        <p class="error-msg"><?php 
+                            if (isset($this->data['error'])) {
+                                echo $this->data['error'];
+                            } else {
+                                
+                            }
+                        ?></p><br>
 
                         <!-- Submit Button -->
                         <input type="submit" class="button green-button" value="Sign In"><br>
