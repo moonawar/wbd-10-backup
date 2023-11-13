@@ -22,8 +22,7 @@ class Main {
             $controllerClass = $controllerPart . 'Controller';
             $this->controller = new $controllerClass();
         }else{
-            require_once __DIR__ . '/../controllers/NotFoundController.php';
-            $this->controller = new NotFoundController();
+            header('Location: /book/');
         }
         unset($url[0]);
 

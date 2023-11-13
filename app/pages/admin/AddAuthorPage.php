@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/template/globals.css">
     <!-- Navbar CSS -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/template/navbar.css">
+    <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/template/popup.css">
     <!-- Page-specific CSS -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/crud-page.css">
     <title>Add Author</title>
@@ -18,22 +19,62 @@
 <body>
     <!-- Navigation bar -->
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
-    <div class="content">
-        <h2>Add Author Page</h2>
-        <form 
-            class="form-box center-contents"
-            action="/author/add" method="POST" enctype="multipart/form-data"
-        >
-            <div class="form-content flex-column"> <label class="form-label" for="author-name">Author Name:</label>
-                <input class="form-field" type="text" id="author-name" name="author-name" required>
+    <section>
+        <!-- Pop Up -->
+        <span class="overlay"></span>
 
-                <label class="form-label" for="author-age">Author Age:</label>
-                <input class="form-field" type="text" id="author-age" name="author-age" required>
+        <div class="modal-box">
+            <h2>Add Author</h2>
+            <h3>Are you sure want to add this Author?</h3>
 
-                <input type="submit" class="button green-button" value="Add">
+            <div class="buttons">
+                <button class="cancel-btn">Cancel</button>
+                <button id="addAuthorBtn" class="confirm-btn">Add</button>
             </div>
-        </form>
-    </div>
+        </div>
+        <div class="content">
+            <h2>Add Author Page</h2>
+            <form 
+                id="addAuthorForm"
+                class="form-box center-contents"
+            >
+                <div class="form-content flex-column"> <label class="form-label" for="author-name">Author Name:</label>
+                    <input class="form-field" type="text" id="author-name" name="author-name" required>
+
+                    <label class="form-label" for="author-age">Author Age:</label>
+                    <input class="form-field" type="number" id="author-age" name="author-age" required>
+
+                    <input type="button" class="show-modal button green-button" value="Add">
+                </div>
+            </form>
+        </div>
+    </section>
 </body>
+<script>
+    const section = document.querySelector("section"),
+        overlay = document.querySelector(".overlay"),
+        showBtn = document.querySelector(".show-modal"),
+        closeBtn = document.querySelector(".cancel-btn"),
+        editUser = document.getElementById("addAuthorBtn");
+
+        editUser.addEventListener("click", function (event) {
+            event.preventDefault();
+            const form = document.getElementById("addAuthorForm");
+            form.action="/author/add/"
+            form.method = "POST";
+            form.enctype = "multipart/form-data";
+            form.submit();
+        });
+
+    showBtn.addEventListener("click", ()=>section.classList.add("active"));
+
+    overlay.addEventListener("click", () =>
+        section.classList.remove("active")
+    );
+
+    closeBtn.addEventListener("click", () =>
+        section.classList.remove("active")
+    );
+</script>
 
 </html>
