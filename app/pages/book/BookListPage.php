@@ -68,12 +68,21 @@
             <?php if (!$this->data['book']) : ?>
                     <p class="info">There are no Books yet available on Audibook!</p>
             <?php else: ?>
+            <?php function limit_text_length(string $book_title, int $max_length = 20): string
+                {
+                    if (mb_strlen($book_title) > $max_length) {
+                        return mb_substr($book_title, 0, $max_length) . '...';
+                    } else {
+                        return $book_title;
+                    }
+                } ?>
             <?php foreach ($this->data['book'] as $book): ?>
                 <div class="book-container">
                     <img class="book-image" src="<?= BASE_URL ?>/<?= str_replace('/var/www/html/config/', '', $book['cover_path']) ?>" alt="book-cover" />
-                    <div class="info-text title-text"><?= $book['title'] ?></div>
+                    
+                    <div class="info-text title-text"><?= limit_text_length($book['title']) ?></div>
                     <div class="info-text author-text">
-                        <?= current(explode(',', $book['authors'])) ?>
+                        <?= current(explode(',', limit_text_length($book['authors']))) ?>
                         <?php if (count(explode(',', $book['authors'])) > 1): ?>
                             , dkk
                         <?php endif; ?>
