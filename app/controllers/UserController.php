@@ -15,6 +15,13 @@ class UserController extends Controller implements ControllerInterface
         $notFoundView->render();
     }
 
+    //insert data
+    public function subs()
+    {
+        $mySubscriptionView = $this->view('user', 'MySubscriptionView');
+        $mySubscriptionView->render();
+    }
+
     public function login() 
     {
         if (isset($_SESSION['username'])) {
