@@ -15,9 +15,19 @@ class GenreController extends Controller implements ControllerInterface
 
     public function add() 
     {
+        if (!isset($_SESSION['username'])) {
+            http_response_code(301);
+            header("Location: /user/login", true, 301);
+            exit;
+        }
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
+                    if (!isset($_SESSION['username'])) {
+                        http_response_code(301);
+                        header("Location: /user/login", true, 301);
+                        exit;
+                    }
                     // show the register page
                     $addGenreView = $this->view('admin', 'AddGenreView');
                     $addGenreView->render();

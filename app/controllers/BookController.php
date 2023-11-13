@@ -57,9 +57,19 @@ class BookController extends Controller implements ControllerInterface{
 
     public function add() 
     {
+        if (!isset($_SESSION['username'])) {
+            http_response_code(301);
+            header("Location: /user/login", true, 301);
+            exit;
+        }
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
+                    if ($_SESSION['role'] != UserRole::Admin) {
+                        $unauthorizedView = $this->view('.', 'UnauthorizedView');
+                        $unauthorizedView->render();
+                        exit;   
+                    }
                     // show the add book page
                     $addBookView = $this->view('admin', 'AddBookView');
                     $addBookView->render(); 
