@@ -39,9 +39,16 @@
                 <?php endif;?>
                 <?php endif;?>
             </ul>
-            <form method="POST"
-                    action="/../user/logout"  >
-                    <input class="section" type="submit" value="Log Out"> </input>
-            </form>
+            <?php if(isset($_SESSION['username'])):?>
+                <form method="POST"
+                        action="/../user/logout"  >
+                        <input class="section" type="submit" value="Log Out"> </input>
+                </form>
+                <?php else : ?>
+                    <form method="GET"
+                        action="/../user/login"  >
+                        <input class="section login" type="submit" id ="login" value="Log In"> </input>
+                </form>
+            <?php endif;?>
         </div>
     </nav>
