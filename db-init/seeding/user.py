@@ -41,6 +41,21 @@ for _ in range(20):
 
     users.append((user_data, image_path))
 
+
+users.append(({
+    'username': 'admin',
+    'role': 'admin',
+    'email': 'admin@gmail.com',
+    'password': 'admin'
+}, 'tmp/tmp.jpg'))
+
+users.append(({
+    'username': 'cust',
+    'role': 'cust',
+    'email': 'cust@gmail.com',
+    'password': 'cust'
+}, 'tmp/tmp.jpg'))
+
 # Send POST requests to create users with file uploads
 for user_data, image_path in users:
     files = {'profile-pic': open(image_path, 'rb')}
@@ -52,4 +67,5 @@ for user_data, image_path in users:
         print(f"Failed to insert user '{user_data['username']}'.")
     
     # Clean up: remove temporary image file
-    os.remove(image_path)
+    if (image_path != 'tmp/tmp.jpg'):
+        os.remove(image_path)

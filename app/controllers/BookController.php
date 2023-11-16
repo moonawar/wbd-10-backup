@@ -75,16 +75,31 @@ class BookController extends Controller implements ControllerInterface{
                     $addBookView->render(); 
                     break;
                 case 'POST':
+                    $uploadedImage = null;
+                    if (isset($_POST['imagePath'])) {
+                        $uploadedImage = $_POST['imagePath'];
+                    }
+
+                    $uploadedAudio = null;
+                    if (isset($_POST['audioPath'])) {
+                        $uploadedAudio = $_POST['audioPath'];
+                    }
+
                     $fileHandler = new FileHandler();
                     
-                    $imageFile = $_FILES['cover']['tmp_name'];
+                    if(!$uploadedImage) {
+                        $imageFile = $_FILES['cover']['tmp_name'];
+                        $uploadedImage = $fileHandler->saveImageTo($imageFile, $_POST['title'], BOOK_COVER_PATH);
+                        $uploadedImage = BASE_URL . '/' . $uploadedImage;
+                    }
                     
-                    $audioFile = $_FILES['audio']['tmp_name'];
+                    if (!$uploadedAudio) {
+                        $audioFile = $_FILES['audio']['tmp_name'];
+                        $uploadedAudio = $fileHandler->saveAudioTo($audioFile, $_POST['title'], AUDIOBOOK_PATH);
+                    }
+                    
                     $duration = (int) $fileHandler->getAudioDuration($audioFile);
-
-                    $uploadedAudio = $fileHandler->saveAudioTo($audioFile, $_POST['title'], AUDIOBOOK_PATH);
-                    $uploadedImage = $fileHandler->saveImageTo($imageFile, $_POST['title'], BOOK_COVER_PATH);
-
+                    
                     $title = $_POST['title'];
                     $year = (int)$_POST['year'];
                     $summary = $_POST['summary'];

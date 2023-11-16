@@ -65,7 +65,8 @@ for b in books:
         image_content = requests.get(book_cover_url).content
         image_file.write(image_content)
 
-    audio_path = f'tmp/tmp.mp3'
+    audio_rnd = random.randint(0, 2)    
+    audio_path = f'tmp/tmp{audio_rnd}.mp3'
 
     files = {
         'cover': open(book_cover_temp_path, 'rb'),
