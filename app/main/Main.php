@@ -6,10 +6,6 @@ class Main {
     private $db;
     public function __construct()
     {
-        // require_once __DIR__ . '/../pages/Example.php';
-        // require_once __DIR__ . '/../controllers/NotFoundController.php';
-
-        // $this->controller = new NotFoundController();
         $this->method = 'index';
 
         $url = $this->parseUrl();

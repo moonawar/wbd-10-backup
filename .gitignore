@@ -1,5 +1,4 @@
-/mysql
-/db-init/seeding/init.flag
+/db/mysql**
 
 /app/storage/image/book_cover/*
 !/app/storage/image/book_cover/.gitkeep
@@ -7,3 +6,5 @@
 !/app/storage/image/profile_pic/.gitkeep
 /app/storage/audio/*
 !/app/storage/audio/.gitkeep
+
+.env

@@ -2,10 +2,9 @@
 // Database connection for query
 class Db {
     private $conn;
-    private $host = 'wbd-db';
-    private $user = 'user';
-    private $pass = 'secret';
-    private $db = 'wbd-db';
+    private $host;
+    private $pass;
+    private $db;
 
     private static $instance = null;
 
@@ -18,8 +17,11 @@ class Db {
 
     private function __construct()
     {
+        $this->host = $_ENV['DB_HOST'];
+        $this->db = $_ENV['MYSQL_DATABASE'];
+        $this->pass = $_ENV['MYSQL_ROOT_PASSWORD'];
 
-        $this->conn = new mysqli($this->host, $this->user, $this->pass);
+        $this->conn = new mysqli($this->host, 'root', $this->pass);
         if ($this->conn->connect_error) {
             die("db connection failed " . $this->conn->connect_error);
         }

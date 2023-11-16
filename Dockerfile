@@ -4,4 +4,6 @@ WORKDIR /var/www/html
 # PHP extension and Apache configuration
 RUN docker-php-ext-install mysqli
 RUN a2enmod rewrite
-RUN apt-get -y update && apt-get -y upgrade && apt-get install -y ffmpeg
+RUN apt-get -y update ; \
+    apt-get -y upgrade ; \
+    apt-get -y install ffmpeg ; \
