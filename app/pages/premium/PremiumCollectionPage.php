@@ -26,19 +26,21 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Book Title</th>
-                    <th>Author</th>
+                    <th>Curator Collection</th>
+                    <th>Details</th>
                 </tr>
             </thead>
             <?php
-            
-            $authors = $this->data['authors'];
+            $raw_data = file_get_contents('http://host.docker.internal:8040/api/curator-collection');
+            $data = json_decode($raw_data, true);
+            echo var_dump($data);
+            $collections = $data['found'];
 
-            foreach ($authors as $author) {
+            foreach ($collections as $collection) {
                 echo "<tr>";
-                echo "<td>" . $author['author_id'] . "</td>";
-                echo "<td>" . $author['full_name'] . "</td>"; 
-                echo "<td>" . $author['full_name'] . "</td>"; 
+                echo "<td>" . $collection['collectionId'] . "</td>";
+                echo "<td>" . $collection['createdBy'] . "</td>"; 
+                echo '<td><a href="/premium/detail/' . $collection['collectionId'] .'">Edit</a></td>';
                 echo "</tr>";
             }
             ?>

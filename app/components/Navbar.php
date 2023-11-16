@@ -38,6 +38,22 @@
                 </li>
                 <?php endif;?>
                 <?php endif;?>
+                <?php if(isset($_SESSION['username'])):?>
+                <?php if($_SESSION["role"]=='customer') :?>
+                <li>
+                    <a class="subscription" href="/user/subs">
+                        <img src="<?= BASE_URL ?>/icon/dashboard.svg" alt="Customer Icon">
+                        My Subscription
+                    </a>
+                </li>
+                <li>
+                    <a class="premium" href="/premium">
+                        <img src="<?= BASE_URL ?>/icon/genre.svg" alt="Genre Icon"> 
+                        Premium Collection
+                    </a>
+                </li>
+                <?php endif;?>
+                <?php endif;?>
             </ul>
             <?php if(isset($_SESSION['username'])):?>
                 <form method="POST"

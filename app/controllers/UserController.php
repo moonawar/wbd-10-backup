@@ -18,8 +18,21 @@ class UserController extends Controller implements ControllerInterface
     //insert data
     public function subs()
     {
-        $mySubscriptionView = $this->view('user', 'MySubscriptionView');
-        $mySubscriptionView->render();
+        if (!isset($_SESSION['username'])) {
+            http_response_code(301);
+            header("Location: /user/login", true, 301);
+            exit;
+        }
+
+        switch ($_SERVER['REQUEST_METHOD']) {
+            case 'GET':
+                // show the login page
+                $mySubscriptionView = $this->view('user', 'MySubscriptionView');
+                $mySubscriptionView->render();
+                break;
+            default:
+                throw new RequestException('Method Not Allowed', 405);
+        }
     }
 
     public function login() 
