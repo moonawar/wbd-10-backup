@@ -57,11 +57,11 @@ class BookController extends Controller implements ControllerInterface{
 
     public function add() 
     {
-        if (!isset($_SESSION['username'])) {
-            http_response_code(301);
-            header("Location: /user/login", true, 301);
-            exit;
-        }
+        // if (!isset($_SESSION['username'])) {
+        //     http_response_code(301);
+        //     header("Location: /user/login", true, 301);
+        //     exit;
+        // }
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
@@ -89,13 +89,13 @@ class BookController extends Controller implements ControllerInterface{
                     
                     if(!$uploadedImage) {
                         $imageFile = $_FILES['cover']['tmp_name'];
-                        $uploadedImage = $fileHandler->saveImageTo($imageFile, $_POST['title'], BOOK_COVER_PATH);
-                        $uploadedImage = BASE_URL . '/' . $uploadedImage;
+                        $uploadedImage = $fileHandler->saveImageTo($imageFile, md5($_POST['title']), BOOK_COVER_PATH);
+                        $uploadedImage = BASE_URL . $uploadedImage;
                     }
                     
                     if (!$uploadedAudio) {
                         $audioFile = $_FILES['audio']['tmp_name'];
-                        $uploadedAudio = $fileHandler->saveAudioTo($audioFile, $_POST['title'], AUDIOBOOK_PATH);
+                        $uploadedAudio = $fileHandler->saveAudioTo($audioFile, md5($_POST['title']), AUDIOBOOK_PATH);
                     }
                     
                     $duration = (int) $fileHandler->getAudioDuration($audioFile);

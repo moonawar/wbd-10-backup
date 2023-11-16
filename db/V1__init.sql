@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `role` ENUM('customer', 'admin') NOT NULL,
   `email` varchar(320),
   `password` varchar(128) NOT NULL,
-  `image_path` TEXT NOT NULL
+  `image_path` varchar(320) NOT NULL DEFAULT 'var/www/html/storage/image/profile-base.jpg'
 );
 
 CREATE TABLE IF NOT EXISTS `have` (
