@@ -36,10 +36,7 @@
             <?php
             $collectionId = $this->data['collectionId'];
             $raw_data = file_get_contents("http://host.docker.internal:8040/api/curator-collection/$collectionId");
-            echo var_dump($raw_data);
-            echo `http://host.docker.internal:8040/api/curator-collection/$collectionId`;
             $data = json_decode($raw_data, true);
-            echo var_dump($data);
             $books = $data['books'];
 
             foreach (($books) as $index => $book) {
@@ -47,7 +44,7 @@
                 echo "<td>" . $index+1 . "</td>";
                 echo "<td>" . $book['title'] . "</td>";
                 echo "<td>" . $book['author'] . "</td>";
-                echo '<td><a href="/book/update/' . $book['book_id'] .'">Details</a></td>';
+                echo '<td><a href="/premium/book/' . $book['book_id'] .'">Details</a></td>';
                 echo "</tr>";
             }
             ?>
