@@ -28,19 +28,21 @@
                     <th>Id</th>
                     <th>Curator Collection</th>
                     <th>Details</th>
+                    <th>Subscribe</th>
                 </tr>
             </thead>
             <?php
             $raw_data = file_get_contents('http://host.docker.internal:8040/api/curator-collection');
             $data = json_decode($raw_data, true);
-            echo var_dump($data);
+            // echo var_dump($data);
             $collections = $data['found'];
 
             foreach ($collections as $collection) {
                 echo "<tr>";
                 echo "<td>" . $collection['collectionId'] . "</td>";
                 echo "<td>" . $collection['createdBy'] . "</td>"; 
-                echo '<td><a href="/premium/detail/' . $collection['collectionId'] .'">Edit</a></td>';
+                echo '<td><a href="/premium/detail/' . $collection['collectionId'] .'">Details</a></td>';
+                echo '<td><a href="/premium/detail/' . $collection['collectionId'] .'">Subscribe</a></td>';
                 echo "</tr>";
             }
             ?>
