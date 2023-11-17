@@ -25,11 +25,30 @@ class UserController extends Controller implements ControllerInterface
         }
 
         switch ($_SERVER['REQUEST_METHOD']) {
+            case 'POST':
+                require_once __DIR__ . '/../clients/SOAPConsumer.php';
+                $soap  = new SoapConsumer();
+
+                $user = $this->model->getUserByUsername($_SESSION['username']);
+                $userEmail = $user['email'];
+
+                $soapData = $soap->makeRequest($_SESSION['username'], $_POST['curator'], $userEmail);
+
+                echo $soapData["Response"]["message"];
+
             case 'GET':
                 // show the login page
+                require_once __DIR__ . '/../clients/SOAPConsumer.php';
+                $soap  = new SoapConsumer();
+                $soapData = $soap->getSubscriptionOf($_SESSION['username']);
+
+                $subData = $soapData["Response"]["data"];
                 $data = [
-                    'username' => $_SESSION['username']
+                    'username' => $_SESSION['username'],
+                    'subscription' => $subData
                 ];
+
+
                 $mySubscriptionView = $this->view('user', 'MySubscriptionView', $data);
                 $mySubscriptionView->render();
                 break;

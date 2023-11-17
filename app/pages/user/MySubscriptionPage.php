@@ -21,26 +21,41 @@
     <!-- Navigation bar -->
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
     <div class="content">
-        <h1><?php $this->data['username']?>'s Subscription</h1>
+        <h1><?php echo $this->data['username']?>'s Subscription</h1>
         <!-- Todo Routing -->
-        <a href="/premium">++ Add Subscription</a>  
-        <table border="1" class="styled-table">
-            <thead>
-                <tr>
-                    <th>Curator Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <?php
-            
-            $authors = $this->data['authors'];
-
-            foreach ($authors as $author) {
+        <a href="/premium">+ Add Subscription</a>  
+        <?php
+            if (count($this->data['subscription']) > 0) {
+                echo "<table border=\"1\" class=\"styled-table\">";
+                echo "<thead>";
                 echo "<tr>";
-                echo "<td>" . $author['full_name'] . "</td>";
-                echo '<td><a href="/author/update/' . $author['author_id'] .'">Pending/Details</a></td>';
+                echo "<th>Curator Name</th>";
+                echo "<th>Action</th>";
                 echo "</tr>";
+                echo "</thead>";
+            } else {
+                echo "<h2>You have no subscription</h2>";
             }
+        ?>
+  
+            <?php
+            if (count($this->data['subscription']) > 0) {
+                $subs = $this->data['subscription']['item'];
+
+                foreach ($subs as $sub) {
+
+                    $raw_data = file_get_contents('http://host.docker.internal:8040/api/curator/' . $sub['curator']);
+                    $data = json_decode($raw_data, true);
+                    echo var_dump($data);
+                    $colId = $data['collectionId'];
+
+                    echo "<tr>";
+                    echo "<td>" . $sub['curator'] . "</td>";
+                    echo '<td><a href="/premium/detail/' . $colId . '">Details</a></td>';
+                    echo "</tr>";
+                }
+            }
+
             ?>
         </table>
     </div>
