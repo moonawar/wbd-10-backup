@@ -37,12 +37,17 @@
             // echo var_dump($data);
             $collections = $data['found'];
 
+            $raw_data = file_get_contents("http://host.docker.internal:8040/api/curator-collection/$collection['collectionId']");
+            $data = json_decode($raw_data, true);
+            $books = $data['books'];
+
+
             foreach ($collections as $collection) {
                 echo "<tr>";
                 echo "<td>" . $collection['collectionId'] . "</td>";
                 echo "<td>" . $collection['createdBy'] . "</td>"; 
                 echo '<td><a href="/premium/detail/' . $collection['collectionId'] .'">Details</a></td>';
-                echo '<td><a href="/premium/detail/' . $collection['collectionId'] .'">Subscribe</a></td>';
+                echo '<td><a href="/user/subs?curator=' . $books[0]["curator"] .'">Subscribe</a></td>';
                 echo "</tr>";
             }
             ?>

@@ -38,7 +38,6 @@
             $raw_data = file_get_contents("http://host.docker.internal:8040/api/curator-collection/$collectionId");
             $data = json_decode($raw_data, true);
             $books = $data['books'];
-            echo json_encode($data);
 
             require_once dirname(__DIR__) . '../../clients/SoapConsumer.php';
             $soap = new SoapConsumer();
@@ -58,7 +57,7 @@
             }
 
             $link = $subscribed ? '<a href="/premium/book/' . $book['book_id'] .'">Details</a>' : "Subscribe to view details";
-            
+
             foreach (($books) as $index => $book) {
                 echo "<tr>";
                 echo "<td>" . $index+1 . "</td>";
