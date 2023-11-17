@@ -68,12 +68,20 @@
             <?php if (!$this->data['book']) : ?>
                     <p class="info">There are no Books yet available on Audibook!</p>
             <?php else: ?>
+            <?php function limit_text_length(string $book_title, int $max_length = 20): string
+                {
+                    if (mb_strlen($book_title) > $max_length) {
+                        return mb_substr($book_title, 0, $max_length) . '...';
+                    } else {
+                        return $book_title;
+                    }
+                } ?>
             <?php foreach ($this->data['book'] as $book): ?>
                 <div class="book-container">
-                    <img class="book-image" src="<?= BASE_URL ?>/<?= str_replace('/var/www/html/config/', '', $book['cover_path']) ?>" alt="book-cover" />
+                    <img class="book-image" src="<?= str_replace('/var/www/html/config/', '', $book['cover_path']) ?>" alt="book-cover" />
                     <div class="info-text title-text"><?= $book['title'] ?></div>
                     <div class="info-text author-text">
-                        <?= current(explode(',', $book['authors'])) ?>
+                        <?= current(explode(',', limit_text_length($book['authors']))) ?>
                         <?php if (count(explode(',', $book['authors'])) > 1): ?>
                             , dkk
                         <?php endif; ?>
@@ -121,24 +129,29 @@
         <div class="pagination vert-m-50">
 
             <?
+            function clamp($val, $min, $max) : int{
+                return min(max($val, $min), $max);
+            }
+
             $page = $this->data['page'];
             $maxPage = $this->data['totalPages'];
-            $prevPage = $page - 1;
-
             $params = $this->data['q_params'];
 
-            $topPage = $page + 10;
-            if ($topPage > $maxPage) {
-                $topPage = $maxPage;
-            }
+            $bottomPage = clamp($page - 4, 1, $maxPage);
+            $topPageTreshold = 9 - ($page - $bottomPage);
+            $topPage = $page + $topPageTreshold;
 
-            for ($i = 1; $i <= $topPage; $i++) {
+            echo '<a href="/book/search/' . 1 . $params . '" class="page-btn"><div class=""> First Page </div></a> &nbsp;&nbsp;&nbsp;&nbsp;';            
+
+            for ($i = $bottomPage; $i <= $topPage; $i++) {
                 if ($i == $page) {
-                    echo '<a href="/book/search/' . $i . $params . '" class="page-btn"><b>' . $i . '</b></a>';
+                    echo '&nbsp;<a href="/book/search/' . $i . $params . '" class="page-btn"><b>' . $i . '</b></a>&nbsp;';
                 } else {
-                    echo '<a href="/book/search/' . $i . $params . '" class="page-btn"><div class="">' . $i . '</div></a>';
+                    echo '&nbsp;<a href="/book/search/' . $i . $params . '" class="page-btn"><div class="">' . $i . '</div></a>&nbsp;';
                 }
             }
+
+            echo '&nbsp;&nbsp;&nbsp;&nbsp;<a href="/book/search/' . $maxPage . $params . '" class="page-btn"> <div class=""> Last Page </div></a>';  
             ?>
         </div>
     </div>

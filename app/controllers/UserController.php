@@ -15,6 +15,48 @@ class UserController extends Controller implements ControllerInterface
         $notFoundView->render();
     }
 
+    //insert data
+    public function subs()
+    {
+        if (!isset($_SESSION['username'])) {
+            http_response_code(301);
+            header("Location: /user/login", true, 301);
+            exit;
+        }
+
+        switch ($_SERVER['REQUEST_METHOD']) {
+            case 'POST':
+                require_once __DIR__ . '/../clients/SOAPConsumer.php';
+                $soap  = new SoapConsumer();
+
+                $user = $this->model->getUserByUsername($_SESSION['username']);
+                $userEmail = $user['email'];
+
+                $soapData = $soap->makeRequest($_SESSION['username'], $_POST['curator'], $userEmail);
+
+                echo $soapData["Response"]["message"];
+
+            case 'GET':
+                // show the login page
+                require_once __DIR__ . '/../clients/SOAPConsumer.php';
+                $soap  = new SoapConsumer();
+                $soapData = $soap->getSubscriptionOf($_SESSION['username']);
+
+                $subData = $soapData["Response"]["data"];
+                $data = [
+                    'username' => $_SESSION['username'],
+                    'subscription' => $subData
+                ];
+
+
+                $mySubscriptionView = $this->view('user', 'MySubscriptionView', $data);
+                $mySubscriptionView->render();
+                break;
+            default:
+                throw new RequestException('Method Not Allowed', 405);
+        }
+    }
+
     public function login() 
     {
         if (isset($_SESSION['username'])) {

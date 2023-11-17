@@ -38,10 +38,33 @@
                 </li>
                 <?php endif;?>
                 <?php endif;?>
+                <?php if(isset($_SESSION['username'])):?>
+                <?php if($_SESSION["role"]=='customer') :?>
+                <li>
+                    <a class="subscription" href="/user/subs">
+                        <img src="<?= BASE_URL ?>/icon/dashboard.svg" alt="Customer Icon">
+                        My Subscription
+                    </a>
+                </li>
+                <li>
+                    <a class="premium" href="/premium">
+                        <img src="<?= BASE_URL ?>/icon/genre.svg" alt="Genre Icon"> 
+                        Premium Collection
+                    </a>
+                </li>
+                <?php endif;?>
+                <?php endif;?>
             </ul>
-            <form method="POST"
-                    action="/../user/logout"  >
-                    <input class="section" type="submit" value="Log Out"> </input>
-            </form>
+            <?php if(isset($_SESSION['username'])):?>
+                <form method="POST"
+                        action="/../user/logout"  >
+                        <input class="section" type="submit" value="Log Out"> </input>
+                </form>
+                <?php else : ?>
+                    <form method="GET"
+                        action="/../user/login"  >
+                        <input class="section login" type="submit" id ="login" value="Log In"> </input>
+                </form>
+            <?php endif;?>
         </div>
     </nav>

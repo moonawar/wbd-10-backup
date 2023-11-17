@@ -9,11 +9,25 @@ class AuthorModel {
     }
 
     // CRUD Operations
-    public function addAuthor(string $fullName, int $age = null): bool {
+    public function addAuthor(string $fullName, int $age = null) {
+        if ($this->authorExists($fullName)) {
+            return false;
+        }
+
         $sql = "INSERT INTO author (full_name, age) VALUES (?, ?)";
         $stmt = $this->db->prepare($sql);
         $this->db->bindParams($stmt, "si", $fullName, $age);
         return $this->db->execute($stmt);
+    }
+
+    public function authorExists(string $authorName) : bool {
+        $sql = "SELECT * FROM author WHERE full_name = ?";
+        $stmt = $this->db->prepare($sql);
+        $this->db->bindParams($stmt, "s", $authorName);
+        $this->db->execute($stmt);
+        $author = $this->db->getSingleRecord($stmt);
+        $stmt->close();
+        return $author ? true : false;
     }
 
     public function getAuthorById(int $authorId) {

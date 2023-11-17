@@ -139,7 +139,10 @@ label #btn {
     align-items: center;
     text-decoration: none;
 }
-
+.login{
+    background-color: white!important;
+    color:teal!important;
+}
 .section .title {
     display: flex;
     text-align: center;
