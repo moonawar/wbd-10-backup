@@ -1,5 +1,6 @@
 /db/mysql**
 /db/seeding/init.flag
+/mysql
 
 /app/storage/image/book_cover/*
 !/app/storage/image/book_cover/.gitkeep
