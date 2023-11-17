@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="wiauthor_dth=device-width, initial-scale=1.0">
+    <meta name="viewport" content="wibook_dth=device-width, initial-scale=1.0">
     <link rel="icon" sizes="180x180" href="<?= BASE_URL ?>/icon/favicon-110.png">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= BASE_URL ?>/icon/favicon-32.png">
     <!-- Global CSS -->
@@ -22,26 +22,32 @@
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
     <div class="content">
         <h1>Curator's Collection</h1>
-        <a href="/author/add">+ Subscribe</a>  
+        <a href="/book/add">+ Subscribe</a>  
         <table border="1" class="styled-table">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Book Title</th>
                     <th>Author</th>
+                    <!-- Todo tambah boolean kalo dia ud subscribe bs buka detail -->
                     <th>Details</th>
                 </tr>
             </thead>
             <?php
-            
-            $authors = $this->data['authors'];
+            $collectionId = $this->data['collectionId'];
+            $raw_data = file_get_contents("http://host.docker.internal:8040/api/curator-collection/$collectionId");
+            echo var_dump($raw_data);
+            echo `http://host.docker.internal:8040/api/curator-collection/$collectionId`;
+            $data = json_decode($raw_data, true);
+            echo var_dump($data);
+            $books = $data['books'];
 
-            foreach ($authors as $author) {
+            foreach (($books) as $index => $book) {
                 echo "<tr>";
-                echo "<td>" . $author['author_id'] . "</td>";
-                echo "<td>" . $author['full_name'] . "</td>";
-                echo "<td>" . $author['full_name'] . "</td>";
-                echo '<td><a href="/author/update/' . $author['author_id'] .'">Edit</a></td>';
+                echo "<td>" . $index+1 . "</td>";
+                echo "<td>" . $book['title'] . "</td>";
+                echo "<td>" . $book['author'] . "</td>";
+                echo '<td><a href="/book/update/' . $book['book_id'] .'">Details</a></td>';
                 echo "</tr>";
             }
             ?>
