@@ -38,13 +38,33 @@
             $raw_data = file_get_contents("http://host.docker.internal:8040/api/curator-collection/$collectionId");
             $data = json_decode($raw_data, true);
             $books = $data['books'];
+            echo json_encode($data);
 
+            require_once dirname(__DIR__) . '../../clients/SoapConsumer.php';
+            $soap = new SoapConsumer();
+            $username = $_SESSION['username'];
+            $soapData = $soap->getSubscriptionOf($username);
+            $subData = $soapData["Response"]["data"];
+            
+            $subs = $subData["item"];
+
+            // check if user has subscribed to this curator, collectionId is in subs
+            $subscribed = false;
+            foreach ($subs as $sub) {
+                if ($sub["curator"] == $books[0]["curator"]) {
+                    $subscribed = true;
+                    break;
+                }
+            }
+
+            $link = $subscribed ? '<a href="/premium/book/' . $book['book_id'] .'">Details</a>' : "Subscribe to view details";
+            
             foreach (($books) as $index => $book) {
                 echo "<tr>";
                 echo "<td>" . $index+1 . "</td>";
                 echo "<td>" . $book['title'] . "</td>";
                 echo "<td>" . $book['author'] . "</td>";
-                echo '<td><a href="/premium/book/' . $book['book_id'] .'">Details</a></td>';
+                echo '<td>' . $link . '</td>';
                 echo "</tr>";
             }
             ?>

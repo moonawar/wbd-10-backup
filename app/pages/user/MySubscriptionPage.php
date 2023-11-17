@@ -46,7 +46,6 @@
 
                     $raw_data = file_get_contents('http://host.docker.internal:8040/api/curator/' . $sub['curator']);
                     $data = json_decode($raw_data, true);
-                    echo var_dump($data);
                     $colId = $data['collectionId'];
 
                     echo "<tr>";
