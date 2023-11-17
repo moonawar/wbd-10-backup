@@ -17,44 +17,21 @@
     <!-- Navigation bar -->
     <?php include(dirname(__DIR__) . '../../components/Navbar.php') ?>
     <div class="container">
-        <?php if(isset($this->data['book_id']) ):?>
+        <?php if(isset($this->data['bookId']) ):?>
         <h2>PREMIUM DETAILS</h2>
-        <div class="details-container">
-        <!-- Book Title -->
-        <h3> <?=$this->data['title']?> </h3>
+        <?php 
+          $bookId = $this->data['bookId'];
+          $raw_data = file_get_contents("http://host.docker.internal:8040/api/book-collection/$bookId");
+          $data = json_decode($raw_data, true);
+          $book = $data['book'];
 
-        <!-- Author Genre Year-->
-        <h4> <?=$this->data['author']?></h4>
-        <h4> <?=$this->data['genre']?></h4>
-        <h4> <?=$this->data['year']?></h4>
-
-        <!-- Text -->
-        <p>  <?=$this->data['summary']?></p>
-
-        <!-- todo: check ownership -->
-        <?php
-            if(isset($this->data['username'])):
-            if(isset($this->data['own'])):
-                
-            $bookIdToCheck = $this->data['book_id'];
-            $found = false;
-
-            foreach ($this->data['own'] as $ownedBook) {
-                if (isset($ownedBook['book_id']) && $ownedBook['book_id'] == $bookIdToCheck) {
-                    $found = true;
-                    break;
-                }
-            }
-            if($found):
+          echo "<h3> Title: ". $book['title'] ."</h3>";
+          echo "<h4> Author: ". $book['createdBy'] ."</h4>";
+          echo "<h4> Year: ". $book['year'] ."</h4>";
+            echo "<h4> Genre:". $book['genre'] ."</h4>";
+            echo "<text>". $book['content'] ."</text>";
+            echo "<h5>Duration: ". $book["duration"] ."</h5>";          
         ?>
-        <audio controls>
-            <source src="<?= BASE_URL ?>/<?= str_replace('/var/www/html/config/', '', $this->data['audio_path']) ?>" alt ="book-audio" type="audio/mp3">
-            Your browser does not support the audio element.
-        </audio>
-        <?php endif; ?>
-        <?php endif; ?>
-        <?php endif; ?>
-        </div>
         <?php else : ?>
         <h2 class="info">Can't find the book you're looking for!</h2>
         <?php endif; ?>
