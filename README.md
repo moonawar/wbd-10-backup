@@ -90,6 +90,13 @@ http://localhost:8000/
 | Model User           | 13521085 |
 | Pagination           | 13521085, 13521100 |
 
+**Server Side 2.0:**
+| Fitur                | Nim      |
+|----------------------|----------|
+| Send Subscription      | 13521085 |
+| Subscription Status          | 13521085 |
+
+
 **Client Side:**
 | Fitur                  | Nim      |
 |------------------------|----------|
@@ -103,3 +110,12 @@ http://localhost:8000/
 | Add Book, User, Author | 10023327 |
 | Not Found Page         | 13521100 |
 | Book Details           | 13521100 |
+
+
+**Client Side 2.0:**
+| Fitur                  | Nim      |
+|------------------------|----------|
+| Premium Book Detail        | 13521100 |
+| Collection List            | 13521100 |
+| Collection Detail   | 13521085 |
+| My Subscription          | 13521100 |
