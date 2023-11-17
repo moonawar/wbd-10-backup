@@ -27,7 +27,6 @@
         <table border="1" class="styled-table">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Curator Name</th>
                     <th>Action</th>
                 </tr>
@@ -38,7 +37,6 @@
 
             foreach ($authors as $author) {
                 echo "<tr>";
-                echo "<td>" . $author['author_id'] . "</td>";
                 echo "<td>" . $author['full_name'] . "</td>";
                 echo '<td><a href="/author/update/' . $author['author_id'] .'">Pending/Details</a></td>';
                 echo "</tr>";

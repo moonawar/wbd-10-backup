@@ -22,8 +22,8 @@ with open('books.csv', newline='', encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         books.append({
-            'title': row['original_title'],
-            'description': f"Buku {row['original_title']} karya {row['authors']} ini menceritakan tentang {row['original_title']}.",
+            'title': row['title'],
+            'description': f"Buku {row['title']} karya {row['authors']} ini menceritakan tentang {row['title']}.",
             'book_image': row['small_image_url']
         })
 

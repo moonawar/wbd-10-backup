@@ -27,7 +27,10 @@ class UserController extends Controller implements ControllerInterface
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'GET':
                 // show the login page
-                $mySubscriptionView = $this->view('user', 'MySubscriptionView');
+                $data = [
+                    'username' => $_SESSION['username']
+                ];
+                $mySubscriptionView = $this->view('user', 'MySubscriptionView', $data);
                 $mySubscriptionView->render();
                 break;
             default:

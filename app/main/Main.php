@@ -12,13 +12,14 @@ class Main {
         
         $controllerPart = $url[0] ?? null;
         $controllerPart = ucfirst($controllerPart);
-
+        
         if (isset($controllerPart) && file_exists(__DIR__ . '/../controllers/' . $controllerPart . 'Controller.php')) {
             require_once __DIR__ . '/../controllers/' . $controllerPart . 'Controller.php';
             $controllerClass = $controllerPart . 'Controller';
             $this->controller = new $controllerClass();
         }else{
-            header('Location: /book/');
+            require_once __DIR__ . '/../controllers/NotFoundController.php';
+            $this->controller = new NotFoundController();
         }
         unset($url[0]);
 
